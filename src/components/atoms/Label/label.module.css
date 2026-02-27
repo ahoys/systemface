@@ -1,47 +1,47 @@
 .label {
-  display: flex;
-  font-size: var(--sf__scale);
-  line-height: calc(var(--sf__scale) * 1.5);
-  font-weight: bold;
-  color: var(--sf__label-color);
+	display: flex;
+	font-size: var(--sf__scale);
+	line-height: calc(var(--sf__scale) * 1.5);
+	font-weight: bold;
+	color: var(--sf__label-color);
 }
 
 .disabled {
-  opacity: 0.5;
+	opacity: 0.5;
 }
 
 .label .labelContent {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  padding-right: 1rem;
-  gap: calc(var(--sf__scale) * 0.5);
-  overflow: hidden;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	padding-right: 1rem;
+	gap: calc(var(--sf__scale) * 0.5);
+	overflow: hidden;
 }
 
 .label span {
-  font-weight: normal;
-  font-size: calc(var(--sf__scale) * 0.8);
-  line-height: calc(var(--sf__scale) * 0.8 * 1.5);
+	font-weight: normal;
+	font-size: calc(var(--sf__scale) * 0.8);
+	line-height: calc(var(--sf__scale) * 0.8 * 1.5);
 }
 
 .label .required {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: calc(var(--sf__scale) * 0.5);
-  height: calc(var(--sf__scale) * 0.5);
-  border-radius: 50%;
-  background: var(--sf__label-required);
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: calc(var(--sf__scale) * 0.5);
+	height: calc(var(--sf__scale) * 0.5);
+	border-radius: 50%;
+	background: var(--sf__label-required);
 }
 
 .label .modified {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: calc(var(--sf__scale) * 0.5);
-  height: calc(var(--sf__scale) * 0.5);
-  border-radius: 50%;
-  background: var(--sf__label-modified);
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: calc(var(--sf__scale) * 0.5);
+	height: calc(var(--sf__scale) * 0.5);
+	border-radius: 50%;
+	background: var(--sf__label-modified);
 }

@@ -1,5 +1,0 @@
-.labelWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--sf__scale) * 0.5);
-}

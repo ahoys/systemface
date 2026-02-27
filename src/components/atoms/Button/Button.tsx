@@ -1,4 +1,5 @@
 import styles from "./button.module.css";
+import { getClassName } from "../../../utilities/utility.getClassName";
 
 const Button = ({
 	className,
@@ -7,7 +8,7 @@ const Button = ({
 	<button
 		type={"button"}
 		{...props}
-		className={[styles.button, className].filter(Boolean).join(" ")}
+		className={getClassName([styles.button, className])}
 	/>
 );
 

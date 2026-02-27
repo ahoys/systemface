@@ -1,4 +1,5 @@
 import styles from "./label.module.css";
+import { getClassName } from "../../../utilities/utility.getClassName";
 
 interface ILabelProps
 	extends Omit<React.LabelHTMLAttributes<HTMLLabelElement>, "children"> {
@@ -14,18 +15,20 @@ const Label = ({
 	htmlFor,
 	value,
 	description,
-	required,
-	modified,
-	disabled,
+	required = false,
+	modified = false,
+	disabled = false,
 	className,
 	...props
 }: ILabelProps) => (
 	<label
 		{...props}
 		htmlFor={htmlFor}
-		className={[styles.label, disabled && styles.disabled, className]
-			.filter(Boolean)
-			.join(" ")}
+		className={getClassName([
+			styles.label,
+			disabled && styles.disabled,
+			className,
+		])}
 	>
 		<div className={styles.labelContent}>
 			{value}
