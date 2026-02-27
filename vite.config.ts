@@ -8,7 +8,9 @@ export default defineConfig({
 		lib: {
 			entry: "src/index.ts",
 			name: "Systemface",
-			fileName: (format) => `systemface.${format}.js`,
+			formats: ["es", "cjs"],
+			fileName: (format) =>
+				format === "es" ? "systemface.esm.js" : `systemface.${format}.js`,
 		},
 	},
 });
