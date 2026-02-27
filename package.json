@@ -8,7 +8,7 @@
 		"build": "npm run lint && npm run test && tsc -b && vite build",
 		"storybook": "storybook dev -p 6006",
 		"lint": "npx biome lint",
-		"test": "vitest run"
+		"test": "tsc --noEmit && vitest run"
 	},
 	"dependencies": {
 		"react": "^19.2.0",
