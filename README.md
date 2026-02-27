@@ -15,6 +15,8 @@ Nothing more, nothing less.
 
 I've professionally worked with component libraries for a decade on large-scale systems that rely heavily on forms. While there are probably other React component libraries like this, I don't trust them enough to care. This is a small passion project I'll use in my own projects whenever I need something extendable and fast.
 
+This project is not Vibe-coded, despite my bookish English and attention to detail. Thanks.
+
 ## Installation
 
 **Not available yet, but will be released in NPM**
