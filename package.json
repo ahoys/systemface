@@ -5,10 +5,9 @@
 	"license": "MIT",
 	"scripts": {
 		"dev": "npm run storybook",
-		"build": "tsc -b && vite build",
+		"build": "npm run test && tsc -b && vite build",
 		"storybook": "storybook dev -p 6006",
-		"build-storybook": "storybook build",
-		"test": "vitest run"
+		"test": "npx biome lint && vitest run"
 	},
 	"dependencies": {
 		"react": "^19.2.0",
