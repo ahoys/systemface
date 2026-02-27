@@ -46,6 +46,8 @@ import { Button, LabelWrapper, Label, IconButton } from "systemface";
 <Label htmlFor="input" value="This label is required and modified" required modified />
 ```
 
+See the available CSS variables that can be overridden in [src/index.module.css](src/index.module.css)
+
 ## Components
 
 - `Button`
@@ -59,6 +61,12 @@ import { Button, LabelWrapper, Label, IconButton } from "systemface";
   - Button extended with an optional icon. Supports all React icon libraries and components that output a ReactNode.
   - [HTML Button](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/button)
 - ...more coming soon.
+
+## Principles
+
+- As simple HTML components as feasible, relying on basic semantics and attributes.
+- When extra functionality is needed, the more barebones component is extended rather than combining everything into one. For example, IconButton is built on top of Button.
+- Enforce only meaningful best practices. For example, don't allow children for Label as that easily leads to heavy components if Label's attributes, like `modified`, is altered on input.
 
 ## License
 
