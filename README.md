@@ -1,73 +1,63 @@
-# React + TypeScript + Vite
+# systemface
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimal React component library focused on HTML semantics, accessibility, and best practices.
 
-Currently, two official plugins are available:
+- **Lightweight & Barebones:** Provides only essential structure and logic.
+- **Unopinionated Styling:** No heavy styles—bring your own CSS.
+- **Semantic:** Components map closely to native HTML elements.
+- **Accessible:** Designed with accessibility in mind.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Author's notes on why yet another component library exists
 
-## React Compiler
+I'm tired of heavily opinionated component libraries with overly complex interfaces, heavy animations, and whatnot. I wanted something that exposes HTML attributes I already know and lets me apply my own styles on top, using basic CSS, if needed.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Nothing more, nothing less.
 
-## Expanding the ESLint configuration
+I've professionally worked with component libraries for a decade on large-scale systems that rely heavily on forms. While there are probably other React component libraries like this, I don't trust them enough to care. This is a small passion project I'll use in my own projects whenever I need something extendable and fast.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Installation
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+**Not available yet, but will be released in NPM**
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```sh
+npm install systemface
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Usage
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```tsx
+import { Button, LabelWrapper, Label, IconButton } from "systemface";
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+// Minimalistic, supporting the basic HTML-attributes you already know.
+<Button>Click me</Button>
+
+// Ready to use label structure for inputs with accessibility in mind.
+<LabelWrapper>
+  <Label htmlFor="input" value="Label" />
+  <input id="input" required />
+</LabelWrapper>
+
+// How to define a button with your own icons.
+<IconButton icon={<SomeIcon />}>Icon</IconButton>
+
+// With most common extra functionality not provided by HTML.
+<Label htmlFor="input" value="This label is required and modified" required modified />
 ```
+
+## Components
+
+- `Button`
+  - [HTML Button](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/button)
+- `LabelWrapper`
+  - For wrapping labels and inputs together.
+  - [HTML Div](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Div)
+- `Label`
+  - [HTML Label](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label)
+- `IconButton`
+  - Button extended with an optional icon. Supports all React icon libraries and components that output a ReactNode.
+  - [HTML Button](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/button)
+- ...more coming soon.
+
+## License
+
+MIT
