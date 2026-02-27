@@ -6,6 +6,13 @@ interface IIconButtonProps
 	icon: React.ReactNode;
 }
 
+/**
+ * IconButton component to display a button with an icon.
+ *
+ * @param icon - The icon to display inside the button.
+ * @param children - The button's content, like text or other elements.
+ * @returns A button element with an icon.
+ */
 const IconButton = ({
 	icon,
 	children,
