@@ -1,0 +1,8 @@
+.iconButton {
+  gap: var(--sf__scale);
+}
+
+.iconButton .icon {
+  width: var(--sf__scale);
+  height: var(--sf__scale);
+}
