@@ -6,6 +6,7 @@ A minimal React component library focused on HTML semantics, accessibility, and 
 - **Unopinionated Styling:** No heavy styles—bring your own CSS.
 - **Semantic:** Components map closely to native HTML elements.
 - **Accessible:** Designed with accessibility in mind.
+- **Minimal dependencies:** [package.json](/package.json)
 
 ### Author's notes on why yet another component library exists
 
