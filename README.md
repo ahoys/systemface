@@ -29,7 +29,7 @@ npm install systemface
 ## Usage
 
 ```tsx
-import { Button, Column, Label, IconButton, Atoms } from "systemface";
+import { Button, Column, Label, IconButton, Row, Atoms } from "systemface";
 
 // Minimalistic, supporting the basic HTML-attributes you already know.
 <Button>Click me</Button>
@@ -40,11 +40,11 @@ import { Button, Column, Label, IconButton, Atoms } from "systemface";
   <input id="input" required />
 </Column>
 
-// How to define a button with your own icons.
-<IconButton icon={<SomeIcon />}>Icon</IconButton>
-
 // With most common extra functionality not provided by HTML.
 <Label htmlFor="input" value="This label is required and modified" required modified />
+
+// How to define a button with your own icons.
+<IconButton icon={<SomeIcon />}>Icon</IconButton>
 
 // Row and column provide a simple shorthand to define common flex patterns.
 <Row>
