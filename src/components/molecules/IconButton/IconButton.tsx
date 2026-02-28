@@ -4,7 +4,7 @@ import { getClassName } from "../../../utilities/utility.getClassName";
 
 const classNameIcon = getClassName(["sf_iconButton_icon", styles.icon]);
 
-interface IIconButtonProps
+export interface SfIconButtonProps
 	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	icon: React.ReactNode;
 }
@@ -21,7 +21,7 @@ const IconButton = ({
 	children,
 	className,
 	...props
-}: IIconButtonProps) => (
+}: SfIconButtonProps) => (
 	<Button
 		{...props}
 		className={getClassName(["sf_iconButton", styles.iconButton, className])}

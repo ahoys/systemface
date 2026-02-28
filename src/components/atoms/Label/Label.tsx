@@ -9,7 +9,7 @@ const classNameDescription = getClassName([
 const classNameRequired = getClassName(["sf_label_required", styles.required]);
 const classNameModified = getClassName(["sf_label_modified", styles.modified]);
 
-export interface ILabelProps
+export interface SfLabelProps
 	extends Omit<React.LabelHTMLAttributes<HTMLLabelElement>, "children"> {
 	htmlFor: string;
 	value: string;
@@ -39,7 +39,7 @@ const Label = ({
 	disabled = false,
 	className,
 	...props
-}: ILabelProps) => (
+}: SfLabelProps) => (
 	<label
 		{...props}
 		htmlFor={htmlFor}
