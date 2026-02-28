@@ -1,16 +1,13 @@
 import styles from "./label.module.css";
 import { getClassName } from "../../../utilities/utility.getClassName";
 
-const classNameLabelContent = getClassName([
-	"sf_labelContent",
-	styles.labelContent,
-]);
+const classNameContent = getClassName(["sf_label_content", styles.content]);
 const classNameDescription = getClassName([
-	"sf_description",
+	"sf_label_description",
 	styles.description,
 ]);
-const classNameRequired = getClassName(["sf_required", styles.required]);
-const classNameModified = getClassName(["sf_modified", styles.modified]);
+const classNameRequired = getClassName(["sf_label_required", styles.required]);
+const classNameModified = getClassName(["sf_label_modified", styles.modified]);
 
 export interface ILabelProps
 	extends Omit<React.LabelHTMLAttributes<HTMLLabelElement>, "children"> {
@@ -53,7 +50,7 @@ const Label = ({
 			className,
 		])}
 	>
-		<div className={classNameLabelContent}>
+		<div className={classNameContent}>
 			{value}
 			{!!description?.trim() && (
 				<span id={`${htmlFor}-description`} className={classNameDescription}>

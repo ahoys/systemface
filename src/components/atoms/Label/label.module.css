@@ -10,7 +10,7 @@
 	opacity: 0.5;
 }
 
-.label .labelContent {
+.label .content {
 	position: relative;
 	display: flex;
 	flex-direction: column;

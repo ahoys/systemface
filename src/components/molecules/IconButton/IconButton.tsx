@@ -1,5 +1,8 @@
-import Button from "../../atoms/Button/Button";
 import styles from "./iconButton.module.css";
+import Button from "../../atoms/Button/Button";
+import { getClassName } from "../../../utilities/utility.getClassName";
+
+const classNameIcon = getClassName(["sf_iconButton_icon", styles.icon]);
 
 interface IIconButtonProps
 	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -21,10 +24,10 @@ const IconButton = ({
 }: IIconButtonProps) => (
 	<Button
 		{...props}
-		className={[styles.iconButton, className].filter(Boolean).join(" ")}
+		className={getClassName(["sf_iconButton", styles.iconButton, className])}
 	>
 		{children}
-		<span className={styles.icon}>{icon}</span>
+		<span className={classNameIcon}>{icon}</span>
 	</Button>
 );
 
