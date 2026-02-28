@@ -77,6 +77,44 @@ See the available CSS variables that can be overridden in [src/index.module.css]
   - [HTML Button](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/button)
 - ...more coming soon.
 
+## Styling
+
+### Global style variables
+
+Replace the style variables defined in [src/index.module.css](src/index.module.css)
+
+You can override them by redefining them in your own CSS:
+
+```
+:root {
+  /* Switch the modified dot on a label to orange instead */
+  --sf__label-modified: orange;
+}
+```
+
+### Custom CSS classes
+
+Provide your own class names using CSS modules. This extends the existing behavior.
+
+```
+import styles from './myOwnStyles.css';
+
+...
+
+<Label className={styles.myOwnExtension}>
+```
+
+### Direct CSS
+
+Use your browser’s inspector to identify the relevant class names, then reference them in your CSS:
+
+```
+.sf_label_required {
+  /* Make the red required dot on a label a square */
+  border-radius: 0 !important;
+}
+```
+
 ## Principles
 
 - As simple HTML components as feasible, relying on basic semantics and attributes.
