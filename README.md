@@ -58,11 +58,11 @@ See the available CSS variables that can be overridden in [src/index.module.css]
 ## Components
 
 - `Row`
-  - Places items in row with a small gap between the items.
+  - Places items in a row with a small gap between the items.
   - [Component and interface](src/components/atoms/Row/Row.tsx)
   - [HTML Div](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Div)
 - `Column`
-  - Places items in column with a small gap between the items.
+  - Places items in a column with a small gap between the items.
   - [Component and interface](src/components/atoms/Column/Column.tsx)
   - [HTML Div](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Div)
 - `Button`
