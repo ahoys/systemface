@@ -4,7 +4,7 @@ import { getClassName } from "../../../utilities/utility.getClassName";
 const Row = (props: React.HTMLAttributes<HTMLDivElement>) => (
 	<div
 		{...props}
-		className={getClassName(["sf_row", styles.row, props.className])}
+		className={getClassName("Row", [styles.row, props.className])}
 	/>
 );
 

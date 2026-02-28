@@ -2,7 +2,7 @@ import styles from "./iconButton.module.css";
 import Button from "../../atoms/Button/Button";
 import { getClassName } from "../../../utilities/utility.getClassName";
 
-const classNameIcon = getClassName(["sf_iconButton_icon", styles.icon]);
+const classNameIcon = getClassName("IconButton_icon", [styles.icon]);
 
 export interface SfIconButtonProps
 	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -24,7 +24,7 @@ const IconButton = ({
 }: SfIconButtonProps) => (
 	<Button
 		{...props}
-		className={getClassName(["sf_iconButton", styles.iconButton, className])}
+		className={getClassName("IconButton", [styles.iconButton, className])}
 	>
 		{children}
 		<span className={classNameIcon}>{icon}</span>

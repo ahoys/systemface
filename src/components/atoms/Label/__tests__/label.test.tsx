@@ -23,7 +23,7 @@ describe("Label", () => {
 	it("does not render description when empty or whitespace", () => {
 		render(<Label htmlFor="empty-desc" value="Label" description=" " />);
 		const label = screen.getByText("Label").closest("label");
-		expect(label?.querySelector(`.${"sf_description"}`)).toBeFalsy();
+		expect(label?.querySelector(`.${"sf_Label_description"}`)).toBeFalsy();
 	});
 
 	it("shows required indicator when required and not modified", () => {
@@ -36,7 +36,7 @@ describe("Label", () => {
 			/>,
 		);
 		const label = screen.getByText("Label").closest("label");
-		expect(label?.querySelector(`.${"sf_label_required"}`)).toBeTruthy();
+		expect(label?.querySelector(`.${"sf_Label_required"}`)).toBeTruthy();
 	});
 
 	it("shows modified indicator when modified", () => {
@@ -49,19 +49,19 @@ describe("Label", () => {
 			/>,
 		);
 		const label = screen.getByText("Label").closest("label");
-		expect(label?.querySelector(`.${"sf_label_modified"}`)).toBeTruthy();
+		expect(label?.querySelector(`.${"sf_Label_modified"}`)).toBeTruthy();
 	});
 
 	it("does not show required indicator if not required", () => {
 		render(<Label htmlFor="not-req" value="Label" required={false} />);
 		const label = screen.getByText("Label").closest("label");
-		expect(label?.querySelector(`.${"sf_label_required"}`)).toBeFalsy();
+		expect(label?.querySelector(`.${"sf_Label_required"}`)).toBeFalsy();
 	});
 
 	it("does not show modified indicator if not modified", () => {
 		render(<Label htmlFor="not-mod" value="Label" modified={false} />);
 		const label = screen.getByText("Label").closest("label");
-		expect(label?.querySelector(`.${"sf_label_modified"}`)).toBeFalsy();
+		expect(label?.querySelector(`.${"sf_Label_modified"}`)).toBeFalsy();
 	});
 
 	it("applies disabled styling when disabled", () => {

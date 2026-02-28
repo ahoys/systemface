@@ -8,7 +8,7 @@ const Button = ({
 	<button
 		type={"button"}
 		{...props}
-		className={getClassName(["sf_button", styles.button, className])}
+		className={getClassName("Button", [styles.button, className])}
 	/>
 );
 

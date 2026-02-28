@@ -1,13 +1,12 @@
 import styles from "./label.module.css";
 import { getClassName } from "../../../utilities/utility.getClassName";
 
-const classNameContent = getClassName(["sf_label_content", styles.content]);
-const classNameDescription = getClassName([
-	"sf_label_description",
+const classNameContent = getClassName("Label_content", [styles.content]);
+const classNameDescription = getClassName("Label_description", [
 	styles.description,
 ]);
-const classNameRequired = getClassName(["sf_label_required", styles.required]);
-const classNameModified = getClassName(["sf_label_modified", styles.modified]);
+const classNameRequired = getClassName("Label_required", [styles.required]);
+const classNameModified = getClassName("Label_modified", [styles.modified]);
 
 export interface SfLabelProps
 	extends Omit<React.LabelHTMLAttributes<HTMLLabelElement>, "children"> {
@@ -43,8 +42,7 @@ const Label = ({
 	<label
 		{...props}
 		htmlFor={htmlFor}
-		className={getClassName([
-			"sf_label",
+		className={getClassName("Label", [
 			styles.label,
 			disabled && styles.disabled,
 			className,

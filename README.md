@@ -112,9 +112,9 @@ import styles from './myOwnStyles.css';
 Use your browser’s inspector to identify the relevant class names, then reference them in your CSS:
 
 ```
-.sf_label_required {
+.sf_Label_required {
   /* Make the red required dot on a label a square */
-  border-radius: 0 !important;
+  border-radius: 0;
 }
 ```
 
