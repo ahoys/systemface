@@ -36,7 +36,8 @@ import { Button, Column, Label, IconButton, Row, Atoms } from "systemface";
 // Minimalistic, supporting the basic HTML-attributes you already know.
 <Button>Click me</Button>
 
-// Ready to use label structure for inputs, with accessibility in mind.
+// Ready to use label—input structure, 
+// with accessibility and React-performance in mind.
 <Column>
   <Label htmlFor="input" value="Label" />
   <input id="input" />
