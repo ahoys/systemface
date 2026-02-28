@@ -29,7 +29,7 @@ npm install systemface
 ## Usage
 
 ```tsx
-import { Button, Column, Label, IconButton } from "systemface";
+import { Button, Column, Label, IconButton, Atoms } from "systemface";
 
 // Minimalistic, supporting the basic HTML-attributes you already know.
 <Button>Click me</Button>
@@ -51,6 +51,9 @@ import { Button, Column, Label, IconButton } from "systemface";
   <Button>Click me</Button>
   <IconButton icon={<SomeIcon />} />
 </Row>
+
+// You can also use atomic design when working with Systemface components.
+<Atoms.Button>This works!</Atoms.Button>
 ```
 
 See the available CSS variables that can be overridden in [src/index.module.css](src/index.module.css)
