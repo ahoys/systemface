@@ -1,32 +1,36 @@
 # systemface
 
-A minimal React component library focused on HTML semantics, accessibility, and best practices.
+A compact, dependency-free React component library built on native HTML semantics, accessibility, and best practices. Use it as-is, style it your way, or expand with one of the optional ready-made themes.
 
-- **Lightweight & Barebones:** Provides only essential structure and logic.
-- **Unopinionated Styling:** No heavy styles—bring your own CSS.
-- **Semantic:** Components map closely to native HTML elements.
-- **Accessible:** Designed with accessibility in mind.
-- **Minimal dependencies:** [package.json](/package.json)
+- 🏢 For production-ready React applications.
+- 🧑‍💻 Built on native HTML APIs — you don't have to learn anything new.
+- 🐈 Absolutely tiny. No other [dependencies](/package.json).
+- 🗿 Written in TypeScript by a human with a professional background in component libraries.
+- 🛡️ The secure, long-lasting choice. You bring your own peer dependencies.
+
+```
+npm install @systemface/core
+```
+
+### Requirements
+
+`react` and `react-dom`, see [peerDependencies](/package.json)
+
+---
 
 ### Author's notes on why yet another component library exists
 
-I'm tired of heavily opinionated component libraries with overly complex interfaces, heavy animations, and whatnot. I wanted something that exposes HTML attributes I already know and lets me apply my own styles on top, using basic CSS, if needed.
+You've probably browsed more popular component libraries and noticed their tendency to overreach — the docs span multiple pages, introduce new abstractions to learn, enforce strong opinions, and pull in a quazillion dependencies (some of which are outdated OOTB).
 
-Nothing more, nothing less.
+And all you wanted was a simple HTML button, with basic accessibility thoughtfully built in.
 
-I've professionally worked with component libraries for a decade on large-scale systems that rely heavily on forms. While there are probably other React component libraries like this, I don't trust them enough to care. This is a small passion project I'll use in my own projects whenever I need something extendable and fast.
+I often need what I described above: a component library I wouldn’t have to relearn every time I use it — free of gimmicks, opinions, and unnecessary abstractions. Built on plain HTML semantics and simple CSS, and easy to extend with my own styles.
 
-This project is not Vibe-coded, despite my bookish English and attention to detail. Thanks.
+That's all.
 
-## Installation
+This is a passion project. It's not vibe-coded, despite my bookish English and love for em-dashes.
 
-**Not available yet, but will be released in NPM**
-
-```sh
-npm install systemface
-```
-
-## Usage
+## Quickstart
 
 ```tsx
 import { Button, Column, Label, IconButton, Row, Atoms } from "systemface";
@@ -34,19 +38,29 @@ import { Button, Column, Label, IconButton, Row, Atoms } from "systemface";
 // Minimalistic, supporting the basic HTML-attributes you already know.
 <Button>Click me</Button>
 
-// Ready to use label structure for inputs with accessibility in mind.
+// Ready to use label structure for inputs, with accessibility in mind.
 <Column>
   <Label htmlFor="input" value="Label" />
-  <input id="input" required />
+  <input id="input" />
 </Column>
 
 // With most common extra functionality not provided by HTML.
-<Label htmlFor="input" value="This label is required and modified" required modified />
+<Label
+ htmlFor="important-input"
+ value="This label is tied to something that's required"
+ required
+/>
 
-// How to define a button with your own icons.
-<IconButton icon={<SomeIcon />}>Icon</IconButton>
+<Label
+ htmlFor="modified-input"
+ value="This label is tied to something that has a new value"
+ modified
+/>
 
-// Row and column provide a simple shorthand to define common flex patterns.
+// Define a button with your own icon.
+<IconButton icon={<SomeIcon />}>Click me</IconButton>
+
+// Row and Column provide a simple shorthand to define common flex patterns.
 <Row>
   <Button>Click me</Button>
   <IconButton icon={<SomeIcon />} />
@@ -56,29 +70,31 @@ import { Button, Column, Label, IconButton, Row, Atoms } from "systemface";
 <Atoms.Button>This works!</Atoms.Button>
 ```
 
-See the available CSS variables that can be overridden in [src/index.module.css](src/index.module.css)
-
 ## Components
 
-- `Row`
-  - Places items in a row with a small gap between them.
-  - [Component and interface](src/components/atoms/Row/Row.tsx)
-  - [HTML Div](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Div)
-- `Column`
-  - Places items in a column with a small gap between them.
-  - [Component and interface](src/components/atoms/Column/Column.tsx)
-  - [HTML Div](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Div)
+The components are designed to be fully self-explanatory — but just in case, they come with JSDoc-ready documentation.
+
 - `Button`
   - [Component and interface](src/components/atoms/Button/Button.tsx)
   - [HTML Button](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/button)
 - `Label`
   - [Component and interface](src/components/atoms/Label/Label.tsx)
   - [HTML Label](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label)
+- `Row`
+  - Places items in a row with a small gap between them.
+  - Great for toolbars.
+  - [Component and interface](src/components/atoms/Row/Row.tsx)
+  - [HTML Div](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Div)
+- `Column`
+  - Places items in a column with a small gap between them.
+  - Great for label and input groups.
+  - [Component and interface](src/components/atoms/Column/Column.tsx)
+  - [HTML Div](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Div)
 - `IconButton`
-  - Button extended with an optional icon. Supports all React icon libraries and components that output a ReactNode.
+  - Button extended with an optional icon. Supports all React icon libraries and components that output a basic ReactNode.
   - [Component and interface](src/components/molecules/IconButton/IconButton.tsx)
   - [HTML Button](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/button)
-- ...more coming soon.
+- ...more to come.
 
 ## Styling
 
@@ -93,6 +109,16 @@ You can override them by redefining them in your own CSS:
   /* Switch the modified dot on a label to orange instead */
   --sf__label-modified: orange;
 }
+
+/* Optional dark-mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sf__button-bg: oklch(0.2 0 0);
+    --sf__button-color: oklch(0.9 0 0);
+    --sf__button-color_disabled: oklch(0.5 0 0);
+    --sf__label-color: oklch(0.95 0 0);
+    }
+}
 ```
 
 ### Custom CSS classes
@@ -100,16 +126,16 @@ You can override them by redefining them in your own CSS:
 Provide your own class names using CSS modules. This extends the existing behavior.
 
 ```
-import styles from './myOwnStyles.css';
+import styles from './myStyles.css';
 
 ...
 
-<Label className={styles.myOwnExtension}>
+<Label className={styles.myLabelStyle}>
 ```
 
 ### Direct CSS
 
-Use your browser’s inspector to identify the relevant class names, then reference them in your CSS:
+Use your browser's inspector to identify the relevant class names, then reference them in your CSS:
 
 ```
 .sf_Label_required {
@@ -118,12 +144,11 @@ Use your browser’s inspector to identify the relevant class names, then refere
 }
 ```
 
-## Principles
-
-- As simple HTML components as feasible, relying on basic semantics and attributes.
-- When extra functionality is needed, the more barebones component is extended rather than combining everything into one. For example, IconButton is built on top of Button.
-- Enforce only meaningful best practices. For example, don't allow children for Label as that easily leads to heavy components if Label's attributes, like `modified`, is altered on input.
+- All elements use class names prefixed with `sf_`, followed by the component name, e.g., `sf_IconButton`
+- Sub-elements include the parent in their class name, e.g., `sf_IconButton_icon`
 
 ## License
 
 MIT
+
+Well done — you read it all. Though, let’s be honest, how many people actually read docs these days with LLMs around?
