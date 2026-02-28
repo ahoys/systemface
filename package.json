@@ -14,7 +14,7 @@
 	"types": "./dist/types/index.d.ts",
 	"scripts": {
 		"dev": "npm run storybook",
-		"build": "npm run lint && npm run test && tsc -b && vite build",
+		"build": "npm run lint && npm run test && vite build && tsc -p tsconfig.build.json",
 		"storybook": "storybook dev -p 6006",
 		"lint": "npx biome lint",
 		"test": "tsc --noEmit && vitest run"
