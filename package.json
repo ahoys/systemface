@@ -8,9 +8,9 @@
 	"types": "./dist/types/index.d.ts",
 	"exports": {
 		".": {
+			"types": "./dist/types/index.d.ts",
 			"import": "./dist/systemface.esm.js",
-			"require": "./dist/systemface.cjs.js",
-			"types": "./dist/types/index.d.ts"
+			"require": "./dist/systemface.cjs.js"
 		}
 	},
 	"scripts": {
