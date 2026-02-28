@@ -5,4 +5,9 @@ export default defineConfig({
 		environment: "jsdom",
 		globals: true,
 	},
+	resolve: {
+		alias: {
+			"@": "/src",
+		},
+	},
 });

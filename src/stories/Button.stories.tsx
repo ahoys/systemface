@@ -1,6 +1,6 @@
 import "../index.module.css";
+import { Button } from "@/index";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import Button from "../components/atoms/Button/Button";
 
 const meta = {
 	title: "atoms/Button",

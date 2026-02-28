@@ -1,7 +1,6 @@
 import "../index.module.css";
+import { Label, Column } from "@/index";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import Label from "../components/atoms/Label/Label";
-import Column from "../components/atoms/Column/Column";
 
 const ipsumShort =
 	"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.";

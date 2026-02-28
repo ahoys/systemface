@@ -1,9 +1,7 @@
 import "../index.module.css";
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import { Column, IconButton, Button } from "@/index";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import Column from "../components/atoms/Column/Column";
-import IconButton from "../components/molecules/IconButton/IconButton";
-import Button from "../components/atoms/Button/Button";
 
 const meta = {
 	title: "atoms/Column",

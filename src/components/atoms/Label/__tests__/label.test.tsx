@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import Label from "../Label";
+import { Label } from "@/index";
 
 describe("Label", () => {
 	it("renders with required props", () => {
