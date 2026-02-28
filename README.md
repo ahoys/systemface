@@ -24,11 +24,9 @@ You've probably browsed more popular component libraries and noticed their tende
 
 And all you wanted was a simple HTML button, with basic accessibility thoughtfully built in.
 
-I often need what I described above: a component library I wouldn’t have to relearn every time I use it — free of gimmicks, opinions, and unnecessary abstractions. Built on plain HTML semantics and simple CSS, and easy to extend with my own styles.
+Systemface aims to be just that.
 
-That's all.
-
-This is a passion project. It's not vibe-coded, despite my bookish English and love for em-dashes.
+_This project is not vibe-coded, despite my bookish English and love for em-dashes._
 
 ## Quickstart
 
