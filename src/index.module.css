@@ -6,6 +6,7 @@
 	--sf__button-bg: oklch(0.9 0 0);
 	--sf__button-color: oklch(0.4 0 0);
 	--sf__button-color_disabled: oklch(0.8 0 0);
+	--sf__button-border-radius: calc(var(--sf__scale) * 1.5);
 	--sf__label-color: oklch(0.1 0 0);
 	--sf__label-required: oklch(62.793% 0.25768 29.223);
 	--sf__label-modified: oklch(53.947% 0.16543 145.888);
