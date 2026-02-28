@@ -5,13 +5,14 @@
 	"license": "MIT",
 	"main": "./dist/systemface.cjs.js",
 	"module": "./dist/systemface.esm.js",
+	"types": "./dist/types/index.d.ts",
 	"exports": {
 		".": {
 			"import": "./dist/systemface.esm.js",
-			"require": "./dist/systemface.cjs.js"
+			"require": "./dist/systemface.cjs.js",
+			"types": "./dist/types/index.d.ts"
 		}
 	},
-	"types": "./dist/types/index.d.ts",
 	"scripts": {
 		"dev": "npm run storybook",
 		"build": "npm run lint && npm run test && vite build && tsc -p tsconfig.build.json",
