@@ -29,37 +29,51 @@ npm install systemface
 ## Usage
 
 ```tsx
-import { Button, LabelWrapper, Label, IconButton } from "systemface";
+import { Button, Column, Label, IconButton } from "systemface";
 
 // Minimalistic, supporting the basic HTML-attributes you already know.
 <Button>Click me</Button>
 
 // Ready to use label structure for inputs with accessibility in mind.
-<LabelWrapper>
+<Column>
   <Label htmlFor="input" value="Label" />
   <input id="input" required />
-</LabelWrapper>
+</Column>
 
 // How to define a button with your own icons.
 <IconButton icon={<SomeIcon />}>Icon</IconButton>
 
 // With most common extra functionality not provided by HTML.
 <Label htmlFor="input" value="This label is required and modified" required modified />
+
+// Row and column provide a simple shorthand to define common flex patterns.
+<Row>
+  <Button>Click me</Button>
+  <IconButton icon={<SomeIcon />} />
+</Row>
 ```
 
 See the available CSS variables that can be overridden in [src/index.module.css](src/index.module.css)
 
 ## Components
 
-- `Button`
-  - [HTML Button](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/button)
-- `LabelWrapper`
-  - For wrapping labels and inputs together.
+- `Row`
+  - Places items in row with a small gap between the items.
+  - [Component and interface](src/components/atoms/Row/Row.tsx)
   - [HTML Div](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Div)
+- `Column`
+  - Places items in column with a small gap between the items.
+  - [Component and interface](src/components/atoms/Column/Column.tsx)
+  - [HTML Div](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Div)
+- `Button`
+  - [Component and interface](src/components/atoms/Button/Button.tsx)
+  - [HTML Button](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/button)
 - `Label`
+  - [Component and interface](src/components/atoms/Label/Label.tsx)
   - [HTML Label](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label)
 - `IconButton`
   - Button extended with an optional icon. Supports all React icon libraries and components that output a ReactNode.
+  - [Component and interface](src/components/molecules/IconButton/IconButton.tsx)
   - [HTML Button](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/button)
 - ...more coming soon.
 

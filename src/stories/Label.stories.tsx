@@ -1,7 +1,7 @@
 import "../index.module.css";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import Label from "../components/atoms/Label/Label";
-import LabelWrapper from "../components/atoms/LabelWrapper/LabelWrapper";
+import Column from "../components/atoms/Column/Column";
 
 const ipsumShort =
 	"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.";
@@ -33,10 +33,10 @@ export const WithInput: Story = {
 		value: "With Input",
 	},
 	render: (args) => (
-		<LabelWrapper>
+		<Column>
 			<Label {...args} />
 			<input id="WithInput" type="text" />
-		</LabelWrapper>
+		</Column>
 	),
 };
 
@@ -47,10 +47,10 @@ export const WithDescription: Story = {
 		description: "This is a description",
 	},
 	render: (args) => (
-		<LabelWrapper>
+		<Column>
 			<Label {...args} />
 			<input id="WithDescription" type="text" />
-		</LabelWrapper>
+		</Column>
 	),
 };
 
@@ -62,10 +62,10 @@ export const WithRequired: Story = {
 		required: true,
 	},
 	render: (args) => (
-		<LabelWrapper>
+		<Column>
 			<Label {...args} />
 			<input id="WithRequired" type="text" />
-		</LabelWrapper>
+		</Column>
 	),
 };
 
@@ -78,10 +78,10 @@ export const WithModified: Story = {
 		modified: true,
 	},
 	render: (args) => (
-		<LabelWrapper>
+		<Column>
 			<Label {...args} />
 			<input id="WithRequired" type="text" />
-		</LabelWrapper>
+		</Column>
 	),
 };
 
@@ -93,10 +93,10 @@ export const WithDisabled: Story = {
 		disabled: true,
 	},
 	render: (args) => (
-		<LabelWrapper>
+		<Column>
 			<Label {...args} />
 			<input id="WithDisabled" type="text" disabled />
-		</LabelWrapper>
+		</Column>
 	),
 };
 
@@ -108,9 +108,9 @@ export const WithLongValues: Story = {
 		required: true,
 	},
 	render: (args) => (
-		<LabelWrapper>
+		<Column>
 			<Label {...args} />
 			<input id="WithLongValues" type="text" />
-		</LabelWrapper>
+		</Column>
 	),
 };

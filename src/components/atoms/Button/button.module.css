@@ -14,6 +14,7 @@
 	/* Letters */
 	font-size: var(--sf__scale);
 	line-height: calc(var(--sf__scale) * 1.5);
+	min-height: calc(var(--sf__scale) * 1.5);
 	/* Colors */
 	background: var(--sf__button-bg);
 	color: var(--sf__button-color);
