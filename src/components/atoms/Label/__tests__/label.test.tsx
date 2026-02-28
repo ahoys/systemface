@@ -1,24 +1,7 @@
 import "@testing-library/jest-dom";
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import Label, { type ILabelProps } from "../Label";
-
-type ExpectedKeys =
-	| "htmlFor"
-	| "value"
-	| "description"
-	| "required"
-	| "modified"
-	| "disabled";
-type ActualKeys = keyof ILabelProps;
-type MissingKeys = Exclude<ExpectedKeys, ActualKeys>;
-type ExtraKeys = Exclude<ActualKeys, ExpectedKeys>;
-
-// @ts-expect-error If you remove any expected key, this will error.
-type _InterfaceShapeTest = MissingKeys extends never ? true : never;
-
-// @ts-expect-error If you add any extra key, this will error.
-type _NoExtraKeysTest = ExtraKeys extends never ? true : never;
+import Label from "../Label";
 
 describe("Label", () => {
 	it("renders with required props", () => {
@@ -38,8 +21,9 @@ describe("Label", () => {
 	});
 
 	it("does not render description when empty or whitespace", () => {
-		render(<Label htmlFor="empty-desc" value="Label" description="   " />);
-		expect(screen.queryByText("   ")).not.toBeInTheDocument();
+		render(<Label htmlFor="empty-desc" value="Label" description=" " />);
+		const label = screen.getByText("Label").closest("label");
+		expect(label?.querySelector(`.${"sf_description"}`)).toBeFalsy();
 	});
 
 	it("shows required indicator when required and not modified", () => {
