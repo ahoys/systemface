@@ -65,6 +65,8 @@ import { Button, Column, Label, Input, IconButton, Row, Atoms } from "systemface
 
 The components are designed to be fully self-explanatory — but just in case, they come with JSDoc-ready documentation.
 
+**Atoms**: Small, unyielding, unsurprising.
+
 - `Button`
   - [Component and interface](src/components/atoms/Button/Button.tsx)
   - [HTML Button](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/button)
@@ -82,10 +84,16 @@ The components are designed to be fully self-explanatory — but just in case, t
   - Places items in a column with a small gap between them.
   - Great for label and input groups.
   - [Component and interface](src/components/atoms/Column/Column.tsx)
+
+**Molecules**: Fast, accessible, rich.
 - `IconButton`
   - Button extended with an optional icon. Supports all React icon libraries and components that output a basic ReactNode.
+  - Minimal setup: `<IconButton icon=""/>`
   - [Component and interface](src/components/molecules/IconButton/IconButton.tsx)
-- ...more to come.
+- `TextField`
+  - Combines Field and Input into a Column wrap while providing accessibility, security, and performance with as straightforward an API as possible.
+  - Minimal setup: `<TextField id="" label="" />`
+  - [Component and interface](src/components/molecules/TextField/TextField.tsx)
 
 ## Styling
 

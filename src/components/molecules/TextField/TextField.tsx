@@ -33,21 +33,29 @@ export interface SfTextFieldProps
  *
  * @param id - The unique identifier for the input field, used for accessibility and automatic wiring between the label and input.
  * @param label - The properties for the label associated with the input field, or a simple string for the label text.
+ * @param className - Additional class name(s) to apply to the component for styling purposes.
  * @param description - Additional descriptive text for the label, providing more context about the input field.
  * @param required - If true, indicates that the field is required to be filled.
  * @param modified - If true, indicates that the field has been modified.
  * @param disabled - If true, disables the field entirely.
- * @param className - Additional class name(s) to apply to the component for styling purposes.
+ * @param name - The name attribute for the input field, used in form submissions. Defaults to the value of `id` if not provided.
+ * @param type - The type of the input field. Defaults to "text".
+ * @param minLength - The minimum number of characters allowed in the input field. Defaults to 0.
+ * @param maxLength - The maximum number of characters allowed in the input field. Defaults to 1024.
  * @returns A text field component with an associated label.
  */
 const TextField = ({
 	id,
 	label,
+	className,
 	description,
 	required,
 	modified,
 	disabled,
-	className,
+	name,
+	type,
+	minLength,
+	maxLength,
 	...props
 }: SfTextFieldProps) => (
 	<Column className={getClassName("TextField", [className])}>
@@ -63,12 +71,15 @@ const TextField = ({
 		<MemoizedInput
 			{...props}
 			id={id}
-			name={props?.name ?? id}
-			type={props?.type ?? "text"}
-			minLength={props?.minLength ?? 0}
-			maxLength={props?.maxLength ?? 1024}
+			name={name ?? id}
+			type={type ?? "text"}
+			minLength={minLength ?? 0}
+			maxLength={maxLength ?? 1024}
 			required={required}
 			disabled={disabled}
+			aria-describedby={
+				description ? `${id}-description` : props["aria-describedby"]
+			}
 		/>
 	</Column>
 );
