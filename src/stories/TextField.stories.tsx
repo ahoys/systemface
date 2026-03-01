@@ -15,20 +15,21 @@ export const Basic: Story = {
 	args: {
 		id: "example-text-field",
 		label: "Example Text Field",
-		input: "MyInput",
+		description: "",
+		type: "text",
+		required: false,
+		modified: false,
+		disabled: false,
 	},
 };
 
-export const WithObjectProps: Story = {
+export const WithLabelObject: Story = {
 	args: {
-		id: "example-text-field-placeholder",
+		id: "example-text-field-with-label-object",
 		label: {
-			value: "Example Text Field, using props objects",
+			value: "Example Text Field with Label Object",
 			description: "This is a description for the text field.",
 		},
-		input: {
-			name: "MyInput",
-			placeholder: "Enter text here...",
-		},
+		placeholder: "Enter text here...",
 	},
 };

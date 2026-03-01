@@ -33,39 +33,31 @@ _This project is not vibe-coded, despite my bookish English and love for em-dash
 ```tsx
 import { Button, Column, Label, Input, IconButton, Row, Atoms } from "systemface";
 
-// Minimalistic, supporting the basic HTML-attributes you already know.
+// Minimalistic components that support the standard HTML attributes you already know.
 <Button>Click me</Button>
 
-// Ready to use label—input structure, 
-// with accessibility and React-performance in mind.
+// Simple, intuitive building blocks.
 <Column>
-  <Label htmlFor="input" value="Label" />
+  <Label htmlFor="input" value="Username" />
   <Input id="input" />
 </Column>
 
-// With most common extra functionality not provided by HTML.
-<Label
- htmlFor="important-input"
- value="This label is tied to something that's required"
- required
-/>
+// Or use a convenient single-line shorthand.
+<TextField id="input" label="Username" />
 
-<Label
- htmlFor="modified-input"
- value="This label is tied to something that has a new value"
- modified
-/>
+// Includes common functionality that goes beyond standard HTML.
+<TextField id="input" label="Username" required modified />
 
-// Define a button with your own icon.
+// Create a button with a custom icon.
 <IconButton icon={<SomeIcon />}>Click me</IconButton>
 
-// Row and Column provide a simple shorthand to define common flex patterns.
+// Row and Column provide shorthands for common flexbox layouts.
 <Row>
   <Button>Click me</Button>
   <IconButton icon={<SomeIcon />} />
 </Row>
 
-// You can also use atomic design when working with Systemface components.
+// You can also follow an atomic design approach when working with Systemface components.
 <Atoms.Button>This works!</Atoms.Button>
 ```
 

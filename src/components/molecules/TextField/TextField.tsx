@@ -1,24 +1,27 @@
+import { memo } from "react";
 import { getClassName } from "@/utilities/utility.getClassName";
 import { Column, Input, Label, type SfLabelProps } from "@/components/atoms";
-import type { SfColumnProps } from "@/components/atoms/Column/Column";
-import type { SfInputProps } from "@/components/atoms/Input/Input";
 
-interface TextFieldColumnProps extends SfColumnProps {}
+// Without memoization, the input re-renders on
+// changes to Label props (specifically modified),
+// which causes the cursor to jump to the end of the input.
+const MemoizedInput = memo(Input);
+
 interface TextFieldLabelProps
 	extends Omit<
 		SfLabelProps,
 		"htmlFor" | "required" | "modified" | "disabled"
 	> {}
-interface TextFieldInputProps
-	extends Omit<SfInputProps, "type" | "required" | "modified" | "disabled"> {
-	name: NonNullable<React.InputHTMLAttributes<HTMLInputElement>["name"]>;
-	type?: "text" | "email" | "password" | "search" | "tel" | "url";
-}
 
-export interface SfTextFieldProps extends TextFieldColumnProps {
-	id: NonNullable<TextFieldInputProps["id"]>;
+export interface SfTextFieldProps
+	extends Omit<
+		React.InputHTMLAttributes<HTMLInputElement>,
+		"id" | "type" | "required" | "disabled" | "min" | "max"
+	> {
+	id: NonNullable<React.InputHTMLAttributes<HTMLInputElement>["id"]>;
 	label: TextFieldLabelProps | string;
-	input: TextFieldInputProps | string;
+	description?: TextFieldLabelProps["description"];
+	type?: "text" | "email" | "password" | "search" | "tel" | "url";
 	required?: boolean;
 	modified?: boolean;
 	disabled?: boolean;
@@ -30,7 +33,6 @@ export interface SfTextFieldProps extends TextFieldColumnProps {
  *
  * @param id - The unique identifier for the input field, used for accessibility and automatic wiring between the label and input.
  * @param label - The properties for the label associated with the input field, or a simple string for the label text.
- * @param input - The properties for the input element, or a simple string for the input name. Types are restricted to common text-based input types.
  * @param required - If true, indicates that the field is required to be filled.
  * @param modified - If true, indicates that the field has been modified.
  * @param disabled - If true, disables the field entirely.
@@ -39,30 +41,29 @@ export interface SfTextFieldProps extends TextFieldColumnProps {
 const TextField = ({
 	id,
 	label,
-	input,
+	description,
 	required,
 	modified,
 	disabled,
 	...props
 }: SfTextFieldProps) => (
-	<Column {...props} className={getClassName("TextField", [props.className])}>
+	<Column className={getClassName("TextField", [props.className])}>
 		<Label
 			{...(typeof label === "string" ? {} : label)}
 			htmlFor={id}
 			value={typeof label === "string" ? label : label?.value}
+			description={description}
 			required={required}
 			modified={modified}
 			disabled={disabled}
 		/>
-		<Input
-			{...(typeof input === "string" ? {} : input)}
+		<MemoizedInput
+			{...props}
 			id={id}
-			type={typeof input === "string" ? "text" : (input?.type ?? "text")}
-			name={typeof input === "string" ? input : input?.name}
-			minLength={typeof input === "string" ? undefined : input?.minLength || 0}
-			maxLength={
-				typeof input === "string" ? undefined : input?.maxLength || 1024
-			}
+			name={props?.name || id}
+			type={props?.type ?? "text"}
+			minLength={props?.minLength || 0}
+			maxLength={props?.maxLength || 1024}
 			required={required}
 			disabled={disabled}
 		/>

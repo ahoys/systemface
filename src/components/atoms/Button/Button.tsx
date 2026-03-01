@@ -1,10 +1,9 @@
 import styles from "./button.module.css";
 import { getClassName } from "@/utilities/utility.getClassName";
 
-const Button = ({
-	className,
-	...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
+export type SfButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+const Button = ({ className, ...props }: SfButtonProps) => (
 	<button
 		type={"button"}
 		{...props}
