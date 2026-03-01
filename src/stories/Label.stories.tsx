@@ -1,5 +1,5 @@
 import "../index.module.css";
-import { Label, Column } from "@/index";
+import { Label, Column, Input } from "@/index";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const ipsumShort =
@@ -34,7 +34,7 @@ export const WithInput: Story = {
 	render: (args) => (
 		<Column>
 			<Label {...args} />
-			<input id="WithInput" type="text" />
+			<Input id="WithInput" type="text" />
 		</Column>
 	),
 };
@@ -48,7 +48,7 @@ export const WithDescription: Story = {
 	render: (args) => (
 		<Column>
 			<Label {...args} />
-			<input id="WithDescription" type="text" />
+			<Input id="WithDescription" type="text" />
 		</Column>
 	),
 };
@@ -63,7 +63,7 @@ export const WithRequired: Story = {
 	render: (args) => (
 		<Column>
 			<Label {...args} />
-			<input id="WithRequired" type="text" />
+			<Input id="WithRequired" type="text" />
 		</Column>
 	),
 };
@@ -79,7 +79,7 @@ export const WithModified: Story = {
 	render: (args) => (
 		<Column>
 			<Label {...args} />
-			<input id="WithRequired" type="text" />
+			<Input id="WithModified" type="text" />
 		</Column>
 	),
 };
@@ -94,7 +94,7 @@ export const WithDisabled: Story = {
 	render: (args) => (
 		<Column>
 			<Label {...args} />
-			<input id="WithDisabled" type="text" disabled />
+			<Input id="WithDisabled" type="text" disabled />
 		</Column>
 	),
 };
@@ -109,7 +109,7 @@ export const WithLongValues: Story = {
 	render: (args) => (
 		<Column>
 			<Label {...args} />
-			<input id="WithLongValues" type="text" />
+			<Input id="WithLongValues" type="text" />
 		</Column>
 	),
 };

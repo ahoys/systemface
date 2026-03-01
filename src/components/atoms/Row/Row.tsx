@@ -1,5 +1,5 @@
 import styles from "./row.module.css";
-import { getClassName } from "../../../utilities/utility.getClassName";
+import { getClassName } from "@/utilities/utility.getClassName";
 
 const Row = (props: React.HTMLAttributes<HTMLDivElement>) => (
 	<div

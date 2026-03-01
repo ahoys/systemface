@@ -1,0 +1,45 @@
+.input {
+	all: unset;
+	/* Spacing */
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: calc(var(--sf__scale) * 0.5) var(--sf__scale);
+	border: 1px solid var(--sf__input-border-color);
+	border-radius: var(--sf__input-border-radius);
+	overflow: hidden;
+	outline-width: 2px;
+	outline-offset: -1px;
+	outline-style: inset;
+	outline-color: transparent;
+	/* Letters */
+	font-size: var(--sf__scale);
+	line-height: calc(var(--sf__scale) * 1.5);
+	min-height: calc(var(--sf__scale) * 1.5);
+	/* Colors */
+	background: var(--sf__input-bg);
+	color: var(--sf__input-color);
+	/* Accessibility */
+	cursor: text;
+	transition:
+		border-color 0.1s ease,
+		box-shadow 0.1s ease,
+		opacity 0.1s ease;
+}
+
+.input:hover {
+	border-color: var(--sf__input-border-color_focus);
+}
+
+.input:focus {
+	box-shadow: var(--sf__shadow);
+	border-color: var(--sf__input-border-color_focus);
+}
+
+.input:disabled {
+	cursor: default;
+	user-select: none;
+	pointer-events: none;
+	border-color: transparent;
+	opacity: var(--sf__input-opacity_disabled);
+}

@@ -1,6 +1,6 @@
 import styles from "./iconButton.module.css";
 import Button from "../../atoms/Button/Button";
-import { getClassName } from "../../../utilities/utility.getClassName";
+import { getClassName } from "@/utilities/utility.getClassName";
 
 const classNameIcon = getClassName("IconButton_icon", [styles.icon]);
 

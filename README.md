@@ -31,7 +31,7 @@ _This project is not vibe-coded, despite my bookish English and love for em-dash
 ## Quickstart
 
 ```tsx
-import { Button, Column, Label, IconButton, Row, Atoms } from "systemface";
+import { Button, Column, Label, Input, IconButton, Row, Atoms } from "systemface";
 
 // Minimalistic, supporting the basic HTML-attributes you already know.
 <Button>Click me</Button>
@@ -40,7 +40,7 @@ import { Button, Column, Label, IconButton, Row, Atoms } from "systemface";
 // with accessibility and React-performance in mind.
 <Column>
   <Label htmlFor="input" value="Label" />
-  <input id="input" />
+  <Input id="input" />
 </Column>
 
 // With most common extra functionality not provided by HTML.
@@ -79,20 +79,20 @@ The components are designed to be fully self-explanatory — but just in case, t
 - `Label`
   - [Component and interface](src/components/atoms/Label/Label.tsx)
   - [HTML Label](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label)
+- `Input`
+  - [Component and interface](src/components/atoms/Input/Input.tsx)
+  - [HTML Input](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Input)
 - `Row`
   - Places items in a row with a small gap between them.
   - Great for toolbars.
   - [Component and interface](src/components/atoms/Row/Row.tsx)
-  - [HTML Div](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Div)
 - `Column`
   - Places items in a column with a small gap between them.
   - Great for label and input groups.
   - [Component and interface](src/components/atoms/Column/Column.tsx)
-  - [HTML Div](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Div)
 - `IconButton`
   - Button extended with an optional icon. Supports all React icon libraries and components that output a basic ReactNode.
   - [Component and interface](src/components/molecules/IconButton/IconButton.tsx)
-  - [HTML Button](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/button)
 - ...more to come.
 
 ## Styling

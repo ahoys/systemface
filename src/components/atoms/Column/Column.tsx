@@ -1,5 +1,5 @@
 import styles from "./column.module.css";
-import { getClassName } from "../../../utilities/utility.getClassName";
+import { getClassName } from "@/utilities/utility.getClassName";
 
 const Column = (props: React.HTMLAttributes<HTMLDivElement>) => (
 	<div
