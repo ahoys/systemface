@@ -91,7 +91,7 @@ The components are designed to be fully self-explanatory — but just in case, t
   - Minimal setup: `<IconButton icon=""/>`
   - [Component and interface](src/components/molecules/IconButton/IconButton.tsx)
 - `TextField`
-  - Combines Field and Input into a Column wrap while providing accessibility, security, and performance with as straightforward an API as possible.
+  - Combines Field and Input into a Column wrap while providing accessibility, type safety, and performance with as straightforward an API as possible.
   - Minimal setup: `<TextField id="" label="" />`
   - [Component and interface](src/components/molecules/TextField/TextField.tsx)
 
