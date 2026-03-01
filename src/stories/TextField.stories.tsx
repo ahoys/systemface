@@ -28,8 +28,8 @@ export const WithLabelObject: Story = {
 		id: "example-text-field-with-label-object",
 		label: {
 			value: "Example Text Field with Label Object",
-			description: "This is a description for the text field.",
 		},
+		description: "This is a description for the text field.",
 		placeholder: "Enter text here...",
 	},
 };
