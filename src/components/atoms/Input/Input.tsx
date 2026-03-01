@@ -1,10 +1,10 @@
 import styles from "./input.module.css";
 import { getClassName } from "@/utilities/utility.getClassName";
 
-const Input = ({
-	className,
-	...props
-}: React.InputHTMLAttributes<HTMLInputElement>) => (
+export interface SfInputProps
+	extends React.InputHTMLAttributes<HTMLInputElement> {}
+
+const Input = ({ className, ...props }: SfInputProps) => (
 	<input
 		{...props}
 		className={getClassName("Input", [styles.input, className])}
