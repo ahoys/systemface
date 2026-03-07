@@ -146,6 +146,10 @@ Use your browser's inspector to identify the relevant class names, then referenc
 - All elements use class names prefixed with `sf_`, followed by the component name, e.g., `sf_IconButton`
 - Sub-elements include the parent in their class name, e.g., `sf_IconButton_icon`
 
+## Versioning
+
+[This library follows SemVer 2.0](https://semver.org/#semantic-versioning-200)
+
 ## License
 
 MIT
