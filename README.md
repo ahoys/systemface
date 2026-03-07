@@ -1,15 +1,15 @@
 # systemface
 
-A compact, dependency-free React component library built on native HTML semantics, accessibility, and best practices. Use it as-is, style it your way, or expand with one of the optional ready-made themes.
+A compact, dependency-free React component library built on native HTML semantics, accessibility, and best practices. Style it your way, or select from one of the ready made styles.
 
 - 🏢 For production-ready React applications.
-- 🧑‍💻 Built on native HTML APIs — you don't have to learn anything new.
+- 🧑‍💻 Built on native HTML and React APIs — you don't have to learn anything new.
 - 🐈 Absolutely tiny. No other [dependencies](/package.json).
 - 🗿 Written in TypeScript by a human with a professional background in component libraries.
-- 🛡️ The secure, long-lasting choice. You bring your own peer dependencies.
+- 🛡️ The long-lasting choice. You bring your own peer dependencies.
 
 ```
-npm install @systemface/core
+npm install systemface
 ```
 
 ### Requirements
@@ -20,15 +20,29 @@ npm install @systemface/core
 
 ### Author's notes on why yet another component library exists
 
-You've probably browsed more popular component libraries and noticed their tendency to overreach — the docs span multiple pages, introduce new abstractions to learn, enforce strong opinions, and pull in a quazillion dependencies (some of which are outdated OOTB).
+You've probably browsed more popular component libraries and noticed their tendency to overreach — the docs span multiple pages, introduce new abstractions to learn, enforce strong opinions, and pull in a gazillion dependencies (some of which are outdated OOTB).
 
-And all you wanted was a simple HTML button, with basic accessibility thoughtfully built in.
+And all you wanted was a simple HTML button, with an icon of your choice and accessibility thoughtfully built in.
 
 Systemface aims to be just that.
 
-_This project is not vibe-coded, despite my bookish English and love for em-dashes._
+_Editor's note: This project is not vibe-coded, despite my bookish English and love for em-dashes._
 
 ## Quickstart
+
+To apply a default style, wrap your components inside a SystemfaceProvider. You can also select some other style or provide your own.
+
+```tsx
+import { SystemfaceProvider } from "systemface";
+
+const yourAppRoot = () => (
+  <SystemfaceProvider theme={"default"}>
+    {...your_app}
+  </SystemfaceProvider>
+)
+```
+
+And here we have examples of using the components, just like any React-components.
 
 ```tsx
 import { Button, Column, Label, Input, IconButton, Row, Atoms } from "systemface";
@@ -65,7 +79,7 @@ import { Button, Column, Label, Input, IconButton, Row, Atoms } from "systemface
 
 The components are designed to be fully self-explanatory — but just in case, they come with JSDoc-ready documentation.
 
-**Atoms**: Small, unyielding, unsurprising.
+**Atoms**: Foundational building blocks that comprise all our user interfaces. Atoms cannot be broken down any further. If you want to build something new from scratch, use atoms.
 
 - `Button`
   - [Component and interface](src/components/atoms/Button/Button.tsx)
@@ -85,7 +99,7 @@ The components are designed to be fully self-explanatory — but just in case, t
   - Great for label and input groups.
   - [Component and interface](src/components/atoms/Column/Column.tsx)
 
-**Molecules**: Fast, accessible, rich.
+**Molecules**: Simple groups of elements functioning together as a unit. Provides ease-of-use and ready-thought implementations of the most common atom combinations.
 - `IconButton`
   - Button extended with an optional icon. Supports all React icon libraries and components that output a basic ReactNode.
   - Minimal setup: `<IconButton icon=""/>`
@@ -97,26 +111,36 @@ The components are designed to be fully self-explanatory — but just in case, t
 
 ## Styling
 
-### Global style variables
+### Themes
 
-Replace the style variables defined in [src/index.module.css](src/index.module.css)
+Wrap your app in `SystemfaceProvider` and select a theme with the `theme` prop.
 
-You can override them by redefining them in your own CSS:
+**Named themes**
 
+```tsx
+// Built-in themes: "default" | "dark"
+<SystemfaceProvider theme="default">...</SystemfaceProvider>
+<SystemfaceProvider theme="dark">...</SystemfaceProvider>
 ```
+
+**Custom theme**
+
+Pass a `React.CSSProperties` object to override CSS variables directly:
+
+```tsx
+<SystemfaceProvider theme={{ "--sf__button-bg": "oklch(0.2 0 0)" }}>
+  ...
+</SystemfaceProvider>
+```
+
+### CSS variable overrides
+
+You can also override theme variables globally in your own CSS. All variables are defined in [src/themes/default.css](src/themes/default.css).
+
+```css
 :root {
   /* Switch the modified dot on a label to orange instead */
   --sf__label-modified: orange;
-}
-
-/* Optional dark-mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --sf__button-bg: oklch(0.2 0 0);
-    --sf__button-color: oklch(0.9 0 0);
-    --sf__button-color_disabled: oklch(0.5 0 0);
-    --sf__label-color: oklch(0.95 0 0);
-    }
 }
 ```
 
@@ -124,7 +148,7 @@ You can override them by redefining them in your own CSS:
 
 Provide your own class names using CSS modules. This extends the existing behavior.
 
-```
+```tsx
 import styles from './myStyles.css';
 
 ...
@@ -136,7 +160,7 @@ import styles from './myStyles.css';
 
 Use your browser's inspector to identify the relevant class names, then reference them in your CSS:
 
-```
+```css
 .sf_Label_required {
   /* Make the red required dot on a label a square */
   border-radius: 0;
@@ -149,6 +173,8 @@ Use your browser's inspector to identify the relevant class names, then referenc
 ## Versioning
 
 [This library follows SemVer 2.0](https://semver.org/#semantic-versioning-200)
+
+In short, only major changes (the first digit) will break backwards compatibility.
 
 ## License
 
