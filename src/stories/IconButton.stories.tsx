@@ -18,3 +18,11 @@ export const Basic: Story = {
 		children: "Icon Button",
 	},
 };
+
+export const Loading: Story = {
+	args: {
+		icon: <XMarkIcon />,
+		children: "Icon Button",
+		loading: true,
+	},
+};

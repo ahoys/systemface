@@ -93,6 +93,28 @@ describe("IconButton", () => {
 		});
 	});
 
+	describe("loading state", () => {
+		it("disables the button and shows spinner when loading is true", () => {
+			render(
+				<IconButton icon={<TestIcon />} loading>
+					Click me
+				</IconButton>,
+			);
+			const button = screen.getByRole("button");
+			expect(button).toBeDisabled();
+			expect(screen.getByLabelText("Loading")).toBeInTheDocument();
+		});
+
+		it("does not show spinner when loading is false", () => {
+			render(
+				<IconButton icon={<TestIcon />} loading={false}>
+					Click me
+				</IconButton>,
+			);
+			expect(screen.queryByLabelText("Loading")).not.toBeInTheDocument();
+		});
+	});
+
 	describe("additional props", () => {
 		it("passes extra props to the button element", () => {
 			render(
