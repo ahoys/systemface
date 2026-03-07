@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { getClassName } from "@/utilities/utility.getClassName";
-import { ErrorMessage } from "@/components/atoms/Error/ErrorMessage";
+import { ErrorMessage } from "@/components/atoms/ErrorMessage/ErrorMessage";
 import { Column, Input, Label, type SfLabelProps } from "@/components/atoms";
 
 // Without memoization, the input re-renders on
