@@ -1,0 +1,14 @@
+.errorMessage {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.errorMessage span {
+	font-size: var(--sf__scale);
+	line-height: calc(var(--sf__scale) * 1.5);
+	background: var(--sf__error-background);
+	color: var(--sf__error-color);
+	padding: calc(var(--sf__scale) * 0.5) calc(var(--sf__scale) * 0.75);
+	border-radius: var(--sf__input-border-radius);
+}

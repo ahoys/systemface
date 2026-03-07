@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { getClassName } from "@/utilities/utility.getClassName";
+import { ErrorMessage } from "@/components/atoms/Error/ErrorMessage";
 import { Column, Input, Label, type SfLabelProps } from "@/components/atoms";
 
 // Without memoization, the input re-renders on
@@ -25,6 +26,7 @@ export interface SfTextFieldProps
 	modified?: SfLabelProps["modified"];
 	disabled?: SfLabelProps["disabled"];
 	type?: "text" | "email" | "password" | "search" | "tel" | "url";
+	error?: string;
 }
 
 /**
@@ -42,6 +44,7 @@ export interface SfTextFieldProps
  * @param type - The type of the input field. Defaults to "text".
  * @param minLength - The minimum number of characters allowed in the input field. Defaults to 0.
  * @param maxLength - The maximum number of characters allowed in the input field. Defaults to 1024.
+ * @param error - An error message to display below the input field, which also sets the `aria-invalid` attribute for accessibility.
  * @returns A text field component with an associated label.
  */
 const TextField = ({
@@ -56,6 +59,7 @@ const TextField = ({
 	type,
 	minLength,
 	maxLength,
+	error,
 	...props
 }: SfTextFieldProps) => (
 	<Column className={getClassName("TextField", [className])}>
@@ -77,10 +81,18 @@ const TextField = ({
 			maxLength={maxLength ?? 1024}
 			required={required}
 			disabled={disabled}
+			aria-invalid={error ? true : undefined}
 			aria-describedby={
-				description ? `${id}-description` : props["aria-describedby"]
+				[
+					props["aria-describedby"],
+					description && `${id}-description`,
+					error && `${id}-error`,
+				]
+					.filter(Boolean)
+					.join(" ") || undefined
 			}
 		/>
+		{error && <ErrorMessage id={`${id}-error`} error={error} />}
 	</Column>
 );
 

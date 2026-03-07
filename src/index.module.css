@@ -23,4 +23,6 @@
 	--sf__shadow:
 		0 1px 2px oklch(0.1 0 0 / 0.05), 0 2px 4px oklch(0.1 0 0 / 0.05),
 		0 4px 8px oklch(0.1 0 0 / 0.05), 0 8px 16px oklch(0.1 0 0 / 0.05);
+	--sf__error-background: oklch(62.793% 0.25768 29.223);
+	--sf__error-color: oklch(0.1 0 0);
 }

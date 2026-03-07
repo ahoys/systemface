@@ -33,3 +33,11 @@ export const WithLabelObject: Story = {
 		placeholder: "Enter text here...",
 	},
 };
+
+export const ErrorMessage: Story = {
+	args: {
+		id: "example-text-field",
+		label: "Example Text Field",
+		error: "This is an error message.",
+	},
+};
