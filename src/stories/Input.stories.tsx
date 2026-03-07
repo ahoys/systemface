@@ -1,4 +1,3 @@
-import "../index.module.css";
 import { Input } from "@/index";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 

@@ -1,3 +1,5 @@
+import "../src/themes/default.css";
+import { SystemfaceProvider } from "../src/index";
 import type { Preview } from "@storybook/react-vite";
 
 const preview: Preview = {
@@ -9,6 +11,13 @@ const preview: Preview = {
 			},
 		},
 	},
+	decorators: [
+		(Story) => (
+			<SystemfaceProvider theme="default">
+				<Story />
+			</SystemfaceProvider>
+		),
+	],
 };
 
 export default preview;

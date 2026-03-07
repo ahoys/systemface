@@ -1,4 +1,3 @@
-import "../index.module.css";
 import { TextField } from "@/index";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 

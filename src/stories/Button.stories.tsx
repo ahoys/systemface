@@ -1,4 +1,3 @@
-import "../index.module.css";
 import { Button } from "@/index";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 

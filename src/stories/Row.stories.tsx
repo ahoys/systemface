@@ -1,4 +1,3 @@
-import "../index.module.css";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { Row, IconButton, Button } from "@/index";
 import type { Meta, StoryObj } from "@storybook/react-vite";
