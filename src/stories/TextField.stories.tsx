@@ -34,10 +34,48 @@ export const WithLabelObject: Story = {
 	},
 };
 
+export const WithDescription: Story = {
+	args: {
+		id: "example-text-field-with-description",
+		label: "Example Text Field",
+		description: "This is a description for the text field.",
+	},
+};
+
+export const Required: Story = {
+	args: {
+		id: "example-text-field-required",
+		label: "Required Field",
+		description: "This field is required.",
+		required: true,
+	},
+};
+
+export const Disabled: Story = {
+	args: {
+		id: "example-text-field-disabled",
+		label: "Disabled Field",
+		description: "This field is disabled.",
+		disabled: true,
+		value: "Cannot edit this",
+	},
+};
+
 export const ErrorMessage: Story = {
 	args: {
-		id: "example-text-field",
+		id: "example-text-field-error",
 		label: "Example Text Field",
 		error: "This is an error message.",
+	},
+};
+
+export const Password: Story = {
+	args: {
+		id: "example-text-field-password",
+		label: "Password",
+		description: "Enter your password.",
+		type: "password",
+		required: true,
+		placeholder: "••••••••",
 	},
 };
