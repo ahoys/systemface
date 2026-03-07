@@ -81,6 +81,7 @@ const TextField = ({
 			maxLength={maxLength ?? 1024}
 			required={required}
 			disabled={disabled}
+			aria-required={required ? true : undefined}
 			aria-invalid={error ? true : undefined}
 			aria-describedby={
 				[
