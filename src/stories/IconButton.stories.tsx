@@ -12,6 +12,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
+	parameters: {
+		sfTheme: "default",
+	},
 	args: {
 		icon: <XMarkIcon />,
 		children: "Icon Button",
@@ -19,6 +22,9 @@ export const Basic: Story = {
 };
 
 export const Loading: Story = {
+	parameters: {
+		sfTheme: "default",
+	},
 	args: {
 		icon: <XMarkIcon />,
 		children: "Icon Button",

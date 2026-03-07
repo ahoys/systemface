@@ -1,9 +1,28 @@
 [data-sf-theme="dark"] {
+	--sf__scale: 1rem;
+	/* Button */
 	--sf__button-bg: oklch(0.2 0 0);
-	--sf__button-color: oklch(0.9 0 0);
-	--sf__input-bg: oklch(0.15 0 0);
-	--sf__input-color: oklch(0.9 0 0);
-	--sf__input-border-color: oklch(0.3 0 0);
-	--sf__input-border-color_focus: oklch(0.5 0 0);
-	--sf__label-color: oklch(0.95 0 0);
+	--sf__button-color: oklch(0.96 0 0);
+	--sf__button-color_disabled: oklch(0.8 0 0);
+	--sf__button-border-radius: calc(var(--sf__scale) * 1.5);
+	/* Input */
+	--sf__input-bg: oklch(0.2 0 0);
+	--sf__input-color: var(--sf__button-color);
+	--sf__input-border-color: oklch(0.8 0 0);
+	--sf__input-border-color_focus: oklch(0.6 0 0);
+	--sf__input-border-radius: 0;
+	--sf__input-opacity_disabled: 0.8;
+	/* Label */
+	--sf__label-color: oklch(0.9 0 0);
+	--sf__label-required: oklch(62.793% 0.25768 29.223);
+	--sf__label-modified: oklch(53.947% 0.16543 145.888);
+	/* Spinner */
+	--sf__spinner-handle: oklch(62.793% 0.25768 29.223);
+	--sf__spinner-background: oklch(0.8 0 0);
+	/* Common */
+	--sf__shadow:
+		0 1px 2px oklch(0.1 0 0 / 0.05), 0 2px 4px oklch(0.1 0 0 / 0.05),
+		0 4px 8px oklch(0.1 0 0 / 0.05), 0 8px 16px oklch(0.1 0 0 / 0.05);
+	--sf__error-background: oklch(62.793% 0.25768 29.223);
+	--sf__error-color: oklch(0.1 0 0);
 }

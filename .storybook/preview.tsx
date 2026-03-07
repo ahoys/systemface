@@ -1,19 +1,23 @@
 import "../src/themes/default.css";
+import "../src/themes/dark.css";
 import { SystemfaceProvider } from "../src/index";
 import type { Preview } from "@storybook/react-vite";
 
 const preview: Preview = {
-	parameters: {
-		controls: {
-			matchers: {
-				color: /(background|color)$/i,
-				date: /Date$/i,
+	globalTypes: {
+		sfTheme: {
+			description: "Theme",
+			toolbar: {
+				title: "Theme",
+				icon: "paintbrush",
+				items: ["default", "dark"],
+				dynamicTitle: true,
 			},
 		},
 	},
 	decorators: [
-		(Story) => (
-			<SystemfaceProvider theme="default">
+		(Story, context) => (
+			<SystemfaceProvider theme={context.globals.sfTheme ?? "default"}>
 				<Story />
 			</SystemfaceProvider>
 		),
