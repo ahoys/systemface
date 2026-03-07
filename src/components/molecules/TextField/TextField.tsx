@@ -41,7 +41,9 @@ export interface SfTextFieldProps
  * @param modified - If true, indicates that the field has been modified.
  * @param disabled - If true, disables the field entirely.
  * @param name - The name attribute for the input field, used in form submissions. Defaults to the value of `id` if not provided.
- * @param type - The type of the input field. Defaults to "text".
+ * @param type - The type of the input field. Defaults to "text". Intentionally restricted to text-like
+ *   inputs (`text`, `email`, `password`, `search`, `tel`, `url`) — non-textual types such as `checkbox`,
+ *   `radio`, `file`, `range`, or `date` have distinct UX patterns and belong in dedicated components.
  * @param minLength - The minimum number of characters allowed in the input field. Defaults to 0.
  * @param maxLength - The maximum number of characters allowed in the input field. Defaults to 1024.
  * @param error - An error message to display below the input field, which also sets the `aria-invalid` attribute for accessibility.
