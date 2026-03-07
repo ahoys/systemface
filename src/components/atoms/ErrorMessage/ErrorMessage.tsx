@@ -8,6 +8,8 @@ interface IErrorMessageProps {
 
 export const ErrorMessage = ({ id, error }: IErrorMessageProps) => (
 	<div className={getClassName("ErrorMessage", [styles.errorMessage])}>
-		<span id={id}>{error}</span>
+		<span aria-live={"polite"} id={id}>
+			{error}
+		</span>
 	</div>
 );
