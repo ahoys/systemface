@@ -1,3 +1,6 @@
+import "../../../themes/default.css";
+import "../../../themes/dark.css";
+
 export type SfTheme = "default" | "dark";
 
 export interface SfSystemfaceProviderProps {
