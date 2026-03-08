@@ -13,6 +13,10 @@
 			"require": "./dist/systemface.cjs.js"
 		}
 	},
+	"files": [
+		"dist",
+		"README.md"
+	],
 	"scripts": {
 		"dev": "npm run storybook",
 		"build": "npm run lint && npm run test && vite build && tsc -p tsconfig.build.json",
