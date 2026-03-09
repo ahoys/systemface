@@ -8,29 +8,19 @@ A compact, dependency-free React component library built on native HTML semantic
 - 🗿 Written in TypeScript by a human with a professional background in component libraries.
 - 🛡️ The long-lasting choice. You bring your own peer dependencies.
 
+### Requirements
+
+`react` and `react-dom`
+
+### Install
+
 ```
 npm install systemface
 ```
 
-### Requirements
-
-`react` and `react-dom`, see [peerDependencies](/package.json)
-
----
-
-### Author's notes on why yet another component library exists
-
-You've probably browsed more popular component libraries and noticed their tendency to overreach — the docs span multiple pages, introduce new abstractions to learn, enforce strong opinions, and pull in a gazillion dependencies (some of which are outdated OOTB).
-
-And all you wanted was a simple HTML button, with an icon of your choice and accessibility thoughtfully built in.
-
-Systemface aims to be just that.
-
-_Editor's note: This project is not vibe-coded, despite my bookish English and love for em-dashes._
-
 ## Quickstart
 
-To apply dynamic default styling, wrap your components inside a SystemfaceRoot wrapper. You can also force [a style](/src/themes/) or provide your own full or partial styles with a style-attribute.
+To apply dynamic default styling, wrap your components inside a SystemfaceRoot wrapper.
 
 ```tsx
 import { SystemfaceRoot } from "systemface";
@@ -41,14 +31,15 @@ const yourAppRoot = () => (
   </SystemfaceRoot>
 )
 ```
+### Basic usage
 
 ```tsx
-import { Button, Column, Label, Input, IconButton, Row, Atoms } from "systemface";
+import { Button, Column, Label, Input, IconButton, Row } from "systemface";
 
 // Minimalistic components that support the standard HTML attributes you already know.
 <Button>Click me</Button>
 
-// Simple, intuitive building blocks.
+// Use intuitive, atomic building blocks.
 <Column>
   <Label htmlFor="input" value="Username" />
   <Input id="input" />
@@ -60,7 +51,7 @@ import { Button, Column, Label, Input, IconButton, Row, Atoms } from "systemface
 // Includes common functionality that goes beyond standard HTML.
 <TextField id="input" label="Username" required modified />
 
-// Create a button with a custom icon.
+// Use your own icons.
 <IconButton icon={<SomeIcon />}>Click me</IconButton>
 
 // Row and Column provide shorthands for common flexbox layouts.
@@ -68,12 +59,12 @@ import { Button, Column, Label, Input, IconButton, Row, Atoms } from "systemface
   <Button>Click me</Button>
   <IconButton icon={<SomeIcon />} />
 </Row>
+```
 
-// You can also follow an atomic design approach when working with Systemface components.
-<Atoms.Button>This works!</Atoms.Button>
+```tsx
+import { SystemfaceRoot } from "systemface";
 
-// You can utilize multiple themes at once.
-// One useful example being having a different theme for modals.
+// You can have multiple themes at once.
 <SystemfaceRoot theme={"dark"}>
   <Button>Click this dark button</Button>
   <SystemfaceRoot theme={"light"}>
