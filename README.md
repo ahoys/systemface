@@ -1,6 +1,6 @@
 # systemface
 
-A compact, dependency-free React component library built on native HTML semantics, accessibility, and best practices. Style it your way, or select from one of the ready made styles.
+A compact, dependency-free React component library built on native HTML semantics, accessibility, and best practices. Style it your way, or select from one of the ready-made styles.
 
 - 🏢 For production-ready React applications.
 - 🧑‍💻 Built on native HTML and React APIs — you don't have to learn anything new.
@@ -30,19 +30,17 @@ _Editor's note: This project is not vibe-coded, despite my bookish English and l
 
 ## Quickstart
 
-To apply a default style, wrap your components inside a SystemfaceProvider. You can also select [some other style](/src/themes/) or provide your own with a style-attribute.
+To apply dynamic default styling, wrap your components inside a SystemfaceRoot wrapper. You can also force [a style](/src/themes/) or provide your own full or partial styles with a style-attribute.
 
 ```tsx
-import { SystemfaceProvider } from "systemface";
+import { SystemfaceRoot } from "systemface";
 
 const yourAppRoot = () => (
-  <SystemfaceProvider theme={"default"}>
+  <SystemfaceRoot>
     {...your_app}
-  </SystemfaceProvider>
+  </SystemfaceRoot>
 )
 ```
-
-And here we have examples of using the components, just like any React-components.
 
 ```tsx
 import { Button, Column, Label, Input, IconButton, Row, Atoms } from "systemface";
@@ -73,6 +71,15 @@ import { Button, Column, Label, Input, IconButton, Row, Atoms } from "systemface
 
 // You can also follow an atomic design approach when working with Systemface components.
 <Atoms.Button>This works!</Atoms.Button>
+
+// You can utilize multiple themes at once.
+// One useful example being having a different theme for modals.
+<SystemfaceRoot theme={"dark"}>
+  <Button>Click this dark button</Button>
+  <SystemfaceRoot theme={"light"}>
+    <Button>Click this light button</Button>
+  </SystemfaceRoot>
+</SystemfaceRoot>
 ```
 
 ## Components
@@ -99,7 +106,8 @@ The components are designed to be fully self-explanatory — but just in case, t
   - Great for label and input groups.
   - [Component and interface](src/components/atoms/Column/Column.tsx)
 
-**Molecules**: Simple groups of elements functioning together as a unit. Provides ease-of-use and ready-thought implementations of the most common atom combinations.
+**Molecules**: Simple groups of elements functioning together as a unit. Provides ease-of-use and well-thought-out implementations of the most common atom combinations.
+
 - `IconButton`
   - Button extended with an optional icon. Supports all React icon libraries and components that output a basic ReactNode.
   - Minimal setup: `<IconButton icon=""/>`
@@ -111,42 +119,57 @@ The components are designed to be fully self-explanatory — but just in case, t
 
 ## Styling
 
+Systemface offers extensive styling possibilities, giving you control over every detail.
+
 ### Themes
 
-Wrap your app in `SystemfaceProvider` and select a theme with the `theme` prop. Suitable values are `"light"` or `"dark"`. If none is given, default is used instead which is automatically either light or dark, depending on user's OS/browser preferences.
+Wrap your app in `SystemfaceRoot` and select a theme with the `theme` prop. Suitable values are `"light"` or `"dark"`. If none is given, default is used instead, which is automatically either light or dark, depending on the user's OS/browser preferences.
 
-**Named themes**
+**a) Force a predefined theme**
 
 ```tsx
-<SystemfaceProvider theme="dark">
- {Application}
-</SystemfaceProvider>
+<SystemfaceRoot theme="dark">
+ {affectedComponents}
+</SystemfaceRoot>
 ```
 
-**Customizing theme**
+**b) Provide your own CSS-module**
+
+```tsx
+<SystemfaceRoot className={myTheme}>
+ {affectedComponents}
+</SystemfaceRoot>
+```
+
+**c) Partial updating with style-attribute**
 
 Pass a `React.CSSProperties` object to override CSS variables directly:
 
 ```tsx
-<SystemfaceProvider style={{ "--sf__button-bg": "oklch(0.2 0 0)" }}>
-  ...
-</SystemfaceProvider>
+<SystemfaceRoot style={{ "--sf__button-bg": "oklch(0.2 0 0)" }}>
+  {affectedComponents}
+</SystemfaceRoot>
 ```
+
+Please refer to [src/themes/light.module.css](src/themes/light.module.css) to understand applied style-variables.
 
 ---
 
-### CSS variable overrides
+### Additional theme options
 
-You can also override theme variables globally in your own CSS. All variables are defined in [src/themes/default.css](src/themes/default.css).
+**Important note**, the following approaches, while possible, are not recommended by default. This is due to the fact that updates to the library may change the structure of the components and thus class names, breaking your custom edits.
+
+**CSS variable overrides**
+
+You can override theme variables globally in your own CSS. All variables are defined in [src/themes/light.module.css](src/themes/light.module.css).
 
 ```css
-:root {
-  /* Switch the modified dot on a label to orange instead */
-  --sf__label-modified: orange;
+.myClass {
+  --sf__label-modified: orange !important;
 }
 ```
 
-### Custom CSS classes
+**Custom CSS classes for components**
 
 Provide your own class names using CSS modules. This extends the existing behavior.
 
@@ -158,7 +181,7 @@ import styles from './myStyles.css';
 <Label className={styles.myLabelStyle}>
 ```
 
-### Direct CSS
+**CSS class name handles**
 
 Use your browser's inspector to identify the relevant class names, then reference them in your CSS:
 
@@ -176,10 +199,6 @@ Use your browser's inspector to identify the relevant class names, then referenc
 
 [This library follows SemVer 2.0](https://semver.org/#semantic-versioning-200)
 
-In short, only major changes (the first digit) will break backwards compatibility.
-
 ## License
 
 MIT
-
-Well done — you read it all. Though, let’s be honest, how many people actually read docs these days with LLMs around?

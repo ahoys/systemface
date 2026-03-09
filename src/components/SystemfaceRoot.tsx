@@ -4,19 +4,19 @@ import themeDark from "@/themes/dark.module.css";
 
 export type SfTheme = "light" | "dark";
 
-export interface SfSystemfaceProviderProps {
+export interface SfSystemfaceRootProps {
 	children: React.ReactNode | React.ReactNode[];
 	theme?: SfTheme;
 	style?: React.HTMLAttributes<HTMLDivElement>["style"];
 	className?: React.HTMLAttributes<HTMLDivElement>["className"];
 }
 
-const SystemfaceProvider = ({
+const SystemfaceRoot = ({
 	children,
 	theme,
 	style,
 	className,
-}: SfSystemfaceProviderProps) => {
+}: SfSystemfaceRootProps) => {
 	const getTheme = (theme: string | undefined): string => {
 		switch (theme) {
 			case "dark":
@@ -38,4 +38,4 @@ const SystemfaceProvider = ({
 	);
 };
 
-export default SystemfaceProvider;
+export default SystemfaceRoot;
