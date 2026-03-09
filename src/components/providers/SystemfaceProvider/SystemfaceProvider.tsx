@@ -4,11 +4,14 @@ import "../../../themes/dark.css";
 export type SfTheme = "default" | "dark";
 
 export interface SfSystemfaceProviderProps {
-	theme: SfTheme | React.CSSProperties;
 	children: React.ReactNode | React.ReactNode[];
+	theme?: SfTheme | React.CSSProperties;
 }
 
-const SystemfaceProvider = ({ theme, children }: SfSystemfaceProviderProps) => {
+const SystemfaceProvider = ({
+	children,
+	theme = "default",
+}: SfSystemfaceProviderProps) => {
 	const isNamedTheme = typeof theme === "string";
 
 	return (

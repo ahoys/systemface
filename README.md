@@ -30,7 +30,7 @@ _Editor's note: This project is not vibe-coded, despite my bookish English and l
 
 ## Quickstart
 
-To apply a default style, wrap your components inside a SystemfaceProvider. You can also select some other style or provide your own.
+To apply a default style, wrap your components inside a SystemfaceProvider. You can also select [some other style](/src/themes/) or provide your own with a style-attribute.
 
 ```tsx
 import { SystemfaceProvider } from "systemface";
@@ -113,7 +113,7 @@ The components are designed to be fully self-explanatory — but just in case, t
 
 ### Themes
 
-Wrap your app in `SystemfaceProvider` and select a theme with the `theme` prop.
+Wrap your app in `SystemfaceProvider` and select a theme with the `theme` prop. If no theme is named, it'll be the default one.
 
 **Named themes**
 
