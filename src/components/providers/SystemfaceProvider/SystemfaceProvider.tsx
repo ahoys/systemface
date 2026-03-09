@@ -2,7 +2,7 @@ import themeDefault from "@/themes/default.module.css";
 import themeLight from "@/themes/light.module.css";
 import themeDark from "@/themes/dark.module.css";
 
-export type SfTheme = "default" | "light" | "dark";
+export type SfTheme = "light" | "dark";
 
 export interface SfSystemfaceProviderProps {
 	children: React.ReactNode | React.ReactNode[];
