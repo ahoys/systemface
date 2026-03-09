@@ -1,5 +1,3 @@
-import "../src/themes/default.css";
-import "../src/themes/dark.css";
 import { SystemfaceRoot } from "../src/index";
 import type { Preview } from "@storybook/react-vite";
 
@@ -17,7 +15,7 @@ const preview: Preview = {
 	},
 	decorators: [
 		(Story, context) => (
-			<SystemfaceRoot theme={context.globals.sfTheme ?? "default"}>
+			<SystemfaceRoot theme={context.globals.sfTheme ?? "light"}>
 				<Story />
 			</SystemfaceRoot>
 		),

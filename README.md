@@ -20,19 +20,6 @@ npm install systemface
 
 ## Quickstart
 
-To apply dynamic default styling, wrap your components inside a SystemfaceRoot wrapper.
-
-```tsx
-import { SystemfaceRoot } from "systemface";
-
-const yourAppRoot = () => (
-  <SystemfaceRoot>
-    {...your_app}
-  </SystemfaceRoot>
-)
-```
-### Basic usage
-
 ```tsx
 import { Button, Column, Label, Input, IconButton, Row } from "systemface";
 
@@ -61,10 +48,23 @@ import { Button, Column, Label, Input, IconButton, Row } from "systemface";
 </Row>
 ```
 
+By default Systemface listens to `prefers-color-scheme` and shows either light or dark theme, depending on OS/browser preferences. To override this behavior, you can use SystemfaceRoot theme wrapper:
+
 ```tsx
 import { SystemfaceRoot } from "systemface";
 
-// You can have multiple themes at once.
+const yourAppRoot = () => (
+  <SystemfaceRoot theme={"light"}>
+    {...your_app}
+  </SystemfaceRoot>
+)
+```
+
+You can even have multiple themes at once:
+
+```tsx
+import { SystemfaceRoot } from "systemface";
+
 <SystemfaceRoot theme={"dark"}>
   <Button>Click this dark button</Button>
   <SystemfaceRoot theme={"light"}>
@@ -97,24 +97,24 @@ The components are designed to be fully self-explanatory — but just in case, t
   - Great for label and input groups.
   - [Component and interface](src/components/atoms/Column/Column.tsx)
 
-**Molecules**: Simple groups of elements functioning together as a unit. Provides ease-of-use and well-thought-out implementations of the most common atom combinations.
+**Molecules**: Simple groups of elements functioning together as a unit. Provide ease of use and well-thought-out implementations of the most common atom combinations.
 
 - `IconButton`
   - Button extended with an optional icon. Supports all React icon libraries and components that output a basic ReactNode.
   - Minimal setup: `<IconButton icon=""/>`
   - [Component and interface](src/components/molecules/IconButton/IconButton.tsx)
 - `TextField`
-  - Combines Field and Input into a Column wrap while providing accessibility, type safety, and performance with as straightforward an API as possible.
+  - Combines Field and Input into a Column wrap while providing accessibility, type safety, and performance with the most straightforward API possible.
   - Minimal setup: `<TextField id="" label="" />`
   - [Component and interface](src/components/molecules/TextField/TextField.tsx)
 
 ## Styling
 
-Systemface offers extensive styling possibilities, giving you control over every detail.
-
 ### Themes
 
-Wrap your app in `SystemfaceRoot` and select a theme with the `theme` prop. Suitable values are `"light"` or `"dark"`. If none is given, default is used instead, which is automatically either light or dark, depending on the user's OS/browser preferences.
+By default the theme selection is automatic and you don't have to do anything.
+
+To have a fixed theme, wrap your app in `SystemfaceRoot` and select a theme with the `theme` prop. Suitable values are `"light"` or `"dark"`.
 
 **a) Force a predefined theme**
 

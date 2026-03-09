@@ -1,4 +1,4 @@
-.theme {
+:root {
 	--sf__scale: 1rem;
 	/* Button */
 	--sf__button-bg: oklch(0.9 0 0);
@@ -28,7 +28,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-	.theme {
+	:root {
 		--sf__scale: 1rem;
 		/* Button */
 		--sf__button-bg: oklch(0.2 0 0);
