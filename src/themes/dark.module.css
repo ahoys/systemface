@@ -1,4 +1,4 @@
-[data-sf-theme="dark"] {
+.theme {
 	--sf__scale: 1rem;
 	/* Button */
 	--sf__button-bg: oklch(0.2 0 0);
