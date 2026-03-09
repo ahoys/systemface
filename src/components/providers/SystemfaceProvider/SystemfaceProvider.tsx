@@ -1,7 +1,8 @@
 import themeDefault from "@/themes/default.module.css";
+import themeLight from "@/themes/light.module.css";
 import themeDark from "@/themes/dark.module.css";
 
-export type SfTheme = "default" | "dark";
+export type SfTheme = "default" | "light" | "dark";
 
 export interface SfSystemfaceProviderProps {
 	children: React.ReactNode | React.ReactNode[];
@@ -20,6 +21,8 @@ const SystemfaceProvider = ({
 		switch (theme) {
 			case "dark":
 				return themeDark.theme;
+			case "light":
+				return themeLight.theme;
 			default:
 				return themeDefault.theme;
 		}

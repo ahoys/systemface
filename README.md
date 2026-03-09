@@ -113,25 +113,27 @@ The components are designed to be fully self-explanatory — but just in case, t
 
 ### Themes
 
-Wrap your app in `SystemfaceProvider` and select a theme with the `theme` prop. If no theme is named, it'll be the default one.
+Wrap your app in `SystemfaceProvider` and select a theme with the `theme` prop. Suitable values are `"light"` or `"dark"`. If none is given, default is used instead which is automatically either light or dark, depending on user's OS/browser preferences.
 
 **Named themes**
 
 ```tsx
-// Built-in themes: "default" | "dark"
-<SystemfaceProvider theme="default">...</SystemfaceProvider>
-<SystemfaceProvider theme="dark">...</SystemfaceProvider>
+<SystemfaceProvider theme="dark">
+ {Application}
+</SystemfaceProvider>
 ```
 
-**Custom theme**
+**Customizing theme**
 
 Pass a `React.CSSProperties` object to override CSS variables directly:
 
 ```tsx
-<SystemfaceProvider theme={{ "--sf__button-bg": "oklch(0.2 0 0)" }}>
+<SystemfaceProvider style={{ "--sf__button-bg": "oklch(0.2 0 0)" }}>
   ...
 </SystemfaceProvider>
 ```
+
+---
 
 ### CSS variable overrides
 
