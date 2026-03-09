@@ -12,18 +12,16 @@ export interface SfSystemfaceProviderProps {
 
 const SystemfaceProvider = ({
 	children,
-	theme = "default",
+	theme,
 	style,
 	className,
 }: SfSystemfaceProviderProps) => {
-	const getTheme = (theme: string): string | undefined => {
+	const getTheme = (theme: string | undefined): string => {
 		switch (theme) {
-			case "default":
-				return themeDefault.theme;
 			case "dark":
 				return themeDark.theme;
 			default:
-				return undefined;
+				return themeDefault.theme;
 		}
 	};
 
