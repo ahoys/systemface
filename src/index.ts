@@ -1,5 +1,3 @@
-import "./index.module.css";
-
 export * from "./components/atoms";
 export * from "./components/molecules";
 export { SystemfaceRoot } from "./components/SystemfaceRoot";

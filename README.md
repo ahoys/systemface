@@ -21,54 +21,53 @@ npm install systemface
 ## Quickstart
 
 ```tsx
-import { Button, Column, Label, Input, IconButton, Row } from "systemface";
+import { SystemfaceRoot, Button, Column, Label, Input, IconButton, Row } from "systemface";
 
-// Minimalistic components that support the standard HTML attributes you already know.
-<Button>Click me</Button>
+const App = () => (
+  // Apply themes with SystemfaceRoot (optional)
+  <SystemfaceRoot>
+    {/* Basic HTML-syntax */}
+    <Button>Click me</Button>
 
-// Use intuitive, atomic building blocks.
-<Column>
-  <Label htmlFor="input" value="Username" />
-  <Input id="input" />
-</Column>
+    {/* Build with atomic components... */}
+    <Column>
+      <Label htmlFor="firstname" value="Firstname" />
+      <Input id="firstname" />
+    </Column>
 
-// Or use a convenient single-line shorthand.
-<TextField id="input" label="Username" />
+    {/* ...or use simple shorthands */}
+    <TextField id="firstname" label="Firstname" />
+    <TextField id="surname" label="Surname" required modified />
 
-// Includes common functionality that goes beyond standard HTML.
-<TextField id="input" label="Username" required modified />
+    {/* Provide your own icons */}
+    <IconButton icon={<SomeIcon />}>Click me</IconButton>
 
-// Use your own icons.
-<IconButton icon={<SomeIcon />}>Click me</IconButton>
-
-// Row and Column provide shorthands for common flexbox layouts.
-<Row>
-  <Button>Click me</Button>
-  <IconButton icon={<SomeIcon />} />
-</Row>
-```
-
-By default Systemface listens to `prefers-color-scheme` and shows either light or dark theme, depending on OS/browser preferences. To override this behavior, you can use SystemfaceRoot theme wrapper:
-
-```tsx
-import { SystemfaceRoot } from "systemface";
-
-const yourAppRoot = () => (
-  <SystemfaceRoot theme={"light"}>
-    {...your_app}
+    {/* Flex row and column shorthands */}
+    <Row>
+      <Button>Click me</Button>
+      <IconButton icon={<SomeIcon />} />
+    </Row>
   </SystemfaceRoot>
-)
+);
 ```
 
-You can even have multiple themes at once:
+By default, Systemface listens to `prefers-color-scheme` and shows either the light or dark theme depending on OS/browser preferences. If you don't need custom colors, this is the easy way to go.
+
+When you need to apply your own theme, pass your `.theme` class as a `className`, just like you would in any CSS Modules setup. You can also use multiple nested `SystemfaceRoot`s for different themes.
+
+Use the [default.module.css](src/themes/default.module.css) as a reference for your root theme.
+
+Your theme can be partial.
 
 ```tsx
+import myLightStyle from "./myLightStyle.module.css";
+import myDarkStyle from "./myDarkStyle.module.css";
 import { SystemfaceRoot } from "systemface";
 
-<SystemfaceRoot theme={"dark"}>
-  <Button>Click this dark button</Button>
-  <SystemfaceRoot theme={"light"}>
-    <Button>Click this light button</Button>
+<SystemfaceRoot className={myLightStyle.theme}>
+  <Button>Click this a light button</Button>
+  <SystemfaceRoot className={myDarkStyle.theme}>
+    <Button>Click this a dark button</Button>
   </SystemfaceRoot>
 </SystemfaceRoot>
 ```
