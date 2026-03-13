@@ -8,6 +8,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { getClassName } from "@/utilities/utility.getClassName";
+import { isClickOutsideElements } from "@/utilities/utility.isClickOutsideElement";
 
 export interface SfMenuProps extends React.ComponentProps<"ul"> {
 	parentRef: React.RefObject<HTMLElement | null>;
@@ -36,6 +37,12 @@ const Menu = ({
 	useEffect(() => {
 		if (!menu) return;
 
+		const handleClickOutside = (e: MouseEvent) => {
+			if (isClickOutsideElements(e, [menu, parentRef.current])) {
+				onClose?.();
+			}
+		};
+
 		const handleKeyDown = (e: KeyboardEvent) => {
 			const key = e.key.toLowerCase();
 			if (key === "escape" && onClose) {
@@ -53,9 +60,13 @@ const Menu = ({
 			}
 		};
 
+		document.addEventListener("mousedown", handleClickOutside);
 		menu.addEventListener("keydown", handleKeyDown);
-		return () => menu.removeEventListener("keydown", handleKeyDown);
-	}, [menu, onClose]);
+		return () => {
+			menu.removeEventListener("keydown", handleKeyDown);
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [menu, parentRef, onClose]);
 
 	useEffect(() => {
 		if (!menu || !parentRef.current || !anchorElement) return;
