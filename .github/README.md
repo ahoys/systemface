@@ -55,7 +55,7 @@ By default, Systemface listens to `prefers-color-scheme` and shows either the li
 
 When you need to apply your own theme, pass your `.theme` class as a `className`, just like you would in any CSS Modules setup. You can also use multiple nested `SystemfaceTheme`s for different themes.
 
-Use the [default.module.css](src/themes/default.module.css) as a reference for your root theme.
+Use the [default.module.css](../src/themes/default.module.css) as a reference for your root theme.
 
 Your theme can be partial.
 
@@ -78,34 +78,32 @@ The components are designed to be fully self-explanatory — but just in case, t
 
 **Atoms**: Foundational building blocks that comprise all our user interfaces. Atoms cannot be broken down any further. If you want to build something new from scratch, use atoms.
 
-- `Button`
-  - [Component and interface](src/components/atoms/Button/Button.tsx)
-  - [HTML Button](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/button)
+- [<Button \/>](../src/components/atoms/Button/README.md)
 - `Label`
-  - [Component and interface](src/components/atoms/Label/Label.tsx)
+  - [Component and interface](../src/components/atoms/Label/Label.tsx)
   - [HTML Label](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label)
 - `Input`
-  - [Component and interface](src/components/atoms/Input/Input.tsx)
+  - [Component and interface](../src/components/atoms/Input/Input.tsx)
   - [HTML Input](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Input)
 - `Row`
   - Places items in a row with a small gap between them.
   - Great for toolbars.
-  - [Component and interface](src/components/atoms/Row/Row.tsx)
+  - [Component and interface](../src/components/atoms/Row/Row.tsx)
 - `Column`
   - Places items in a column with a small gap between them.
   - Great for label and input groups.
-  - [Component and interface](src/components/atoms/Column/Column.tsx)
+  - [Component and interface](../src/components/atoms/Column/Column.tsx)
 
 **Molecules**: Simple groups of elements functioning together as a unit. Provide ease of use and well-thought-out implementations of the most common atom combinations.
 
 - `IconButton`
   - Button extended with an optional icon. Supports all React icon libraries and components that output a basic ReactNode.
   - Minimal setup: `<IconButton icon=""/>`
-  - [Component and interface](src/components/molecules/IconButton/IconButton.tsx)
+  - [Component and interface](../src/components/molecules/IconButton/IconButton.tsx)
 - `TextField`
   - Combines Field and Input into a Column wrap while providing accessibility, type safety, and performance with the most straightforward API possible.
   - Minimal setup: `<TextField id="" label="" />`
-  - [Component and interface](src/components/molecules/TextField/TextField.tsx)
+  - [Component and interface](../src/components/molecules/TextField/TextField.tsx)
 
 ## 🎨 Styling
 
@@ -129,7 +127,7 @@ Wrap your components in `SystemfaceTheme` to have a dynamic default theme.
 </SystemfaceTheme>
 ```
 
-Please refer to [src/themes/default.module.css](src/themes/default.module.css) to understand applied style-variables.
+Please refer to [src/themes/default.module.css](../src/themes/default.module.css) to understand applied style-variables.
 
 ---
 
@@ -139,7 +137,7 @@ Please refer to [src/themes/default.module.css](src/themes/default.module.css) t
 
 **CSS variable overrides**
 
-You can override theme variables globally in your own CSS. All variables are defined in [src/themes/default.module.css](src/themes/default.module.css).
+You can override theme variables globally in your own CSS. All variables are defined in [src/themes/default.module.css](../src/themes/default.module.css).
 
 ```css
 .myClass {
