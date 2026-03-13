@@ -38,8 +38,8 @@ const Menu = ({
 		if (!menu) return;
 
 		const handleClickOutside = (e: MouseEvent) => {
-			if (isClickOutsideElements(e, [menu, parentRef.current])) {
-				onClose?.();
+			if (onClose && isClickOutsideElements(e, [menu, parentRef.current])) {
+				onClose();
 			}
 		};
 
