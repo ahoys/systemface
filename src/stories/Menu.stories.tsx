@@ -45,12 +45,6 @@ const defaultOptions = [
 	"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
 ];
 
-export const Basic: Story = {
-	args: {
-		children: defaultOptions,
-	},
-};
-
 export const PartOfCenterInput: Story = {
 	args: {
 		children: defaultOptions,

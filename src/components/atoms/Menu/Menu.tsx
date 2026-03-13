@@ -4,7 +4,6 @@ import {
 	isValidElement,
 	useEffect,
 	useLayoutEffect,
-	useRef,
 	useState,
 } from "react";
 import { createPortal } from "react-dom";
@@ -32,19 +31,10 @@ const Menu = ({
 	...props
 }: SfMenuProps) => {
 	const [anchorElement, setAnchorElement] = useState(anchor);
-	const menuRef = useRef<HTMLUListElement>(null);
+	const [menu, setMenu] = useState<HTMLUListElement | null>(null);
 
 	useEffect(() => {
-		if (!anchor) return;
-		setAnchorElement(anchor);
-	}, [anchor]);
-
-	useLayoutEffect(() => {
-		const menu = menuRef.current;
 		if (!menu) return;
-
-		const focusableItems = menu.querySelectorAll<HTMLElement>(FOCUSABLE);
-		focusableItems[0]?.focus();
 
 		const handleKeyDown = (e: KeyboardEvent) => {
 			const key = e.key.toLowerCase();
@@ -52,7 +42,7 @@ const Menu = ({
 				onClose();
 			} else if (["arrowdown", "arrowup"].includes(key)) {
 				e.preventDefault();
-				const items = Array.from(focusableItems);
+				const items = Array.from(menu.querySelectorAll<HTMLElement>(FOCUSABLE));
 				const focused = document.activeElement as HTMLElement;
 				const index = items.indexOf(focused);
 				if (key === "arrowdown") {
@@ -65,15 +55,12 @@ const Menu = ({
 
 		menu.addEventListener("keydown", handleKeyDown);
 		return () => menu.removeEventListener("keydown", handleKeyDown);
-	}, [onClose]);
+	}, [menu, onClose]);
 
-	useLayoutEffect(() => {
-		const menu = menuRef.current;
-		const parent = parentRef.current;
+	useEffect(() => {
+		if (!menu || !parentRef.current || !anchorElement) return;
 
-		if (!menu || !parent || !anchorElement) return;
-
-		const parentRect = parent.getBoundingClientRect();
+		const parentRect = parentRef.current.getBoundingClientRect();
 		const menuRect = menu.getBoundingClientRect();
 
 		const spaceBelow = window.innerHeight - parentRect.bottom;
@@ -105,25 +92,32 @@ const Menu = ({
 		if (props.style?.zIndex) {
 			menu.style.zIndex = props.style.zIndex.toString();
 		} else {
-			const parentZ = parseInt(getComputedStyle(parent).zIndex, 10);
+			const parentZ = parseInt(getComputedStyle(parentRef.current).zIndex, 10);
 			menu.style.zIndex = Number.isNaN(parentZ)
 				? "1"
 				: String(parentZ + 1 + zOffset);
 		}
-	}, [anchorElement, parentRef, props.style?.zIndex, zOffset]);
+	}, [menu, anchorElement, parentRef, props.style?.zIndex, zOffset]);
 
-	/**
-	 * If anchor prop is not provided,
-	 * find the closest SystemfaceTheme ancestor to append the menu to.
-	 */
-	useLayoutEffect(() => {
-		if (anchor) return;
-		const closestTheme = parentRef.current?.closest(
-			`.${getClassName("SystemfaceTheme", [])}`,
-		);
-		if (!closestTheme) return;
-		setAnchorElement(closestTheme as HTMLElement);
+	useEffect(() => {
+		if (anchor) {
+			setAnchorElement(anchor);
+		} else {
+			// Find the closest theme ancestor to anchor
+			// the menu to, since it uses theme styles.
+			// If none found, it will default to body which
+			// still functions, but lacks any theme-based styling.
+			const closestTheme = parentRef.current?.closest(
+				`.${getClassName("SystemfaceTheme", [])}`,
+			);
+			closestTheme && setAnchorElement(closestTheme as HTMLElement);
+		}
 	}, [parentRef, anchor]);
+
+	useLayoutEffect(() => {
+		// Focus the first focusable item when menu opens.
+		menu?.querySelectorAll<HTMLElement>(FOCUSABLE)[0]?.focus();
+	}, [menu]);
 
 	if (children.length === 0) return null;
 
@@ -131,7 +125,7 @@ const Menu = ({
 		<ul
 			{...props}
 			role={role}
-			ref={menuRef}
+			ref={setMenu}
 			className={getClassName("Menu", [styles.menu, className])}
 		>
 			{Children.toArray(children).map((child) => (

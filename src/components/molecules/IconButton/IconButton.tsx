@@ -5,8 +5,7 @@ import { Spinner } from "@/components/atoms/Spinner/Spinner";
 
 const classNameIcon = getClassName("IconButton_icon", [styles.icon]);
 
-export interface SfIconButtonProps
-	extends React.ComponentProps<"button"> {
+export interface SfIconButtonProps extends React.ComponentProps<"button"> {
 	icon: React.ReactNode;
 	loading?: boolean;
 	loadingProps?: React.ComponentProps<"output">;
