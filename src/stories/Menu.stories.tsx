@@ -1,5 +1,6 @@
 import { Menu, type SfMenuProps } from "@/index";
 import { Input } from "@/index";
+import { Button } from "@/index";
 import { useRef, type CSSProperties } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
@@ -34,8 +35,13 @@ const defaultStyle: CSSProperties = {
 	left: 0,
 };
 const defaultOptions = [
-	"Option 1",
-	"Option 2",
+	"Some text",
+	<Button key={0} onClick={() => alert("1")}>
+		Click me 1
+	</Button>,
+	<Button key={1} onClick={() => alert("2")}>
+		Click me 2
+	</Button>,
 	"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
 ];
 
