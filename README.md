@@ -1,6 +1,6 @@
 # systemface
 
-A compact, dependency-free React component library built on native HTML semantics, accessibility, and best practices. Style it your way, or select from one of the ready-made styles.
+React component library built on native HTML semantics, accessibility, and best practices. Style it your way, or select from one of the ready-made styles.
 
 - 🏢 For production-ready React applications.
 - 🧑‍💻 Built on native HTML and React APIs — you don't have to learn anything new.
