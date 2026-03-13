@@ -4,9 +4,7 @@ import { Button } from "@/index";
 import { useRef, type CSSProperties } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-type MenuStoryProps = Omit<SfMenuProps, "parentRef">;
-
-const MenuStory = (args: MenuStoryProps) => {
+const MenuStory = (args: SfMenuProps) => {
 	const parentRef = useRef<HTMLInputElement>(null);
 	return (
 		<div ref={parentRef}>
@@ -45,11 +43,8 @@ const defaultOptions = [
 	"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
 ];
 
-export const PartOfCenterInput: Story = {
-	args: {
-		children: defaultOptions,
-	},
-	render: (args) => {
+export const PartOfCenterInput: Omit<Story, "args"> = {
+	render: () => {
 		const parentRef = useRef<HTMLInputElement>(null);
 		return (
 			<div
@@ -60,62 +55,50 @@ export const PartOfCenterInput: Story = {
 				}}
 			>
 				<Input ref={parentRef} type="text" />
-				<Menu {...args} parentRef={parentRef} />
+				<Menu parentRef={parentRef}>{defaultOptions}</Menu>
 			</div>
 		);
 	},
 };
 
-export const PartOfTopLeftInput: Story = {
-	args: {
-		children: defaultOptions,
-	},
-	render: (args) => {
+export const PartOfTopLeftInput: Omit<Story, "args"> = {
+	render: () => {
 		const parentRef = useRef<HTMLInputElement>(null);
 		return (
 			<div style={defaultStyle}>
 				<Input ref={parentRef} type="text" />
-				<Menu {...args} parentRef={parentRef} />
+				<Menu parentRef={parentRef}>{defaultOptions}</Menu>
 			</div>
 		);
 	},
 };
 
-export const PartOfTopRightInput: Story = {
-	args: {
-		children: defaultOptions,
-	},
-	render: (args) => {
+export const PartOfTopRightInput: Omit<Story, "args"> = {
+	render: () => {
 		const parentRef = useRef<HTMLInputElement>(null);
 		return (
 			<div style={{ ...defaultStyle, justifyContent: "flex-end" }}>
 				<Input ref={parentRef} type="text" />
-				<Menu {...args} parentRef={parentRef} />
+				<Menu parentRef={parentRef}>{defaultOptions}</Menu>
 			</div>
 		);
 	},
 };
 
-export const PartOfBottomLeftInput: Story = {
-	args: {
-		children: defaultOptions,
-	},
-	render: (args) => {
+export const PartOfBottomLeftInput: Omit<Story, "args"> = {
+	render: () => {
 		const parentRef = useRef<HTMLInputElement>(null);
 		return (
 			<div style={{ ...defaultStyle, alignItems: "flex-end" }}>
 				<Input ref={parentRef} type="text" />
-				<Menu {...args} parentRef={parentRef} />
+				<Menu parentRef={parentRef}>{defaultOptions}</Menu>
 			</div>
 		);
 	},
 };
 
-export const PartOfBottomRightInput: Story = {
-	args: {
-		children: defaultOptions,
-	},
-	render: (args) => {
+export const PartOfBottomRightInput: Omit<Story, "args"> = {
+	render: () => {
 		const parentRef = useRef<HTMLInputElement>(null);
 		return (
 			<div
@@ -126,7 +109,7 @@ export const PartOfBottomRightInput: Story = {
 				}}
 			>
 				<Input ref={parentRef} type="text" />
-				<Menu {...args} parentRef={parentRef} />
+				<Menu parentRef={parentRef}>{defaultOptions}</Menu>
 			</div>
 		);
 	},

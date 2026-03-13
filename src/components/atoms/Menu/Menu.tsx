@@ -12,7 +12,7 @@ import { isClickOutsideElements } from "@/utilities/utility.isClickOutsideElemen
 
 export interface SfMenuProps extends React.ComponentProps<"ul"> {
 	parentRef: React.RefObject<HTMLElement | null>;
-	children?: React.ReactNode[];
+	children?: React.ReactNode;
 	anchor?: HTMLElement;
 	zOffset?: number;
 	onClose?: () => void;
@@ -24,7 +24,7 @@ const FOCUSABLE =
 const Menu = ({
 	className,
 	parentRef,
-	children = [],
+	children,
 	anchor,
 	zOffset = 0,
 	role = "menu",
@@ -130,7 +130,7 @@ const Menu = ({
 		menu?.querySelectorAll<HTMLElement>(FOCUSABLE)[0]?.focus();
 	}, [menu]);
 
-	if (children.length === 0) return null;
+	if (!children) return null;
 
 	return createPortal(
 		<ul
@@ -139,7 +139,7 @@ const Menu = ({
 			ref={setMenu}
 			className={getClassName("Menu", [styles.menu, className])}
 		>
-			{Children.toArray(children).map((child) => (
+			{Children.map(children, (child) => (
 				<li key={isValidElement(child) ? child.key : undefined} role="none">
 					{child}
 				</li>
