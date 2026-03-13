@@ -43,22 +43,23 @@ const Menu = ({
 		const menu = menuRef.current;
 		if (!menu) return;
 
-		menu.querySelectorAll<HTMLElement>(FOCUSABLE)[0]?.focus();
+		const focusableItems = menu.querySelectorAll<HTMLElement>(FOCUSABLE);
+		focusableItems[0]?.focus();
 
 		const handleKeyDown = (e: KeyboardEvent) => {
-			if (e.key === "Escape") {
-				onClose?.();
-				return;
-			}
-			const items = Array.from(menu.querySelectorAll<HTMLElement>(FOCUSABLE));
-			const focused = document.activeElement as HTMLElement;
-			const index = items.indexOf(focused);
-			if (e.key === "ArrowDown") {
+			const key = e.key.toLowerCase();
+			if (key === "escape" && onClose) {
+				onClose();
+			} else if (["arrowdown", "arrowup"].includes(key)) {
 				e.preventDefault();
-				items[(index + 1) % items.length]?.focus();
-			} else if (e.key === "ArrowUp") {
-				e.preventDefault();
-				items[(index - 1 + items.length) % items.length]?.focus();
+				const items = Array.from(focusableItems);
+				const focused = document.activeElement as HTMLElement;
+				const index = items.indexOf(focused);
+				if (key === "arrowdown") {
+					items[(index + 1) % items.length]?.focus();
+				} else if (key === "arrowup") {
+					items[(index - 1 + items.length) % items.length]?.focus();
+				}
 			}
 		};
 
