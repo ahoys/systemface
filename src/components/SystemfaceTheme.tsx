@@ -1,16 +1,16 @@
 import themeDefault from "@/themes/default.module.css";
 
-export interface SfSystemfaceRootProps {
+export interface SfSystemfaceThemeProps {
 	children: React.ReactNode | React.ReactNode[];
 	style?: React.HTMLAttributes<HTMLDivElement>["style"];
 	className?: React.HTMLAttributes<HTMLDivElement>["className"];
 }
 
-export const SystemfaceRoot = ({
+export const SystemfaceTheme = ({
 	children,
 	style,
 	className,
-}: SfSystemfaceRootProps) => (
+}: SfSystemfaceThemeProps) => (
 		<div
 			className={[themeDefault.theme, className].filter(Boolean).join(" ")}
 			style={style}

@@ -21,11 +21,11 @@ npm install systemface
 ## Quickstart
 
 ```tsx
-import { SystemfaceRoot, Button, Column, Label, Input, IconButton, Row } from "systemface";
+import { SystemfaceTheme, Button, Column, Label, Input, IconButton, Row } from "systemface";
 
 const App = () => (
-  // Apply themes with SystemfaceRoot (optional)
-  <SystemfaceRoot>
+  // Apply themes with SystemfaceTheme (optional)
+  <SystemfaceTheme>
     {/* Basic HTML-syntax */}
     <Button>Click me</Button>
 
@@ -47,13 +47,13 @@ const App = () => (
       <Button>Click me</Button>
       <IconButton icon={<SomeIcon />} />
     </Row>
-  </SystemfaceRoot>
+  </SystemfaceTheme>
 );
 ```
 
 By default, Systemface listens to `prefers-color-scheme` and shows either the light or dark theme depending on OS/browser preferences. If you don't need custom colors, this is the easy way to go.
 
-When you need to apply your own theme, pass your `.theme` class as a `className`, just like you would in any CSS Modules setup. You can also use multiple nested `SystemfaceRoot`s for different themes.
+When you need to apply your own theme, pass your `.theme` class as a `className`, just like you would in any CSS Modules setup. You can also use multiple nested `SystemfaceTheme`s for different themes.
 
 Use the [default.module.css](src/themes/default.module.css) as a reference for your root theme.
 
@@ -62,14 +62,14 @@ Your theme can be partial.
 ```tsx
 import myLightStyle from "./myLightStyle.module.css";
 import myDarkStyle from "./myDarkStyle.module.css";
-import { SystemfaceRoot } from "systemface";
+import { SystemfaceTheme } from "systemface";
 
-<SystemfaceRoot className={myLightStyle.theme}>
+<SystemfaceTheme className={myLightStyle.theme}>
   <Button>Click this a light button</Button>
-  <SystemfaceRoot className={myDarkStyle.theme}>
+  <SystemfaceTheme className={myDarkStyle.theme}>
     <Button>Click this a dark button</Button>
-  </SystemfaceRoot>
-</SystemfaceRoot>
+  </SystemfaceTheme>
+</SystemfaceTheme>
 ```
 
 ## Components
@@ -113,22 +113,22 @@ The components are designed to be fully self-explanatory — but just in case, t
 
 By default the theme selection is automatic and you don't have to do anything.
 
-To have a fixed theme, wrap your app in `SystemfaceRoot` and select a theme with the `theme` prop. Suitable values are `"light"` or `"dark"`.
+To have a fixed theme, wrap your app in `SystemfaceTheme` and select a theme with the `theme` prop. Suitable values are `"light"` or `"dark"`.
 
 **a) Force a predefined theme**
 
 ```tsx
-<SystemfaceRoot theme="dark">
+<SystemfaceTheme theme="dark">
  {affectedComponents}
-</SystemfaceRoot>
+</SystemfaceTheme>
 ```
 
 **b) Provide your own CSS-module**
 
 ```tsx
-<SystemfaceRoot className={myTheme}>
+<SystemfaceTheme className={myTheme}>
  {affectedComponents}
-</SystemfaceRoot>
+</SystemfaceTheme>
 ```
 
 **c) Partial updating with style-attribute**
@@ -136,9 +136,9 @@ To have a fixed theme, wrap your app in `SystemfaceRoot` and select a theme with
 Pass a `React.CSSProperties` object to override CSS variables directly:
 
 ```tsx
-<SystemfaceRoot style={{ "--sf__button-bg": "oklch(0.2 0 0)" }}>
+<SystemfaceTheme style={{ "--sf__button-bg": "oklch(0.2 0 0)" }}>
   {affectedComponents}
-</SystemfaceRoot>
+</SystemfaceTheme>
 ```
 
 Please refer to [src/themes/light.module.css](src/themes/light.module.css) to understand applied style-variables.
