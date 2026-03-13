@@ -2,8 +2,8 @@
 
 React component library built on native HTML semantics, accessibility, and best practices. Style it your way, or select from one of the ready-made styles.
 
-- 🏢 For production-ready React applications.
-- 🧑‍💻 Built on native HTML and React APIs — you don't have to learn anything new.
+- 🔥 For production-ready React applications.
+- 🌍 Built on native HTML and React APIs — you don't have to learn anything new.
 - 🐈 Absolutely tiny. No other [dependencies](/package.json).
 - 🗿 Written in TypeScript by a human with a professional background in component libraries.
 - 🛡️ The long-lasting choice. You bring your own peer dependencies.
@@ -18,7 +18,7 @@ React component library built on native HTML semantics, accessibility, and best 
 npm install systemface
 ```
 
-## Quickstart
+## 🔥 Quickstart
 
 ```tsx
 import { SystemfaceTheme, Button, Column, Label, Input, IconButton, Row } from "systemface";
@@ -72,7 +72,7 @@ import { SystemfaceTheme } from "systemface";
 </SystemfaceTheme>
 ```
 
-## Components
+## 🍟 Components
 
 The components are designed to be fully self-explanatory — but just in case, they come with JSDoc-ready documentation.
 
@@ -107,7 +107,7 @@ The components are designed to be fully self-explanatory — but just in case, t
   - Minimal setup: `<TextField id="" label="" />`
   - [Component and interface](src/components/molecules/TextField/TextField.tsx)
 
-## Styling
+## 🎨 Styling
 
 ### Themes
 
