@@ -1,0 +1,11 @@
+.menu {
+	all: unset;
+	position: absolute;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	background: var(--sf__input-bg);
+	color: var(--sf__input-color);
+	border: 1px solid var(--sf__input-border-color);
+	border-radius: var(--sf__input-border-radius);
+}

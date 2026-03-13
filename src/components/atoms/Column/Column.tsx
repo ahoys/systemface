@@ -1,7 +1,7 @@
 import styles from "./column.module.css";
 import { getClassName } from "@/utilities/utility.getClassName";
 
-export type SfColumnProps = React.HTMLAttributes<HTMLDivElement>;
+export type SfColumnProps = React.ComponentProps<"div">;
 
 const Column = (props: SfColumnProps) => (
 	<div

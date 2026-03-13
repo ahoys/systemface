@@ -1,7 +1,7 @@
 import styles from "./input.module.css";
 import { getClassName } from "@/utilities/utility.getClassName";
 
-export type SfInputProps = React.InputHTMLAttributes<HTMLInputElement>;
+export type SfInputProps = React.ComponentProps<"input">;
 
 const Input = ({ className, ...props }: SfInputProps) => (
 	<input
