@@ -111,37 +111,25 @@ The components are designed to be fully self-explanatory — but just in case, t
 
 ### Themes
 
-By default the theme selection is automatic and you don't have to do anything.
+Wrap your components in `SystemfaceTheme` to have a dynamic default theme.
 
-To have a fixed theme, wrap your app in `SystemfaceTheme` and select a theme with the `theme` prop. Suitable values are `"light"` or `"dark"`.
-
-**a) Force a predefined theme**
+**a) Default theme**
 
 ```tsx
-<SystemfaceTheme theme="dark">
+<SystemfaceTheme>
  {affectedComponents}
 </SystemfaceTheme>
 ```
 
-**b) Provide your own CSS-module**
+**b) Provide your own theme**
 
 ```tsx
-<SystemfaceTheme className={myTheme}>
+<SystemfaceTheme className={myTheme.theme}>
  {affectedComponents}
 </SystemfaceTheme>
 ```
 
-**c) Partial updating with style-attribute**
-
-Pass a `React.CSSProperties` object to override CSS variables directly:
-
-```tsx
-<SystemfaceTheme style={{ "--sf__button-bg": "oklch(0.2 0 0)" }}>
-  {affectedComponents}
-</SystemfaceTheme>
-```
-
-Please refer to [src/themes/light.module.css](src/themes/light.module.css) to understand applied style-variables.
+Please refer to [src/themes/default.module.css](src/themes/default.module.css) to understand applied style-variables.
 
 ---
 
@@ -151,7 +139,7 @@ Please refer to [src/themes/light.module.css](src/themes/light.module.css) to un
 
 **CSS variable overrides**
 
-You can override theme variables globally in your own CSS. All variables are defined in [src/themes/light.module.css](src/themes/light.module.css).
+You can override theme variables globally in your own CSS. All variables are defined in [src/themes/default.module.css](src/themes/default.module.css).
 
 ```css
 .myClass {
