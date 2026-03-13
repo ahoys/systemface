@@ -74,9 +74,7 @@ import { SystemfaceTheme } from "systemface";
 
 ## 🍟 Components
 
-The components are designed to be fully self-explanatory — but just in case, they come with JSDoc-ready documentation.
-
-**Atoms**: Foundational building blocks that comprise all our user interfaces. Atoms cannot be broken down any further. If you want to build something new from scratch, use atoms.
+Each component has its own documentation.
 
 - [<Button \/>](../src/components/atoms/Button/README.md)
 - `Label`
@@ -93,9 +91,6 @@ The components are designed to be fully self-explanatory — but just in case, t
   - Places items in a column with a small gap between them.
   - Great for label and input groups.
   - [Component and interface](../src/components/atoms/Column/Column.tsx)
-
-**Molecules**: Simple groups of elements functioning together as a unit. Provide ease of use and well-thought-out implementations of the most common atom combinations.
-
 - `IconButton`
   - Button extended with an optional icon. Supports all React icon libraries and components that output a basic ReactNode.
   - Minimal setup: `<IconButton icon=""/>`
