@@ -8,7 +8,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { getClassName } from "@/utilities/utility.getClassName";
-import { isClickOutsideElements } from "@/utilities/utility.isClickOutsideElement";
+import { isClickOutsideElements } from "@/utilities/utility.isClickOutsideElements";
 
 export interface SfMenuProps extends React.ComponentProps<"ul"> {
 	parentRef: React.RefObject<HTMLElement | null>;
