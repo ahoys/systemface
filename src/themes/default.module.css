@@ -26,7 +26,7 @@ https://caniuse.com/?search=light-dark
 	--sf__scale: 1rem;
 	--sf__font-family:
 		system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-	--sf__font-size: 1rem;
+	--sf__font-size: var(--sf__scale);
 	--sf__line-height: 1.5;
 	font-family: var(--sf__font-family);
 	font-size: var(--sf__font-size);
