@@ -8,6 +8,8 @@ React component library built on native HTML semantics, accessibility, and best 
 - 🗿 Written in TypeScript by a human with a professional background in component libraries.
 - 🛡️ The long-lasting choice. You bring your own peer dependencies.
 
+[📖 Browse Storybook for a live demo](https://ahoys.github.io/systemface)
+
 ### Requirements
 
 `react` and `react-dom`
@@ -19,6 +21,8 @@ npm install systemface
 ```
 
 ## 🔥 Quickstart
+
+[📖 All components are visible in Storybook](https://ahoys.github.io/systemface)
 
 ```tsx
 import { SystemfaceTheme, Button, Column, Label, Input, IconButton, Row } from "systemface";
@@ -51,13 +55,11 @@ const App = () => (
 );
 ```
 
-By default, Systemface listens to `prefers-color-scheme` and shows either the light or dark theme depending on OS/browser preferences. If you don't need custom colors, this is the easy way to go.
+By default, SystemfaceTheme listens to `prefers-color-scheme` and shows either the light or dark theme depending on OS/browser preferences. If you don't need customization, this is the easy way to go.
 
 When you need to apply your own theme, pass your `.theme` class as a `className`, just like you would in any CSS Modules setup. You can also use multiple nested `SystemfaceTheme`s for different themes.
 
-Use the [default.module.css](../src/themes/default.module.css) as a reference for your root theme.
-
-Your theme can be partial.
+Use the [default.module.css](../src/themes/default.module.css) as a reference for your root theme. Partial themes are possible.
 
 ```tsx
 import myLightStyle from "./myLightStyle.module.css";
@@ -73,6 +75,8 @@ import { SystemfaceTheme } from "systemface";
 ```
 
 ## 🍟 Components
+
+[📖 All components are visible in Storybook](https://ahoys.github.io/systemface)
 
 Each component has its own documentation.
 
