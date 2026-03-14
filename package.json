@@ -21,6 +21,7 @@
 		"dev": "npm run storybook",
 		"build": "npm run lint && npm run test && vite build && tsc -p tsconfig.build.json",
 		"storybook": "storybook dev -p 6006",
+		"build-storybook": "storybook build",
 		"lint": "npx biome lint",
 		"test": "tsc --noEmit && vitest run"
 	},
