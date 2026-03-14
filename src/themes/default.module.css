@@ -24,6 +24,13 @@ https://caniuse.com/?search=light-dark
 
 .theme {
 	--sf__scale: 1rem;
+	--sf__font-family:
+		system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	--sf__font-size: 1rem;
+	--sf__line-height: 1.5;
+	font-family: var(--sf__font-family);
+	font-size: var(--sf__font-size);
+	line-height: var(--sf__line-height);
 	/* Button */
 	--sf__button-bg: light-dark(oklch(0.9 0 0), oklch(0.2 0 0));
 	--sf__button-color: light-dark(oklch(0.4 0 0), oklch(0.96 0 0));
