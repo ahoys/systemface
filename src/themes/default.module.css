@@ -1,19 +1,43 @@
+/* 
+The best practice if to copy this file as a template for
+your own theme, and apply it to SystemfaceTheme as a className.
+
+If you don't need to support both light and dark modes,
+you can skip the .theme.light and .theme.dark selectors, and just set the variables in .theme.
+
+Do note that the light-dark() function is rather fresh (2024+), and may not be supported in all browsers.
+If you need to support older browsers, you can use the @media (prefers-color-scheme) media query 
+to set the variables for light and dark modes separately.
+https://caniuse.com/?search=light-dark
+*/
+.theme {
+	color-scheme: light dark;
+}
+
+.theme.light {
+	color-scheme: light;
+}
+
+.theme.dark {
+	color-scheme: dark;
+}
+
 .theme {
 	--sf__scale: 1rem;
 	/* Button */
-	--sf__button-bg: oklch(0.9 0 0);
-	--sf__button-color: oklch(0.4 0 0);
+	--sf__button-bg: light-dark(oklch(0.9 0 0), oklch(0.2 0 0));
+	--sf__button-color: light-dark(oklch(0.4 0 0), oklch(0.96 0 0));
 	--sf__button-color_disabled: oklch(0.8 0 0);
 	--sf__button-border-radius: calc(var(--sf__scale) * 1.5);
 	/* Input */
-	--sf__input-bg: oklch(0.98 0 0);
+	--sf__input-bg: light-dark(oklch(0.98 0 0), oklch(0.2 0 0));
 	--sf__input-color: var(--sf__button-color);
 	--sf__input-border-color: oklch(0.8 0 0);
 	--sf__input-border-color_focus: oklch(0.6 0 0);
 	--sf__input-border-radius: 0;
 	--sf__input-opacity_disabled: 0.8;
 	/* Label */
-	--sf__label-color: oklch(0.1 0 0);
+	--sf__label-color: light-dark(oklch(0.1 0 0), oklch(0.9 0 0));
 	--sf__label-required: oklch(62.793% 0.25768 29.223);
 	--sf__label-modified: oklch(53.947% 0.16543 145.888);
 	/* Spinner */
@@ -25,35 +49,4 @@
 		0 4px 8px oklch(0.1 0 0 / 0.05), 0 8px 16px oklch(0.1 0 0 / 0.05);
 	--sf__error-background: oklch(62.793% 0.25768 29.223);
 	--sf__error-color: oklch(0.1 0 0);
-}
-
-@media (prefers-color-scheme: dark) {
-	.theme {
-		--sf__scale: 1rem;
-		/* Button */
-		--sf__button-bg: oklch(0.2 0 0);
-		--sf__button-color: oklch(0.96 0 0);
-		--sf__button-color_disabled: oklch(0.8 0 0);
-		--sf__button-border-radius: calc(var(--sf__scale) * 1.5);
-		/* Input */
-		--sf__input-bg: oklch(0.2 0 0);
-		--sf__input-color: var(--sf__button-color);
-		--sf__input-border-color: oklch(0.8 0 0);
-		--sf__input-border-color_focus: oklch(0.6 0 0);
-		--sf__input-border-radius: 0;
-		--sf__input-opacity_disabled: 0.8;
-		/* Label */
-		--sf__label-color: oklch(0.9 0 0);
-		--sf__label-required: oklch(62.793% 0.25768 29.223);
-		--sf__label-modified: oklch(53.947% 0.16543 145.888);
-		/* Spinner */
-		--sf__spinner-handle: oklch(62.793% 0.25768 29.223);
-		--sf__spinner-background: oklch(0.8 0 0);
-		/* Common */
-		--sf__shadow:
-			0 1px 2px oklch(0.1 0 0 / 0.05), 0 2px 4px oklch(0.1 0 0 / 0.05),
-			0 4px 8px oklch(0.1 0 0 / 0.05), 0 8px 16px oklch(0.1 0 0 / 0.05);
-		--sf__error-background: oklch(62.793% 0.25768 29.223);
-		--sf__error-color: oklch(0.1 0 0);
-	}
 }
