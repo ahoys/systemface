@@ -110,6 +110,11 @@ const Menu = ({
 				? "1"
 				: String(parentZ + 1 + zOffset);
 		}
+
+		// Make sure menu is at least as wide as the parent.
+		if (menuRect.width < parentRect.width) {
+			menu.style.width = `${parentRect.width}px`;
+		}
 	}, [menu, anchorElement, parentRef, open, props.style?.zIndex, zOffset]);
 
 	useEffect(() => {
