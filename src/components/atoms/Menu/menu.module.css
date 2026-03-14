@@ -4,8 +4,14 @@
 	list-style: none;
 	display: flex;
 	flex-direction: column;
+	opacity: 0;
 	background: var(--sf__input-bg);
 	color: var(--sf__input-color);
 	border: 1px solid var(--sf__input-border-color);
 	border-radius: var(--sf__input-border-radius);
+	transition: opacity 150ms ease-in-out;
+}
+
+.open {
+	opacity: 1;
 }

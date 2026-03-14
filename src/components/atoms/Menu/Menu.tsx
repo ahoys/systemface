@@ -12,6 +12,7 @@ import { isClickOutsideElements } from "@/utilities/utility.isClickOutsideElemen
 
 export interface SfMenuProps extends React.ComponentProps<"ul"> {
 	parentRef: React.RefObject<HTMLElement | null>;
+	open: boolean;
 	children?: React.ReactNode;
 	anchor?: HTMLElement;
 	zOffset?: number;
@@ -24,6 +25,7 @@ const FOCUSABLE =
 const Menu = ({
 	className,
 	parentRef,
+	open,
 	children,
 	anchor,
 	zOffset = 0,
@@ -35,7 +37,7 @@ const Menu = ({
 	const [menu, setMenu] = useState<HTMLUListElement | null>(null);
 
 	useEffect(() => {
-		if (!menu) return;
+		if (!menu || !open) return;
 
 		const handleClickOutside = (e: MouseEvent) => {
 			if (onClose && isClickOutsideElements(e, [menu, parentRef.current])) {
@@ -66,10 +68,10 @@ const Menu = ({
 			menu.removeEventListener("keydown", handleKeyDown);
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
-	}, [menu, parentRef, onClose]);
+	}, [menu, parentRef, open, onClose]);
 
 	useEffect(() => {
-		if (!menu || !parentRef.current || !anchorElement) return;
+		if (!menu || !parentRef.current || !anchorElement || !open) return;
 
 		const parentRect = parentRef.current.getBoundingClientRect();
 		const menuRect = menu.getBoundingClientRect();
@@ -108,9 +110,10 @@ const Menu = ({
 				? "1"
 				: String(parentZ + 1 + zOffset);
 		}
-	}, [menu, anchorElement, parentRef, props.style?.zIndex, zOffset]);
+	}, [menu, anchorElement, parentRef, open, props.style?.zIndex, zOffset]);
 
 	useEffect(() => {
+		if (!open) return;
 		if (anchor) {
 			setAnchorElement(anchor);
 		} else {
@@ -123,12 +126,13 @@ const Menu = ({
 			);
 			closestTheme && setAnchorElement(closestTheme as HTMLElement);
 		}
-	}, [parentRef, anchor]);
+	}, [parentRef, open, anchor]);
 
 	useLayoutEffect(() => {
+		if (!menu || !open) return;
 		// Focus the first focusable item when menu opens.
 		menu?.querySelectorAll<HTMLElement>(FOCUSABLE)[0]?.focus();
-	}, [menu]);
+	}, [menu, open]);
 
 	if (!children) return null;
 
@@ -137,13 +141,18 @@ const Menu = ({
 			{...props}
 			role={role}
 			ref={setMenu}
-			className={getClassName("Menu", [styles.menu, className])}
+			className={getClassName("Menu", [
+				styles.menu,
+				open && styles.open,
+				className,
+			])}
 		>
-			{Children.map(children, (child) => (
-				<li key={isValidElement(child) ? child.key : undefined} role="none">
-					{child}
-				</li>
-			))}
+			{open &&
+				Children.map(children, (child) => (
+					<li key={isValidElement(child) ? child.key : undefined} role="none">
+						{child}
+					</li>
+				))}
 		</ul>,
 		anchorElement || document.body,
 	);
