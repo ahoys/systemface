@@ -27,10 +27,10 @@ const defaultStyle: CSSProperties = {
 	position: "absolute",
 	display: "flex",
 	alignItems: "flex-start",
-	top: 0,
-	right: 0,
-	bottom: 0,
-	left: 0,
+	top: "1rem",
+	right: "1rem",
+	bottom: "1rem",
+	left: "1rem",
 };
 
 const defaultOptions = [
@@ -49,7 +49,7 @@ export const ButtonToOpenMenu: Omit<Story, "args"> = {
 		const [open, setOpen] = useState(false);
 		const parentRef = useRef<HTMLButtonElement>(null);
 		return (
-			<div>
+			<div style={defaultStyle}>
 				<Button ref={parentRef} onClick={() => setOpen((prev) => !prev)}>
 					Open Menu
 				</Button>
