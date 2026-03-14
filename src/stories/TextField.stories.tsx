@@ -2,7 +2,7 @@ import { TextField } from "@/index";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
-	title: "molecule/TextField",
+	title: "molecules/TextField",
 	component: TextField,
 	tags: ["autodocs"],
 } satisfies Meta<typeof TextField>;
