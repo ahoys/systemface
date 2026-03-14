@@ -1,7 +1,7 @@
 import { Menu, type SfMenuProps } from "@/index";
 import { Input } from "@/index";
 import { Button } from "@/index";
-import { useRef, type CSSProperties } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const MenuStory = (args: SfMenuProps) => {
@@ -32,6 +32,7 @@ const defaultStyle: CSSProperties = {
 	bottom: 0,
 	left: 0,
 };
+
 const defaultOptions = [
 	"Some text",
 	<Button key={0} onClick={() => alert("1")}>
@@ -42,6 +43,21 @@ const defaultOptions = [
 	</Button>,
 	"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
 ];
+
+export const ButtonToOpenMenu: Omit<Story, "args"> = {
+	render: () => {
+		const [open, setOpen] = useState(false);
+		const parentRef = useRef<HTMLButtonElement>(null);
+		return (
+			<div>
+				<Button ref={parentRef} onClick={() => setOpen((prev) => !prev)}>
+					Open Menu
+				</Button>
+				{open && <Menu parentRef={parentRef}>{defaultOptions}</Menu>}
+			</div>
+		);
+	},
+};
 
 export const PartOfCenterInput: Omit<Story, "args"> = {
 	render: () => {
