@@ -27,3 +27,7 @@
 	pointer-events: none;
 	opacity: var(--sf__input-opacity_disabled);
 }
+
+.hidden {
+	display: none;
+}
