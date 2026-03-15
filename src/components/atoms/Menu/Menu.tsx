@@ -21,7 +21,7 @@ export interface SfMenuProps extends React.ComponentProps<"ul"> {
 }
 
 const FOCUSABLE =
-	'a[href],button,input,select,textarea,[tabindex]:not([tabindex="-1"])';
+	'a[href],button,input,select,textarea,[tabindex]:not([tabindex="-1"]),[role="option"]';
 
 const Menu = ({
 	ref,
@@ -184,7 +184,11 @@ const Menu = ({
 		>
 			{(open || closing) &&
 				Children.map(children, (child) => (
-					<li key={isValidElement(child) ? child.key : undefined} role="none">
+					<li
+						key={isValidElement(child) ? child.key : undefined}
+						role={["combobox", "listbox"].includes(role) ? "option" : "none"}
+						tabIndex={["combobox", "listbox"].includes(role) ? -1 : undefined}
+					>
 						{child}
 					</li>
 				))}
