@@ -1,0 +1,27 @@
+.option {
+	all: unset;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	padding: calc(var(--sf__scale) * 0.5) var(--sf__scale);
+	font-size: var(--sf__scale);
+	line-height: calc(var(--sf__scale) * 1.5);
+	width: 100%;
+	cursor: pointer;
+	user-select: none;
+	transition: filter 0.1s ease;
+}
+
+.option:hover {
+	filter: brightness(1.04);
+}
+
+.selected {
+	font-weight: 600;
+}
+
+.disabled {
+	cursor: default;
+	pointer-events: none;
+	opacity: var(--sf__input-opacity_disabled);
+}

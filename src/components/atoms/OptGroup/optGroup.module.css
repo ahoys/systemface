@@ -1,0 +1,24 @@
+.optGroup {
+	all: unset;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.label {
+	all: unset;
+	box-sizing: border-box;
+	display: block;
+	padding: calc(var(--sf__scale) * 0.5) var(--sf__scale);
+	font-size: calc(var(--sf__scale) * 0.75);
+	line-height: calc(var(--sf__scale) * 1.5);
+	font-weight: 600;
+	opacity: 0.6;
+	user-select: none;
+}
+
+.disabled {
+	opacity: var(--sf__input-opacity_disabled);
+	pointer-events: none;
+}
