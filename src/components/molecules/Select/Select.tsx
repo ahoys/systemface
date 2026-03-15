@@ -1,4 +1,4 @@
-import { useId, useRef, useState } from "react";
+import { createContext, useId, useRef, useState } from "react";
 import { getClassName } from "@/utilities/utility.getClassName";
 import {
 	Input,
@@ -6,6 +6,8 @@ import {
 	type SfOptGroupProps,
 	type SfOptionProps,
 } from "@/components/atoms";
+
+export const SelectFilterContext = createContext("");
 
 type SfSelectChild =
 	| React.ReactElement<SfOptionProps>
@@ -58,24 +60,26 @@ const Select = ({ className, multiple, children, onChange }: SfSelectProps) => {
 				aria-expanded={open}
 				aria-controls={menuId}
 			/>
-			<Menu
-				ref={menuRef}
-				parentRef={inputRef}
-				id={menuId}
-				open={open}
-				onClose={handleClose}
-				onClick={(e) => {
-					if (onChange) {
-						const target = (e.target as HTMLElement).closest("[data-value]");
-						if (!target) return;
-						const value = (target as HTMLElement).dataset.value;
-						onChange(value);
-					}
-					handleClose();
-				}}
-			>
-				{children}
-			</Menu>
+			<SelectFilterContext.Provider value={filter}>
+				<Menu
+					ref={menuRef}
+					parentRef={inputRef}
+					id={menuId}
+					open={open}
+					onClose={handleClose}
+					onClick={(e) => {
+						if (onChange) {
+							const target = (e.target as HTMLElement).closest("[data-value]");
+							if (!target) return;
+							const value = (target as HTMLElement).dataset.value;
+							onChange(value);
+						}
+						handleClose();
+					}}
+				>
+					{children}
+				</Menu>
+			</SelectFilterContext.Provider>
 		</>
 	);
 };

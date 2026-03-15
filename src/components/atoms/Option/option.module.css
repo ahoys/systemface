@@ -2,6 +2,7 @@
 	all: unset;
 	box-sizing: border-box;
 	display: flex;
+	flex-direction: row;
 	align-items: center;
 	padding: calc(var(--sf__scale) * 0.5) var(--sf__scale);
 	font-size: var(--sf__scale);
