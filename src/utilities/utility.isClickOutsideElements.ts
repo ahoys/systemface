@@ -7,7 +7,7 @@
 export const isClickOutsideElements = (
 	event: MouseEvent,
 	targets: (HTMLElement | null)[],
-) =>
+): boolean =>
 	!targets
 		.filter(Boolean)
 		.some((target) => target && event.composedPath().includes(target));

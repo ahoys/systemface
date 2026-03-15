@@ -35,6 +35,14 @@ const Menu = ({
 }: SfMenuProps) => {
 	const [anchorElement, setAnchorElement] = useState(anchor);
 	const [menu, setMenu] = useState<HTMLUListElement | null>(null);
+	const [closing, setClosing] = useState(false);
+
+	useEffect(() => {
+		if (!closing || !menu) return;
+		const handleTransitionEnd = () => setClosing(false);
+		menu.addEventListener("transitionend", handleTransitionEnd);
+		return () => menu.removeEventListener("transitionend", handleTransitionEnd);
+	}, [closing, menu]);
 
 	useEffect(() => {
 		if (!menu || !open) return;
@@ -134,6 +142,16 @@ const Menu = ({
 	}, [parentRef, open, anchor]);
 
 	useLayoutEffect(() => {
+		// Deferred toggle to allow
+		// transition to play when closing.
+		if (open) {
+			setClosing(false);
+		} else {
+			setClosing(true);
+		}
+	}, [open]);
+
+	useLayoutEffect(() => {
 		if (!menu || !open) return;
 		// Focus the first focusable item when menu opens.
 		menu?.querySelectorAll<HTMLElement>(FOCUSABLE)[0]?.focus();
@@ -152,7 +170,7 @@ const Menu = ({
 				className,
 			])}
 		>
-			{open &&
+			{(open || closing) &&
 				Children.map(children, (child) => (
 					<li key={isValidElement(child) ? child.key : undefined} role="none">
 						{child}
