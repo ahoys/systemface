@@ -14,6 +14,8 @@
 
 .option:hover {
 	filter: brightness(1.04);
+	background: var(--sf__select-hover-bg);
+	color: var(--sf__select-hover-color);
 }
 
 .selected {
