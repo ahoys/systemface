@@ -2,6 +2,7 @@ import styles from "./menu.module.css";
 import {
 	Children,
 	isValidElement,
+	useCallback,
 	useEffect,
 	useLayoutEffect,
 	useState,
@@ -23,6 +24,7 @@ const FOCUSABLE =
 	'a[href],button,input,select,textarea,[tabindex]:not([tabindex="-1"])';
 
 const Menu = ({
+	ref,
 	className,
 	parentRef,
 	open,
@@ -32,10 +34,20 @@ const Menu = ({
 	role = "menu",
 	onClose,
 	...props
-}: SfMenuProps) => {
+}: SfMenuProps & { ref?: React.Ref<HTMLUListElement> }) => {
 	const [anchorElement, setAnchorElement] = useState(anchor);
 	const [menu, setMenu] = useState<HTMLUListElement | null>(null);
 	const [closing, setClosing] = useState(false);
+
+	const setMenuRef = useCallback(
+		(node: HTMLUListElement | null) => {
+			setMenu(node);
+			if (typeof ref === "function") ref(node);
+			else if (ref)
+				(ref as React.RefObject<HTMLUListElement | null>).current = node;
+		},
+		[ref],
+	);
 
 	useEffect(() => {
 		if (!closing || !menu) return;
@@ -162,8 +174,8 @@ const Menu = ({
 	return createPortal(
 		<ul
 			{...props}
+			ref={setMenuRef}
 			role={role}
-			ref={setMenu}
 			className={getClassName("Menu", [
 				styles.menu,
 				open && styles.open,
