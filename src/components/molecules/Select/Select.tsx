@@ -15,7 +15,7 @@ type SfSelectChild =
 	| React.ReactElement<React.ComponentProps<"hr">>
 	| React.ReactElement<React.ComponentProps<"br">>;
 
-type SfSelectProps = Omit<
+export type SfSelectProps = Omit<
 	React.ComponentProps<"select">,
 	"children" | "onChange"
 > & {
