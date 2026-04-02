@@ -81,28 +81,13 @@ import { SystemfaceTheme } from "systemface";
 Each component has its own documentation.
 
 - [<Button \/>](../src/components/atoms/Button/README.md)
-- `Label`
-  - [Component and interface](../src/components/atoms/Label/Label.tsx)
-  - [HTML Label](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label)
-- `Input`
-  - [Component and interface](../src/components/atoms/Input/Input.tsx)
-  - [HTML Input](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Input)
-- `Row`
-  - Places items in a row with a small gap between them.
-  - Great for toolbars.
-  - [Component and interface](../src/components/atoms/Row/Row.tsx)
-- `Column`
-  - Places items in a column with a small gap between them.
-  - Great for label and input groups.
-  - [Component and interface](../src/components/atoms/Column/Column.tsx)
-- `IconButton`
-  - Button extended with an optional icon. Supports all React icon libraries and components that output a basic ReactNode.
-  - Minimal setup: `<IconButton icon=""/>`
-  - [Component and interface](../src/components/molecules/IconButton/IconButton.tsx)
-- `TextField`
-  - Combines Field and Input into a Column wrap while providing accessibility, type safety, and performance with the most straightforward API possible.
-  - Minimal setup: `<TextField id="" label="" />`
-  - [Component and interface](../src/components/molecules/TextField/TextField.tsx)
+- [<Label \/>](../src/components/atoms/Label/README.md)
+- [<Input \/>](../src/components/atoms/Input/README.md)
+- [<Column \/>](../src/components/atoms/Column/README.md)
+- [<Row \/>](../src/components/atoms/Column/README.md)
+- [<IconButton \/>](../src/components/molecules/IconButton/README.md)
+- [<TextField \/>](../src/components/molecules/TextField/README.md)
+- [<Select \/>](../src/components/molecules/Select/README.md)
 
 ## 🎨 Styling
 
