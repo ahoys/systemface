@@ -1,0 +1,25 @@
+.input {
+	padding-right: calc((var(--sf__scale) * 2.5));
+}
+
+.icon {
+	position: absolute;
+	right: var(--sf__scale);
+	display: flex;
+	align-items: center;
+	height: 100%;
+	user-select: none;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.icon::after {
+	content: "";
+	display: block;
+	width: calc(var(--sf__scale) / 2);
+	height: calc(var(--sf__scale) / 2);
+	margin-bottom: calc(var(--sf__scale) / 4);
+	border-right: 2px solid var(--sf__input-color);
+	border-bottom: 2px solid var(--sf__input-color);
+	transform: rotate(45deg);
+}

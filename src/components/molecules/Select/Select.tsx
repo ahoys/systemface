@@ -1,6 +1,8 @@
+import styles from "./select.module.css";
 import { createContext, useId, useRef, useState } from "react";
 import { getClassName } from "@/utilities/utility.getClassName";
 import {
+	Column,
 	Input,
 	Menu,
 	type SfOptGroupProps,
@@ -48,10 +50,10 @@ const Select = ({ className, multiple, children, onChange }: SfSelectProps) => {
 	};
 
 	return (
-		<>
+		<Column className={getClassName("Select", [styles.select, className])}>
 			<Input
 				ref={inputRef}
-				className={getClassName("Select", [className])}
+				className={styles.input}
 				role={multiple ? "listbox" : "combobox"}
 				value={filter}
 				onFocus={() => setOpen(true)}
@@ -60,6 +62,7 @@ const Select = ({ className, multiple, children, onChange }: SfSelectProps) => {
 				aria-expanded={open}
 				aria-controls={menuId}
 			/>
+			<div className={getClassName("Select_icon", [styles.icon])} />
 			<SelectFilterContext.Provider value={filter}>
 				<Menu
 					ref={menuRef}
@@ -80,7 +83,7 @@ const Select = ({ className, multiple, children, onChange }: SfSelectProps) => {
 					{children}
 				</Menu>
 			</SelectFilterContext.Provider>
-		</>
+		</Column>
 	);
 };
 
