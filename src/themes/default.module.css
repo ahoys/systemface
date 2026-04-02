@@ -63,7 +63,7 @@ https://caniuse.com/?search=light-dark
 	--sf__input-border-color_focus: oklch(
 		0.6 var(--sf__primary-chroma) var(--sf__primary-hue)
 	);
-	--sf__input-border-radius: 0;
+	--sf__input-border-radius: 0.25rem;
 	--sf__input-opacity_disabled: 0.8;
 
 	/* Label */
