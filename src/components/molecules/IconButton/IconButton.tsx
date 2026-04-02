@@ -3,8 +3,6 @@ import Button from "../../atoms/Button/Button";
 import { getClassName } from "@/utilities/utility.getClassName";
 import { Spinner } from "@/components/atoms/Spinner/Spinner";
 
-const classNameIcon = getClassName("IconButton_icon", [styles.icon]);
-
 export interface SfIconButtonProps extends React.ComponentProps<"button"> {
 	icon: React.ReactNode;
 	loading?: boolean;
@@ -41,7 +39,9 @@ const IconButton = ({
 				aria-label={loadingProps?.["aria-label"] || "Loading"}
 			/>
 		) : (
-			<span className={classNameIcon}>{icon}</span>
+			<span className={getClassName("IconButton_icon", [styles.icon])}>
+				{icon}
+			</span>
 		)}
 	</Button>
 );

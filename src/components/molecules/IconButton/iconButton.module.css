@@ -5,4 +5,5 @@
 .iconButton .icon {
 	width: var(--sf__scale);
 	height: var(--sf__scale);
+	line-height: var(--sf__scale);
 }
