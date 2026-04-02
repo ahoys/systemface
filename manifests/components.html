@@ -1,0 +1,3852 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Components Manifest</title>
+  <style>
+      :root {
+          --bg: #0b0c10;
+          --panel: #121318;
+          --muted: #9aa0a6;
+          --fg: #e8eaed;
+          --ok: #22c55e;
+          --info: #1e88e5;
+          --err: #c62828;
+          --ok-bg: #0c1a13;
+          --info-bg: #0c1624;
+          --err-bg: #1a0e0e;
+          --chip: #1f2330;
+          --border: #2b2f3a;
+          --link: #8ab4f8;
+          --active-ring: 1px; /* 1px active ring for pills and toggles */
+      }
+
+      * {
+          box-sizing: border-box;
+      }
+
+      html,
+      body {
+          margin: 0;
+          background: var(--bg);
+          color: var(--fg);
+          font: 14px/1.5 system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Ubuntu,
+          Cantarell,
+          'Helvetica Neue',
+          Arial,
+          'Noto Sans';
+      }
+
+      .wrap {
+          max-width: 1100px;
+          margin: 0 auto;
+          padding: 16px 20px;
+      }
+
+      header {
+          position: sticky;
+          top: 0;
+          backdrop-filter: blur(6px);
+          background: color-mix(in srgb, var(--bg) 84%, transparent);
+          border-bottom: 1px solid var(--border);
+          z-index: 10;
+      }
+
+      h1 {
+          font-size: 20px;
+          margin: 0 0 6px;
+      }
+
+      .summary {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+          align-items: center;
+      }
+
+      /* Top filter pills */
+      .filter-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 12px;
+          border: 1px solid var(--border);
+          border-radius: 999px;
+          background: var(--panel);
+          text-decoration: none;
+          cursor: pointer;
+          user-select: none;
+          color: var(--fg);
+      }
+
+      .filter-pill.ok {
+          color: #b9f6ca;
+          border-color: color-mix(in srgb, var(--ok) 55%, var(--border));
+          background: color-mix(in srgb, var(--ok) 18%, #000);
+      }
+
+      .filter-pill.info {
+          color: #b3d9ff;
+          border-color: color-mix(in srgb, var(--info) 55%, var(--border));
+          background: var(--info-bg);
+      }
+
+      .filter-pill.err {
+          color: #ff9aa0;
+          border-color: color-mix(in srgb, var(--err) 55%, var(--border));
+          background: var(--err-bg);
+      }
+
+      .filter-pill.all {
+          color: #d7dbe0;
+          border-color: var(--border);
+          background: var(--panel);
+      }
+
+      .filter-pill[aria-disabled='true'] {
+          cursor: default;
+          text-decoration: none;
+      }
+
+      .filter-pill:focus,
+      .filter-pill:active {
+          outline: none;
+          box-shadow: none;
+      }
+
+      /* Selected top pill ring via :target */
+      #filter-all:target ~ header .filter-pill[data-k='all'],
+      #filter-errors:target ~ header .filter-pill[data-k='errors'],
+      #filter-infos:target ~ header .filter-pill[data-k='infos'],
+      #filter-story-errors:target ~ header .filter-pill[data-k='story-errors'],
+      #filter-doc-errors:target ~ header .filter-pill[data-k='docs'],
+      #filter-docs:target ~ header .filter-pill[data-k='docs'] {
+          box-shadow: 0 0 0 var(--active-ring) currentColor;
+          border-color: currentColor;
+      }
+
+      /* Hidden targets for filtering */
+      #filter-all,
+      #filter-errors,
+      #filter-infos,
+      #filter-story-errors,
+      #filter-doc-errors,
+      #filter-docs {
+          display: none;
+      }
+
+      main {
+          padding: 36px 0 40px;
+      }
+
+      .grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 18px;
+      }
+
+      /* one card per row */
+
+      .card {
+          border: 1px solid var(--border);
+          background: var(--panel);
+          border-radius: 14px;
+          padding: 14px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+      }
+
+      .head {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+      }
+
+      .title {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+      }
+
+      .title h2 {
+          font-size: 16px;
+          margin: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+      }
+
+      .meta {
+          font-size: 12px;
+          color: var(--muted);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+      }
+
+      .kv {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+      }
+
+      .chip {
+          font-size: 12px;
+          padding: 4px 8px;
+          border-radius: 999px;
+          background: var(--chip);
+          border: 1px solid var(--border);
+      }
+
+      .hint {
+          color: var(--muted);
+          font-size: 12px;
+      }
+
+      .badges {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+      }
+
+      /* Per-card badges: labels become toggles when clickable */
+      .badge {
+          font-size: 12px;
+          padding: 3px 8px;
+          border-radius: 999px;
+          border: 1px solid var(--border);
+          background: var(--chip);
+          color: #d7dbe0;
+      }
+
+      .badge.ok {
+          color: #b9f6ca;
+          border-color: color-mix(in srgb, var(--ok) 55%, var(--border));
+      }
+
+      .badge.info {
+          color: #b3d9ff;
+          border-color: color-mix(in srgb, var(--info) 55%, var(--border));
+      }
+
+      .badge.err {
+          color: #ff9aa0;
+          border-color: color-mix(in srgb, var(--err) 55%, var(--border));
+      }
+
+      .as-toggle {
+          cursor: pointer;
+      }
+
+      /* 1px ring on active toggle */
+      .tg-err:checked + label.as-toggle,
+      .tg-info:checked + label.as-toggle,
+      .tg-stories:checked + label.as-toggle,
+      .tg-docs:checked + label.as-toggle,
+      .tg-content:checked + label.as-toggle,
+      .tg-props:checked + label.as-toggle {
+          box-shadow: 0 0 0 var(--active-ring) currentColor;
+          border-color: currentColor;
+      }
+
+      /* Panels: hidden by default, shown when respective toggle checked */
+      .panels {
+          display: grid;
+          gap: 10px;
+      }
+
+      .panel {
+          display: none;
+      }
+
+      .tg-err:checked ~ .panels .panel-err {
+          display: grid;
+      }
+
+      .tg-info:checked ~ .panels .panel-info {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-stories:checked ~ .panels .panel-stories {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-docs:checked ~ .panels .panel-docs {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-content:checked ~ .panels .panel-content {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-props:checked ~ .panels .panel-props {
+          display: grid;
+      }
+
+      /* Colored notes for prop type error + info */
+      .note {
+          padding: 12px;
+          border: 1px solid var(--border);
+          border-radius: 10px;
+      }
+
+      .note.err {
+          border-color: color-mix(in srgb, var(--err) 55%, var(--border));
+          background: var(--err-bg);
+          color: #ffd1d4;
+      }
+
+      .note.info {
+          border-color: color-mix(in srgb, var(--info) 55%, var(--border));
+          background: var(--info-bg);
+          color: #d6e8ff;
+      }
+
+      .note.ok {
+          border-color: color-mix(in srgb, var(--ok) 55%, var(--border));
+          background: var(--ok-bg);
+          color: var(--fg);
+      }
+
+      .note-title {
+          font-weight: 600;
+          margin-bottom: 6px;
+      }
+
+      .note-body {
+          white-space: normal;
+      }
+
+      /* Story error cards */
+      .ex {
+          padding: 10px;
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          background: #0f131b;
+      }
+
+      .ex.err {
+          border-color: color-mix(in srgb, var(--err) 55%, var(--border));
+      }
+
+      .row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: wrap;
+      }
+
+      .status-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          display: inline-block;
+      }
+
+      .dot-ok {
+          background: var(--ok);
+      }
+
+      .dot-err {
+          background: var(--err);
+      }
+
+      .ex-name {
+          font-weight: 600;
+      }
+
+      /* Error groups (visible in errors filter) */
+      .error-groups {
+          display: none;
+          margin-bottom: 16px;
+      }
+
+      .group {
+          border: 1px solid var(--border);
+          background: var(--panel);
+          border-radius: 14px;
+          overflow: hidden;
+      }
+
+      .group + .group {
+          margin-top: 12px;
+      }
+
+      .group-header {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 12px 14px;
+          cursor: pointer;
+          border-bottom: 1px solid var(--border);
+      }
+
+      .group-header:hover {
+          background: #141722;
+      }
+
+      .group-title {
+          font-weight: 600;
+          flex: 1;
+      }
+
+      .group-count {
+          font-size: 12px;
+          color: var(--muted);
+      }
+
+      .group-cards {
+          display: none;
+          padding: 12px;
+      }
+
+      .group .card {
+          margin: 12px 0;
+      }
+
+      .group .card:first-child {
+          margin-top: 0;
+      }
+
+      .group .card:last-child {
+          margin-bottom: 0;
+      }
+
+      /* caret rotation */
+      .group-tg:checked + label .caret {
+          transform: rotate(90deg);
+      }
+
+      .caret {
+          transition: transform 0.15s ease;
+      }
+
+      /* toggle body */
+      .group-tg:checked ~ .group-cards {
+          display: block;
+      }
+
+      /* CSS-only filtering of cards via top pills */
+      #filter-errors:target ~ main .card:not(.has-error):not(.has-story-error) {
+          display: none;
+      }
+
+      #filter-infos:target ~ main .card:not(.has-info) {
+          display: none;
+      }
+
+      #filter-story-errors:target ~ main .card:not(.has-story-error) {
+          display: none;
+      }
+
+      #filter-doc-errors:target ~ main .card:not(.has-doc-error) {
+          display: none;
+      }
+
+      #filter-docs:target ~ main .card:has(> .tg-docs),
+      #filter-docs:target ~ main .card.is-doc {
+          display: block;
+      }
+
+      #filter-docs:target ~ main .card:not(:has(> .tg-docs)):not(.is-doc) {
+          display: none;
+      }
+
+      #filter-all:target ~ main .card {
+          display: block;
+      }
+
+      /* In errors view, hide standalone component-error cards in the regular grid (they will appear in groups) */
+      #filter-errors:target ~ main .grid .card.has-error {
+          display: none;
+      }
+
+      /* Show grouped section only in errors view */
+      #filter-errors:target ~ main .error-groups {
+          display: block;
+      }
+
+      /* Section titles */
+      .section-title {
+          font-size: 16px;
+          font-weight: 600;
+          color: var(--muted);
+          margin: 24px 0 12px;
+          padding-bottom: 8px;
+          border-bottom: 1px solid var(--border);
+      }
+      .section-title:first-child {
+          margin-top: 0;
+      }
+
+      /* When a toggle is checked, show the corresponding panel */
+      .card > .tg-err:checked ~ .panels .panel-err {
+          display: grid;
+      }
+      
+      .card > .tg-info:checked ~ .panels .panel-info {
+          display: grid;
+      }
+      
+      .card > .tg-stories:checked ~ .panels .panel-stories {
+          display: grid;
+      }
+
+      .card > .tg-docs:checked ~ .panels .panel-docs {
+          display: grid;
+      }
+
+      .card > .tg-content:checked ~ .panels .panel-content {
+          display: grid;
+      }
+
+      /* Add vertical spacing around panels only when any panel is visible */
+      .card > .tg-err:checked ~ .panels,
+      .card > .tg-info:checked ~ .panels,
+      .card > .tg-stories:checked ~ .panels,
+      .card > .tg-docs:checked ~ .panels,
+      .card > .tg-content:checked ~ .panels,
+      .card > .tg-props:checked ~ .panels {
+          margin: 10px 0;
+      }
+
+      /* Optional: a subtle 1px ring on the active badge, using :has() if available */
+      @supports selector(.card:has(.tg-err:checked)) {
+          .card:has(.tg-err:checked) label[for$='-err'],
+          .card:has(.tg-info:checked) label[for$='-info'],
+          .card:has(.tg-stories:checked) label[for$='-stories'],
+          .card:has(.tg-docs:checked) label[for$='-docs'],
+          .card:has(.tg-content:checked) label[for$='-content'],
+          .card:has(.tg-props:checked) label[for$='-props'] {
+              box-shadow: 0 0 0 1px currentColor;
+              border-color: currentColor;
+          }
+      }
+
+      /* Wrap long lines in code blocks at ~120 characters */
+      pre, code {
+          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      }
+      pre {
+          white-space: pre-wrap;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+          overflow-x: auto; /* fallback for extremely long tokens */
+          margin: 8px 0 0;
+      }
+      pre > code {
+          display: block;
+          white-space: inherit;
+          overflow-wrap: inherit;
+          word-break: inherit;
+          inline-size: min(100%, 120ch);
+      }
+
+      /* MDX content container for docs */
+      .mdx-content {
+          background: #0f131b;
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          padding: 12px;
+          max-height: 400px;
+          overflow-y: auto;
+          margin-top: 8px;
+      }
+  </style>
+</head>
+<body>
+<!-- Hidden targets for the top-level filters -->
+<span id="filter-all"></span>
+<span id="filter-errors"></span>
+<span id="filter-infos"></span>
+<span id="filter-story-errors"></span>
+<span id="filter-doc-errors"></span>
+<span id="filter-docs"></span>
+<header>
+  <div class="wrap">
+    <h1>Manifest Debugger</h1>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">9/9 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">9/9 infos</a><span class="filter-pill ok" aria-disabled="true">29 stories ok</span></div>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <div class="note info" style="margin-bottom: 16px;">
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.0s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <pre><code>typescript: {
+  reactDocgen: 'react-docgen-typescript',
+}</code></pre>
+            Note: <code>react-docgen-typescript</code> can be slower. If performance is acceptable for your project, it generally produces better results.
+            <a href="https://storybook.js.org/docs/api/main-config/main-config-typescript#reactdocgen" target="_blank">Learn more</a>
+          </div>
+    <h2 class="section-title">Components</h2>
+    <div class="grid" role="list">
+      
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Button">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Button</h2>
+      <div class="badges">
+        <label for="c-0-atoms-button-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-0-atoms-button-info" class="badge info as-toggle">1 info</label>
+        <label for="c-0-atoms-button-stories" class="badge ok as-toggle">1 story</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Button.stories.tsx">atoms-button · ./src/stories/Button.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-0-atoms-button-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-0-atoms-button-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-0-atoms-button-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;Button&quot; component.
+  2 | import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+  3 |
+&gt; 4 | const meta = {
+    | ^
+  5 | 	title: &quot;atoms/Button&quot;,
+  6 | 	component: Button,
+  7 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/Button.stories.tsx:
+import { Button } from &quot;@/index&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const meta = {
+	title: &quot;atoms/Button&quot;,
+	component: Button,
+	tags: [&quot;autodocs&quot;],
+	args: {
+		disabled: false,
+	},
+} satisfies Meta&lt;typeof Button&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Basic: Story = {
+	args: {
+		children: &quot;Button&quot;,
+	},
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button } from "systemface";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Basic</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Basic = () =&gt; &lt;Button disabled={false}&gt;Button&lt;/Button&gt;;</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Column">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Column</h2>
+      <div class="badges">
+        <label for="c-1-atoms-column-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-1-atoms-column-info" class="badge info as-toggle">1 info</label>
+        <label for="c-1-atoms-column-stories" class="badge ok as-toggle">1 story</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Column.stories.tsx">atoms-column · ./src/stories/Column.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-1-atoms-column-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-1-atoms-column-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-1-atoms-column-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;Column&quot; component.
+  3 | import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+  4 |
+&gt; 5 | const meta = {
+    | ^
+  6 | 	title: &quot;atoms/Column&quot;,
+  7 | 	component: Column,
+  8 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/Column.stories.tsx:
+import { XMarkIcon } from &quot;@heroicons/react/24/solid&quot;;
+import { Column, IconButton, Button } from &quot;@/index&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const meta = {
+	title: &quot;atoms/Column&quot;,
+	component: Column,
+	tags: [&quot;autodocs&quot;],
+} satisfies Meta&lt;typeof Column&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Basic: Story = {
+	args: {
+		children: (
+			&lt;&gt;
+				&lt;IconButton icon={&lt;XMarkIcon /&gt;} /&gt;
+				&lt;Button&gt;Button 1&lt;/Button&gt;
+			&lt;/&gt;
+		),
+	},
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, Column, IconButton } from "systemface";
+import { XMarkIcon } from "@heroicons/react/24/solid";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Basic</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Basic = () =&gt; &lt;Column&gt;(&lt;&gt;
+        &lt;IconButton icon={&lt;XMarkIcon /&gt;} /&gt;
+        &lt;Button&gt;Button 1&lt;/Button&gt;
+    &lt;/&gt;)&lt;/Column&gt;;</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="IconButton">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> IconButton</h2>
+      <div class="badges">
+        <label for="c-2-molecules-iconbutton-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-2-molecules-iconbutton-info" class="badge info as-toggle">1 info</label>
+        <label for="c-2-molecules-iconbutton-stories" class="badge ok as-toggle">2 stories</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/IconButton.stories.tsx">molecules-iconbutton · ./src/stories/IconButton.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-2-molecules-iconbutton-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-2-molecules-iconbutton-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-2-molecules-iconbutton-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;IconButton&quot; component.
+  3 | import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+  4 |
+&gt; 5 | const meta = {
+    | ^
+  6 | 	title: &quot;molecules/IconButton&quot;,
+  7 | 	component: IconButton,
+  8 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/IconButton.stories.tsx:
+import { XMarkIcon } from &quot;@heroicons/react/24/solid&quot;;
+import { IconButton } from &quot;@/index&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const meta = {
+	title: &quot;molecules/IconButton&quot;,
+	component: IconButton,
+	tags: [&quot;autodocs&quot;],
+} satisfies Meta&lt;typeof IconButton&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Basic: Story = {
+	parameters: {
+		sfTheme: &quot;default&quot;,
+	},
+	args: {
+		icon: &lt;XMarkIcon /&gt;,
+		children: &quot;Icon Button&quot;,
+	},
+};
+
+export const Loading: Story = {
+	parameters: {
+		sfTheme: &quot;default&quot;,
+	},
+	args: {
+		icon: &lt;XMarkIcon /&gt;,
+		children: &quot;Icon Button&quot;,
+		loading: true,
+	},
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { IconButton } from "systemface";
+import { XMarkIcon } from "@heroicons/react/24/solid";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Basic</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Basic = () =&gt; &lt;IconButton icon={&lt;XMarkIcon /&gt;}&gt;Icon Button&lt;/IconButton&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Loading</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Loading = () =&gt; &lt;IconButton icon={&lt;XMarkIcon /&gt;} loading&gt;Icon Button&lt;/IconButton&gt;;</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Input">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Input</h2>
+      <div class="badges">
+        <label for="c-3-atoms-input-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-3-atoms-input-info" class="badge info as-toggle">1 info</label>
+        <label for="c-3-atoms-input-stories" class="badge ok as-toggle">1 story</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Input.stories.tsx">atoms-input · ./src/stories/Input.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-3-atoms-input-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-3-atoms-input-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-3-atoms-input-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;Input&quot; component.
+  2 | import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+  3 |
+&gt; 4 | const meta = {
+    | ^
+  5 | 	title: &quot;atoms/Input&quot;,
+  6 | 	component: Input,
+  7 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/Input.stories.tsx:
+import { Input } from &quot;@/index&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const meta = {
+	title: &quot;atoms/Input&quot;,
+	component: Input,
+	tags: [&quot;autodocs&quot;],
+	args: {
+		disabled: false,
+	},
+} satisfies Meta&lt;typeof Input&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Basic: Story = {
+	args: {
+		name: &quot;my-input&quot;,
+		placeholder: &quot;Enter text&quot;,
+		disabled: false,
+		required: false,
+	},
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Input } from "systemface";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Basic</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Basic = () =&gt; &lt;Input
+    disabled={false}
+    name=&quot;my-input&quot;
+    placeholder=&quot;Enter text&quot;
+    required={false} /&gt;;</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Label">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Label</h2>
+      <div class="badges">
+        <label for="c-4-atoms-label-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-4-atoms-label-info" class="badge info as-toggle">1 info</label>
+        <label for="c-4-atoms-label-stories" class="badge ok as-toggle">7 stories</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Label.stories.tsx">atoms-label · ./src/stories/Label.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-4-atoms-label-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-4-atoms-label-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-4-atoms-label-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;Label&quot; component.
+   7 | 	&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;;
+   8 |
+&gt;  9 | const meta = {
+     | ^
+  10 | 	title: &quot;atoms/Label&quot;,
+  11 | 	component: Label,
+  12 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/Label.stories.tsx:
+import { Label, Column, Input } from &quot;@/index&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const ipsumShort =
+	&quot;Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.&quot;;
+const ipsum =
+	&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;;
+
+const meta = {
+	title: &quot;atoms/Label&quot;,
+	component: Label,
+	tags: [&quot;autodocs&quot;],
+	args: {
+		htmlFor: &quot;&quot;,
+	},
+} satisfies Meta&lt;typeof Label&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Basic: Story = {
+	args: {
+		htmlFor: &quot;Basic&quot;,
+		value: &quot;Basic&quot;,
+	},
+};
+
+export const WithInput: Story = {
+	args: {
+		htmlFor: &quot;WithInput&quot;,
+		value: &quot;With Input&quot;,
+	},
+	render: (args) =&gt; (
+		&lt;Column&gt;
+			&lt;Label {...args} /&gt;
+			&lt;Input id=&quot;WithInput&quot; type=&quot;text&quot; /&gt;
+		&lt;/Column&gt;
+	),
+};
+
+export const WithDescription: Story = {
+	args: {
+		htmlFor: &quot;WithDescription&quot;,
+		value: &quot;With Description&quot;,
+		description: &quot;This is a description&quot;,
+	},
+	render: (args) =&gt; (
+		&lt;Column&gt;
+			&lt;Label {...args} /&gt;
+			&lt;Input id=&quot;WithDescription&quot; type=&quot;text&quot; /&gt;
+		&lt;/Column&gt;
+	),
+};
+
+export const WithRequired: Story = {
+	args: {
+		htmlFor: &quot;WithRequired&quot;,
+		value: &quot;With Required&quot;,
+		description: &quot;This is a description&quot;,
+		required: true,
+	},
+	render: (args) =&gt; (
+		&lt;Column&gt;
+			&lt;Label {...args} /&gt;
+			&lt;Input id=&quot;WithRequired&quot; type=&quot;text&quot; /&gt;
+		&lt;/Column&gt;
+	),
+};
+
+export const WithModified: Story = {
+	args: {
+		htmlFor: &quot;WithModified&quot;,
+		value: &quot;With Modified&quot;,
+		description: &quot;This is a description&quot;,
+		required: true,
+		modified: true,
+	},
+	render: (args) =&gt; (
+		&lt;Column&gt;
+			&lt;Label {...args} /&gt;
+			&lt;Input id=&quot;WithModified&quot; type=&quot;text&quot; /&gt;
+		&lt;/Column&gt;
+	),
+};
+
+export const WithDisabled: Story = {
+	args: {
+		htmlFor: &quot;WithDisabled&quot;,
+		value: &quot;With Disabled&quot;,
+		description: &quot;This is a description&quot;,
+		disabled: true,
+	},
+	render: (args) =&gt; (
+		&lt;Column&gt;
+			&lt;Label {...args} /&gt;
+			&lt;Input id=&quot;WithDisabled&quot; type=&quot;text&quot; disabled /&gt;
+		&lt;/Column&gt;
+	),
+};
+
+export const WithLongValues: Story = {
+	args: {
+		htmlFor: &quot;WithLongValues&quot;,
+		value: ipsumShort,
+		description: ipsum,
+		required: true,
+	},
+	render: (args) =&gt; (
+		&lt;Column&gt;
+			&lt;Label {...args} /&gt;
+			&lt;Input id=&quot;WithLongValues&quot; type=&quot;text&quot; /&gt;
+		&lt;/Column&gt;
+	),
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Column, Input, Label } from "systemface";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Basic</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Basic = () =&gt; &lt;Label htmlFor=&quot;Basic&quot; value=&quot;Basic&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Input</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithInput = () =&gt; &lt;Column&gt;
+    &lt;Label htmlFor=&quot;WithInput&quot; value=&quot;With Input&quot; /&gt;
+    &lt;Input id=&quot;WithInput&quot; type=&quot;text&quot; /&gt;
+&lt;/Column&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Description</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithDescription = () =&gt; &lt;Column&gt;
+    &lt;Label
+        htmlFor=&quot;WithDescription&quot;
+        value=&quot;With Description&quot;
+        description=&quot;This is a description&quot; /&gt;
+    &lt;Input id=&quot;WithDescription&quot; type=&quot;text&quot; /&gt;
+&lt;/Column&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Required</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithRequired = () =&gt; &lt;Column&gt;
+    &lt;Label
+        htmlFor=&quot;WithRequired&quot;
+        value=&quot;With Required&quot;
+        description=&quot;This is a description&quot;
+        required /&gt;
+    &lt;Input id=&quot;WithRequired&quot; type=&quot;text&quot; /&gt;
+&lt;/Column&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Modified</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithModified = () =&gt; &lt;Column&gt;
+    &lt;Label
+        htmlFor=&quot;WithModified&quot;
+        value=&quot;With Modified&quot;
+        description=&quot;This is a description&quot;
+        required
+        modified /&gt;
+    &lt;Input id=&quot;WithModified&quot; type=&quot;text&quot; /&gt;
+&lt;/Column&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Disabled</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithDisabled = () =&gt; &lt;Column&gt;
+    &lt;Label
+        htmlFor=&quot;WithDisabled&quot;
+        value=&quot;With Disabled&quot;
+        description=&quot;This is a description&quot;
+        disabled /&gt;
+    &lt;Input id=&quot;WithDisabled&quot; type=&quot;text&quot; disabled /&gt;
+&lt;/Column&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Long Values</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithLongValues = () =&gt; &lt;Column&gt;
+    &lt;Label htmlFor=&quot;WithLongValues&quot; value={ipsumShort} description={ipsum} required /&gt;
+    &lt;Input id=&quot;WithLongValues&quot; type=&quot;text&quot; /&gt;
+&lt;/Column&gt;;</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="MenuStory">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> MenuStory</h2>
+      <div class="badges">
+        <label for="c-5-atoms-menu-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-5-atoms-menu-info" class="badge info as-toggle">1 info</label>
+        <label for="c-5-atoms-menu-stories" class="badge ok as-toggle">6 stories</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Menu.stories.tsx">atoms-menu · ./src/stories/Menu.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-5-atoms-menu-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-5-atoms-menu-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-5-atoms-menu-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;MenuStory&quot; component.
+  14 | };
+  15 |
+&gt; 16 | const meta = {
+     | ^
+  17 | 	title: &quot;atoms/Menu&quot;,
+  18 | 	component: MenuStory,
+  19 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/Menu.stories.tsx:
+import { Menu, type SfMenuProps } from &quot;@/index&quot;;
+import { Input } from &quot;@/index&quot;;
+import { Button } from &quot;@/index&quot;;
+import { useRef, useState, type CSSProperties } from &quot;react&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const MenuStory = (args: SfMenuProps) =&gt; {
+	const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+	return (
+		&lt;div ref={parentRef}&gt;
+			&lt;Menu {...args} parentRef={parentRef} /&gt;
+		&lt;/div&gt;
+	);
+};
+
+const meta = {
+	title: &quot;atoms/Menu&quot;,
+	component: MenuStory,
+	tags: [&quot;autodocs&quot;],
+	args: {},
+} satisfies Meta&lt;typeof MenuStory&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+const defaultStyle: CSSProperties = {
+	position: &quot;absolute&quot;,
+	display: &quot;flex&quot;,
+	alignItems: &quot;flex-start&quot;,
+	top: &quot;1rem&quot;,
+	right: &quot;1rem&quot;,
+	bottom: &quot;1rem&quot;,
+	left: &quot;1rem&quot;,
+};
+
+const defaultOptions = [
+	&quot;Some text&quot;,
+	&lt;Button key={0} onClick={() =&gt; alert(&quot;1&quot;)}&gt;
+		Click me 1
+	&lt;/Button&gt;,
+	&lt;Button key={1} onClick={() =&gt; alert(&quot;2&quot;)}&gt;
+		Click me 2
+	&lt;/Button&gt;,
+	&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.&quot;,
+];
+
+export const ButtonToOpenMenu: Omit&lt;Story, &quot;args&quot;&gt; = {
+	render: () =&gt; {
+		const [open, setOpen] = useState(false);
+		const parentRef = useRef&lt;HTMLButtonElement&gt;(null);
+		return (
+			&lt;div style={defaultStyle}&gt;
+				&lt;Button ref={parentRef} onClick={() =&gt; setOpen((prev) =&gt; !prev)}&gt;
+					Open Menu
+				&lt;/Button&gt;
+				{open &amp;&amp; &lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;}
+			&lt;/div&gt;
+		);
+	},
+};
+
+export const PartOfCenterInput: Omit&lt;Story, &quot;args&quot;&gt; = {
+	render: () =&gt; {
+		const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+		return (
+			&lt;div
+				style={{
+					...defaultStyle,
+					alignItems: &quot;center&quot;,
+					justifyContent: &quot;center&quot;,
+				}}
+			&gt;
+				&lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+				&lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+			&lt;/div&gt;
+		);
+	},
+};
+
+export const PartOfTopLeftInput: Omit&lt;Story, &quot;args&quot;&gt; = {
+	render: () =&gt; {
+		const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+		return (
+			&lt;div style={defaultStyle}&gt;
+				&lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+				&lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+			&lt;/div&gt;
+		);
+	},
+};
+
+export const PartOfTopRightInput: Omit&lt;Story, &quot;args&quot;&gt; = {
+	render: () =&gt; {
+		const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+		return (
+			&lt;div style={{ ...defaultStyle, justifyContent: &quot;flex-end&quot; }}&gt;
+				&lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+				&lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+			&lt;/div&gt;
+		);
+	},
+};
+
+export const PartOfBottomLeftInput: Omit&lt;Story, &quot;args&quot;&gt; = {
+	render: () =&gt; {
+		const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+		return (
+			&lt;div style={{ ...defaultStyle, alignItems: &quot;flex-end&quot; }}&gt;
+				&lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+				&lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+			&lt;/div&gt;
+		);
+	},
+};
+
+export const PartOfBottomRightInput: Omit&lt;Story, &quot;args&quot;&gt; = {
+	render: () =&gt; {
+		const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+		return (
+			&lt;div
+				style={{
+					...defaultStyle,
+					alignItems: &quot;flex-end&quot;,
+					justifyContent: &quot;flex-end&quot;,
+				}}
+			&gt;
+				&lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+				&lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+			&lt;/div&gt;
+		);
+	},
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, Input, Menu } from "systemface";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Button To Open Menu</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const ButtonToOpenMenu = () =&gt; {
+    const [open, setOpen] = useState(false);
+    const parentRef = useRef&lt;HTMLButtonElement&gt;(null);
+    return (
+        &lt;div style={defaultStyle}&gt;
+            &lt;Button ref={parentRef} onClick={() =&gt; setOpen((prev) =&gt; !prev)}&gt;
+                Open Menu
+            &lt;/Button&gt;
+            {open &amp;&amp; &lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;}
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Part Of Center Input</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const PartOfCenterInput = () =&gt; {
+    const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+    return (
+        &lt;div
+            style={{
+                ...defaultStyle,
+                alignItems: &quot;center&quot;,
+                justifyContent: &quot;center&quot;,
+            }}
+        &gt;
+            &lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+            &lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Part Of Top Left Input</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const PartOfTopLeftInput = () =&gt; {
+    const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+    return (
+        &lt;div style={defaultStyle}&gt;
+            &lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+            &lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Part Of Top Right Input</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const PartOfTopRightInput = () =&gt; {
+    const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+    return (
+        &lt;div style={{ ...defaultStyle, justifyContent: &quot;flex-end&quot; }}&gt;
+            &lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+            &lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Part Of Bottom Left Input</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const PartOfBottomLeftInput = () =&gt; {
+    const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+    return (
+        &lt;div style={{ ...defaultStyle, alignItems: &quot;flex-end&quot; }}&gt;
+            &lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+            &lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Part Of Bottom Right Input</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const PartOfBottomRightInput = () =&gt; {
+    const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+    return (
+        &lt;div
+            style={{
+                ...defaultStyle,
+                alignItems: &quot;flex-end&quot;,
+                justifyContent: &quot;flex-end&quot;,
+            }}
+        &gt;
+            &lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+            &lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Row">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Row</h2>
+      <div class="badges">
+        <label for="c-6-atoms-row-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-6-atoms-row-info" class="badge info as-toggle">1 info</label>
+        <label for="c-6-atoms-row-stories" class="badge ok as-toggle">1 story</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Row.stories.tsx">atoms-row · ./src/stories/Row.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-6-atoms-row-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-6-atoms-row-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-6-atoms-row-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;Row&quot; component.
+  3 | import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+  4 |
+&gt; 5 | const meta = {
+    | ^
+  6 | 	title: &quot;atoms/Row&quot;,
+  7 | 	component: Row,
+  8 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/Row.stories.tsx:
+import { XMarkIcon } from &quot;@heroicons/react/24/solid&quot;;
+import { Row, IconButton, Button } from &quot;@/index&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const meta = {
+	title: &quot;atoms/Row&quot;,
+	component: Row,
+	tags: [&quot;autodocs&quot;],
+} satisfies Meta&lt;typeof Row&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Basic: Story = {
+	args: {
+		children: (
+			&lt;&gt;
+				&lt;IconButton icon={&lt;XMarkIcon /&gt;} /&gt;
+				&lt;Button&gt;Button 1&lt;/Button&gt;
+			&lt;/&gt;
+		),
+	},
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, IconButton, Row } from "systemface";
+import { XMarkIcon } from "@heroicons/react/24/solid";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Basic</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Basic = () =&gt; &lt;Row&gt;(&lt;&gt;
+        &lt;IconButton icon={&lt;XMarkIcon /&gt;} /&gt;
+        &lt;Button&gt;Button 1&lt;/Button&gt;
+    &lt;/&gt;)&lt;/Row&gt;;</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Select">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Select</h2>
+      <div class="badges">
+        <label for="c-7-molecules-select-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-7-molecules-select-info" class="badge info as-toggle">1 info</label>
+        <label for="c-7-molecules-select-stories" class="badge ok as-toggle">3 stories</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Select.stories.tsx">molecules-select · ./src/stories/Select.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-7-molecules-select-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-7-molecules-select-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-7-molecules-select-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;Select&quot; component.
+  2 | import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+  3 |
+&gt; 4 | const meta = {
+    | ^
+  5 | 	title: &quot;molecules/Select&quot;,
+  6 | 	component: Select,
+  7 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/Select.stories.tsx:
+import { Select, Option, OptGroup } from &quot;@/index&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const meta = {
+	title: &quot;molecules/Select&quot;,
+	component: Select,
+	tags: [&quot;autodocs&quot;],
+	args: {
+		disabled: false,
+	},
+} satisfies Meta&lt;typeof Select&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Basic: Story = {
+	args: {
+		children: (
+			&lt;&gt;
+				&lt;Option value=&quot;Option1&quot;&gt;Option 1&lt;/Option&gt;
+				&lt;Option value=&quot;Option2&quot;&gt;Option 2&lt;/Option&gt;
+				&lt;Option value=&quot;Option3&quot;&gt;Option 3&lt;/Option&gt;
+			&lt;/&gt;
+		),
+	},
+};
+
+export const OptGroups: Story = {
+	args: {
+		onChange: (value) =&gt; alert(value),
+		children: (
+			&lt;&gt;
+				&lt;OptGroup label=&quot;Group 1&quot;&gt;
+					&lt;Option value=&quot;Option1&quot;&gt;Option 1&lt;/Option&gt;
+					&lt;Option value=&quot;Option2&quot;&gt;Option 2&lt;/Option&gt;
+				&lt;/OptGroup&gt;
+				&lt;OptGroup label=&quot;Group 2&quot;&gt;
+					&lt;Option value=&quot;Option3&quot;&gt;Option 3&lt;/Option&gt;
+					&lt;Option value=&quot;Option4&quot;&gt;Option 4&lt;/Option&gt;
+				&lt;/OptGroup&gt;
+			&lt;/&gt;
+		),
+	},
+};
+
+export const HTMLSelectReference: Story = {
+	render: () =&gt; (
+		&lt;select onChange={(e) =&gt; alert(e.target.value)}&gt;
+			&lt;optgroup label=&quot;Group 1&quot;&gt;
+				&lt;option value=&quot;Option1&quot;&gt;Option 1&lt;/option&gt;
+				&lt;option value=&quot;Option2&quot;&gt;Option 2&lt;/option&gt;
+			&lt;/optgroup&gt;
+			&lt;optgroup label=&quot;Group 2&quot;&gt;
+				&lt;option value=&quot;Option3&quot;&gt;Option 3&lt;/option&gt;
+				&lt;option value=&quot;Option4&quot;&gt;Option 4&lt;/option&gt;
+			&lt;/optgroup&gt;
+		&lt;/select&gt;
+	),
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { OptGroup, Option, Select } from "systemface";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Basic</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Basic = () =&gt; &lt;Select disabled={false}&gt;(&lt;&gt;
+        &lt;Option value=&quot;Option1&quot;&gt;Option 1&lt;/Option&gt;
+        &lt;Option value=&quot;Option2&quot;&gt;Option 2&lt;/Option&gt;
+        &lt;Option value=&quot;Option3&quot;&gt;Option 3&lt;/Option&gt;
+    &lt;/&gt;)&lt;/Select&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Opt Groups</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const OptGroups = () =&gt; &lt;Select disabled={false} onChange={(value) =&gt; alert(value)}&gt;(&lt;&gt;
+        &lt;OptGroup label=&quot;Group 1&quot;&gt;
+            &lt;Option value=&quot;Option1&quot;&gt;Option 1&lt;/Option&gt;
+            &lt;Option value=&quot;Option2&quot;&gt;Option 2&lt;/Option&gt;
+        &lt;/OptGroup&gt;
+        &lt;OptGroup label=&quot;Group 2&quot;&gt;
+            &lt;Option value=&quot;Option3&quot;&gt;Option 3&lt;/Option&gt;
+            &lt;Option value=&quot;Option4&quot;&gt;Option 4&lt;/Option&gt;
+        &lt;/OptGroup&gt;
+    &lt;/&gt;)&lt;/Select&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">HTML Select Reference</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const HTMLSelectReference = () =&gt; (
+    &lt;select onChange={(e) =&gt; alert(e.target.value)}&gt;
+        &lt;optgroup label=&quot;Group 1&quot;&gt;
+            &lt;option value=&quot;Option1&quot;&gt;Option 1&lt;/option&gt;
+            &lt;option value=&quot;Option2&quot;&gt;Option 2&lt;/option&gt;
+        &lt;/optgroup&gt;
+        &lt;optgroup label=&quot;Group 2&quot;&gt;
+            &lt;option value=&quot;Option3&quot;&gt;Option 3&lt;/option&gt;
+            &lt;option value=&quot;Option4&quot;&gt;Option 4&lt;/option&gt;
+        &lt;/optgroup&gt;
+    &lt;/select&gt;
+);</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="TextField">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> TextField</h2>
+      <div class="badges">
+        <label for="c-8-molecules-textfield-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-8-molecules-textfield-info" class="badge info as-toggle">1 info</label>
+        <label for="c-8-molecules-textfield-stories" class="badge ok as-toggle">7 stories</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/TextField.stories.tsx">molecules-textfield · ./src/stories/TextField.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-8-molecules-textfield-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-8-molecules-textfield-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-8-molecules-textfield-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;TextField&quot; component.
+  2 | import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+  3 |
+&gt; 4 | const meta = {
+    | ^
+  5 | 	title: &quot;molecules/TextField&quot;,
+  6 | 	component: TextField,
+  7 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/TextField.stories.tsx:
+import { TextField } from &quot;@/index&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const meta = {
+	title: &quot;molecules/TextField&quot;,
+	component: TextField,
+	tags: [&quot;autodocs&quot;],
+} satisfies Meta&lt;typeof TextField&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Basic: Story = {
+	args: {
+		id: &quot;example-text-field&quot;,
+		label: &quot;Example Text Field&quot;,
+		description: &quot;&quot;,
+		type: &quot;text&quot;,
+		required: false,
+		modified: false,
+		disabled: false,
+	},
+};
+
+export const WithLabelObject: Story = {
+	args: {
+		id: &quot;example-text-field-with-label-object&quot;,
+		label: {
+			value: &quot;Example Text Field with Label Object&quot;,
+		},
+		description: &quot;This is a description for the text field.&quot;,
+		placeholder: &quot;Enter text here...&quot;,
+	},
+};
+
+export const WithDescription: Story = {
+	args: {
+		id: &quot;example-text-field-with-description&quot;,
+		label: &quot;Example Text Field&quot;,
+		description: &quot;This is a description for the text field.&quot;,
+	},
+};
+
+export const Required: Story = {
+	args: {
+		id: &quot;example-text-field-required&quot;,
+		label: &quot;Required Field&quot;,
+		description: &quot;This field is required.&quot;,
+		required: true,
+	},
+};
+
+export const Disabled: Story = {
+	args: {
+		id: &quot;example-text-field-disabled&quot;,
+		label: &quot;Disabled Field&quot;,
+		description: &quot;This field is disabled.&quot;,
+		disabled: true,
+		value: &quot;Cannot edit this&quot;,
+	},
+};
+
+export const ErrorMessage: Story = {
+	args: {
+		id: &quot;example-text-field-error&quot;,
+		label: &quot;Example Text Field&quot;,
+		error: &quot;This is an error message.&quot;,
+	},
+};
+
+export const Password: Story = {
+	args: {
+		id: &quot;example-text-field-password&quot;,
+		label: &quot;Password&quot;,
+		description: &quot;Enter your password.&quot;,
+		type: &quot;password&quot;,
+		required: true,
+		placeholder: &quot;••••••••&quot;,
+	},
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { TextField } from "systemface";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Basic</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Basic = () =&gt; &lt;TextField
+    id=&quot;example-text-field&quot;
+    label=&quot;Example Text Field&quot;
+    description=&quot;&quot;
+    type=&quot;text&quot;
+    required={false}
+    modified={false}
+    disabled={false} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Label Object</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithLabelObject = () =&gt; &lt;TextField
+    id=&quot;example-text-field-with-label-object&quot;
+    label={{
+        value: &quot;Example Text Field with Label Object&quot;,
+    }}
+    description=&quot;This is a description for the text field.&quot;
+    placeholder=&quot;Enter text here...&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Description</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithDescription = () =&gt; &lt;TextField
+    id=&quot;example-text-field-with-description&quot;
+    label=&quot;Example Text Field&quot;
+    description=&quot;This is a description for the text field.&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Required</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Required = () =&gt; &lt;TextField
+    id=&quot;example-text-field-required&quot;
+    label=&quot;Required Field&quot;
+    description=&quot;This field is required.&quot;
+    required /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Disabled</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Disabled = () =&gt; &lt;TextField
+    id=&quot;example-text-field-disabled&quot;
+    label=&quot;Disabled Field&quot;
+    description=&quot;This field is disabled.&quot;
+    disabled
+    value=&quot;Cannot edit this&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Error Message</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const ErrorMessage = () =&gt; &lt;TextField
+    id=&quot;example-text-field-error&quot;
+    label=&quot;Example Text Field&quot;
+    error=&quot;This is an error message.&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Password</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Password = () =&gt; &lt;TextField
+    id=&quot;example-text-field-password&quot;
+    label=&quot;Password&quot;
+    description=&quot;Enter your password.&quot;
+    type=&quot;password&quot;
+    required
+    placeholder=&quot;••••••••&quot; /&gt;;</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+    </div>
+    <div class="error-groups" role="region" aria-label="Prop type error groups">
+        <section class="group">
+          <input id="no-component-import-found-toggle" class="group-tg" type="checkbox" hidden />
+          <label for="no-component-import-found-toggle" class="group-header">
+            <span class="caret">▸</span>
+            <span class="group-title">No component import found</span>
+            <span class="group-count">9</span>
+          </label>
+          <div class="group-cards">
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Button">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Button</h2>
+      <div class="badges">
+        <label for="c-error-0-atoms-button-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-error-0-atoms-button-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-0-atoms-button-stories" class="badge ok as-toggle">1 story</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Button.stories.tsx">atoms-button · ./src/stories/Button.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-0-atoms-button-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-0-atoms-button-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-0-atoms-button-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;Button&quot; component.
+  2 | import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+  3 |
+&gt; 4 | const meta = {
+    | ^
+  5 | 	title: &quot;atoms/Button&quot;,
+  6 | 	component: Button,
+  7 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/Button.stories.tsx:
+import { Button } from &quot;@/index&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const meta = {
+	title: &quot;atoms/Button&quot;,
+	component: Button,
+	tags: [&quot;autodocs&quot;],
+	args: {
+		disabled: false,
+	},
+} satisfies Meta&lt;typeof Button&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Basic: Story = {
+	args: {
+		children: &quot;Button&quot;,
+	},
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button } from "systemface";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Basic</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Basic = () =&gt; &lt;Button disabled={false}&gt;Button&lt;/Button&gt;;</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Column">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Column</h2>
+      <div class="badges">
+        <label for="c-error-1-atoms-column-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-error-1-atoms-column-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-1-atoms-column-stories" class="badge ok as-toggle">1 story</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Column.stories.tsx">atoms-column · ./src/stories/Column.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-1-atoms-column-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-1-atoms-column-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-1-atoms-column-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;Column&quot; component.
+  3 | import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+  4 |
+&gt; 5 | const meta = {
+    | ^
+  6 | 	title: &quot;atoms/Column&quot;,
+  7 | 	component: Column,
+  8 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/Column.stories.tsx:
+import { XMarkIcon } from &quot;@heroicons/react/24/solid&quot;;
+import { Column, IconButton, Button } from &quot;@/index&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const meta = {
+	title: &quot;atoms/Column&quot;,
+	component: Column,
+	tags: [&quot;autodocs&quot;],
+} satisfies Meta&lt;typeof Column&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Basic: Story = {
+	args: {
+		children: (
+			&lt;&gt;
+				&lt;IconButton icon={&lt;XMarkIcon /&gt;} /&gt;
+				&lt;Button&gt;Button 1&lt;/Button&gt;
+			&lt;/&gt;
+		),
+	},
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, Column, IconButton } from "systemface";
+import { XMarkIcon } from "@heroicons/react/24/solid";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Basic</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Basic = () =&gt; &lt;Column&gt;(&lt;&gt;
+        &lt;IconButton icon={&lt;XMarkIcon /&gt;} /&gt;
+        &lt;Button&gt;Button 1&lt;/Button&gt;
+    &lt;/&gt;)&lt;/Column&gt;;</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="IconButton">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> IconButton</h2>
+      <div class="badges">
+        <label for="c-error-2-molecules-iconbutton-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-error-2-molecules-iconbutton-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-2-molecules-iconbutton-stories" class="badge ok as-toggle">2 stories</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/IconButton.stories.tsx">molecules-iconbutton · ./src/stories/IconButton.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-2-molecules-iconbutton-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-2-molecules-iconbutton-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-2-molecules-iconbutton-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;IconButton&quot; component.
+  3 | import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+  4 |
+&gt; 5 | const meta = {
+    | ^
+  6 | 	title: &quot;molecules/IconButton&quot;,
+  7 | 	component: IconButton,
+  8 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/IconButton.stories.tsx:
+import { XMarkIcon } from &quot;@heroicons/react/24/solid&quot;;
+import { IconButton } from &quot;@/index&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const meta = {
+	title: &quot;molecules/IconButton&quot;,
+	component: IconButton,
+	tags: [&quot;autodocs&quot;],
+} satisfies Meta&lt;typeof IconButton&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Basic: Story = {
+	parameters: {
+		sfTheme: &quot;default&quot;,
+	},
+	args: {
+		icon: &lt;XMarkIcon /&gt;,
+		children: &quot;Icon Button&quot;,
+	},
+};
+
+export const Loading: Story = {
+	parameters: {
+		sfTheme: &quot;default&quot;,
+	},
+	args: {
+		icon: &lt;XMarkIcon /&gt;,
+		children: &quot;Icon Button&quot;,
+		loading: true,
+	},
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { IconButton } from "systemface";
+import { XMarkIcon } from "@heroicons/react/24/solid";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Basic</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Basic = () =&gt; &lt;IconButton icon={&lt;XMarkIcon /&gt;}&gt;Icon Button&lt;/IconButton&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Loading</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Loading = () =&gt; &lt;IconButton icon={&lt;XMarkIcon /&gt;} loading&gt;Icon Button&lt;/IconButton&gt;;</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Input">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Input</h2>
+      <div class="badges">
+        <label for="c-error-3-atoms-input-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-error-3-atoms-input-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-3-atoms-input-stories" class="badge ok as-toggle">1 story</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Input.stories.tsx">atoms-input · ./src/stories/Input.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-3-atoms-input-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-3-atoms-input-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-3-atoms-input-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;Input&quot; component.
+  2 | import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+  3 |
+&gt; 4 | const meta = {
+    | ^
+  5 | 	title: &quot;atoms/Input&quot;,
+  6 | 	component: Input,
+  7 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/Input.stories.tsx:
+import { Input } from &quot;@/index&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const meta = {
+	title: &quot;atoms/Input&quot;,
+	component: Input,
+	tags: [&quot;autodocs&quot;],
+	args: {
+		disabled: false,
+	},
+} satisfies Meta&lt;typeof Input&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Basic: Story = {
+	args: {
+		name: &quot;my-input&quot;,
+		placeholder: &quot;Enter text&quot;,
+		disabled: false,
+		required: false,
+	},
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Input } from "systemface";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Basic</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Basic = () =&gt; &lt;Input
+    disabled={false}
+    name=&quot;my-input&quot;
+    placeholder=&quot;Enter text&quot;
+    required={false} /&gt;;</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Label">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Label</h2>
+      <div class="badges">
+        <label for="c-error-4-atoms-label-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-error-4-atoms-label-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-4-atoms-label-stories" class="badge ok as-toggle">7 stories</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Label.stories.tsx">atoms-label · ./src/stories/Label.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-4-atoms-label-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-4-atoms-label-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-4-atoms-label-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;Label&quot; component.
+   7 | 	&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;;
+   8 |
+&gt;  9 | const meta = {
+     | ^
+  10 | 	title: &quot;atoms/Label&quot;,
+  11 | 	component: Label,
+  12 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/Label.stories.tsx:
+import { Label, Column, Input } from &quot;@/index&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const ipsumShort =
+	&quot;Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.&quot;;
+const ipsum =
+	&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;;
+
+const meta = {
+	title: &quot;atoms/Label&quot;,
+	component: Label,
+	tags: [&quot;autodocs&quot;],
+	args: {
+		htmlFor: &quot;&quot;,
+	},
+} satisfies Meta&lt;typeof Label&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Basic: Story = {
+	args: {
+		htmlFor: &quot;Basic&quot;,
+		value: &quot;Basic&quot;,
+	},
+};
+
+export const WithInput: Story = {
+	args: {
+		htmlFor: &quot;WithInput&quot;,
+		value: &quot;With Input&quot;,
+	},
+	render: (args) =&gt; (
+		&lt;Column&gt;
+			&lt;Label {...args} /&gt;
+			&lt;Input id=&quot;WithInput&quot; type=&quot;text&quot; /&gt;
+		&lt;/Column&gt;
+	),
+};
+
+export const WithDescription: Story = {
+	args: {
+		htmlFor: &quot;WithDescription&quot;,
+		value: &quot;With Description&quot;,
+		description: &quot;This is a description&quot;,
+	},
+	render: (args) =&gt; (
+		&lt;Column&gt;
+			&lt;Label {...args} /&gt;
+			&lt;Input id=&quot;WithDescription&quot; type=&quot;text&quot; /&gt;
+		&lt;/Column&gt;
+	),
+};
+
+export const WithRequired: Story = {
+	args: {
+		htmlFor: &quot;WithRequired&quot;,
+		value: &quot;With Required&quot;,
+		description: &quot;This is a description&quot;,
+		required: true,
+	},
+	render: (args) =&gt; (
+		&lt;Column&gt;
+			&lt;Label {...args} /&gt;
+			&lt;Input id=&quot;WithRequired&quot; type=&quot;text&quot; /&gt;
+		&lt;/Column&gt;
+	),
+};
+
+export const WithModified: Story = {
+	args: {
+		htmlFor: &quot;WithModified&quot;,
+		value: &quot;With Modified&quot;,
+		description: &quot;This is a description&quot;,
+		required: true,
+		modified: true,
+	},
+	render: (args) =&gt; (
+		&lt;Column&gt;
+			&lt;Label {...args} /&gt;
+			&lt;Input id=&quot;WithModified&quot; type=&quot;text&quot; /&gt;
+		&lt;/Column&gt;
+	),
+};
+
+export const WithDisabled: Story = {
+	args: {
+		htmlFor: &quot;WithDisabled&quot;,
+		value: &quot;With Disabled&quot;,
+		description: &quot;This is a description&quot;,
+		disabled: true,
+	},
+	render: (args) =&gt; (
+		&lt;Column&gt;
+			&lt;Label {...args} /&gt;
+			&lt;Input id=&quot;WithDisabled&quot; type=&quot;text&quot; disabled /&gt;
+		&lt;/Column&gt;
+	),
+};
+
+export const WithLongValues: Story = {
+	args: {
+		htmlFor: &quot;WithLongValues&quot;,
+		value: ipsumShort,
+		description: ipsum,
+		required: true,
+	},
+	render: (args) =&gt; (
+		&lt;Column&gt;
+			&lt;Label {...args} /&gt;
+			&lt;Input id=&quot;WithLongValues&quot; type=&quot;text&quot; /&gt;
+		&lt;/Column&gt;
+	),
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Column, Input, Label } from "systemface";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Basic</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Basic = () =&gt; &lt;Label htmlFor=&quot;Basic&quot; value=&quot;Basic&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Input</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithInput = () =&gt; &lt;Column&gt;
+    &lt;Label htmlFor=&quot;WithInput&quot; value=&quot;With Input&quot; /&gt;
+    &lt;Input id=&quot;WithInput&quot; type=&quot;text&quot; /&gt;
+&lt;/Column&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Description</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithDescription = () =&gt; &lt;Column&gt;
+    &lt;Label
+        htmlFor=&quot;WithDescription&quot;
+        value=&quot;With Description&quot;
+        description=&quot;This is a description&quot; /&gt;
+    &lt;Input id=&quot;WithDescription&quot; type=&quot;text&quot; /&gt;
+&lt;/Column&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Required</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithRequired = () =&gt; &lt;Column&gt;
+    &lt;Label
+        htmlFor=&quot;WithRequired&quot;
+        value=&quot;With Required&quot;
+        description=&quot;This is a description&quot;
+        required /&gt;
+    &lt;Input id=&quot;WithRequired&quot; type=&quot;text&quot; /&gt;
+&lt;/Column&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Modified</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithModified = () =&gt; &lt;Column&gt;
+    &lt;Label
+        htmlFor=&quot;WithModified&quot;
+        value=&quot;With Modified&quot;
+        description=&quot;This is a description&quot;
+        required
+        modified /&gt;
+    &lt;Input id=&quot;WithModified&quot; type=&quot;text&quot; /&gt;
+&lt;/Column&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Disabled</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithDisabled = () =&gt; &lt;Column&gt;
+    &lt;Label
+        htmlFor=&quot;WithDisabled&quot;
+        value=&quot;With Disabled&quot;
+        description=&quot;This is a description&quot;
+        disabled /&gt;
+    &lt;Input id=&quot;WithDisabled&quot; type=&quot;text&quot; disabled /&gt;
+&lt;/Column&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Long Values</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithLongValues = () =&gt; &lt;Column&gt;
+    &lt;Label htmlFor=&quot;WithLongValues&quot; value={ipsumShort} description={ipsum} required /&gt;
+    &lt;Input id=&quot;WithLongValues&quot; type=&quot;text&quot; /&gt;
+&lt;/Column&gt;;</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="MenuStory">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> MenuStory</h2>
+      <div class="badges">
+        <label for="c-error-5-atoms-menu-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-error-5-atoms-menu-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-5-atoms-menu-stories" class="badge ok as-toggle">6 stories</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Menu.stories.tsx">atoms-menu · ./src/stories/Menu.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-5-atoms-menu-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-5-atoms-menu-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-5-atoms-menu-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;MenuStory&quot; component.
+  14 | };
+  15 |
+&gt; 16 | const meta = {
+     | ^
+  17 | 	title: &quot;atoms/Menu&quot;,
+  18 | 	component: MenuStory,
+  19 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/Menu.stories.tsx:
+import { Menu, type SfMenuProps } from &quot;@/index&quot;;
+import { Input } from &quot;@/index&quot;;
+import { Button } from &quot;@/index&quot;;
+import { useRef, useState, type CSSProperties } from &quot;react&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const MenuStory = (args: SfMenuProps) =&gt; {
+	const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+	return (
+		&lt;div ref={parentRef}&gt;
+			&lt;Menu {...args} parentRef={parentRef} /&gt;
+		&lt;/div&gt;
+	);
+};
+
+const meta = {
+	title: &quot;atoms/Menu&quot;,
+	component: MenuStory,
+	tags: [&quot;autodocs&quot;],
+	args: {},
+} satisfies Meta&lt;typeof MenuStory&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+const defaultStyle: CSSProperties = {
+	position: &quot;absolute&quot;,
+	display: &quot;flex&quot;,
+	alignItems: &quot;flex-start&quot;,
+	top: &quot;1rem&quot;,
+	right: &quot;1rem&quot;,
+	bottom: &quot;1rem&quot;,
+	left: &quot;1rem&quot;,
+};
+
+const defaultOptions = [
+	&quot;Some text&quot;,
+	&lt;Button key={0} onClick={() =&gt; alert(&quot;1&quot;)}&gt;
+		Click me 1
+	&lt;/Button&gt;,
+	&lt;Button key={1} onClick={() =&gt; alert(&quot;2&quot;)}&gt;
+		Click me 2
+	&lt;/Button&gt;,
+	&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.&quot;,
+];
+
+export const ButtonToOpenMenu: Omit&lt;Story, &quot;args&quot;&gt; = {
+	render: () =&gt; {
+		const [open, setOpen] = useState(false);
+		const parentRef = useRef&lt;HTMLButtonElement&gt;(null);
+		return (
+			&lt;div style={defaultStyle}&gt;
+				&lt;Button ref={parentRef} onClick={() =&gt; setOpen((prev) =&gt; !prev)}&gt;
+					Open Menu
+				&lt;/Button&gt;
+				{open &amp;&amp; &lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;}
+			&lt;/div&gt;
+		);
+	},
+};
+
+export const PartOfCenterInput: Omit&lt;Story, &quot;args&quot;&gt; = {
+	render: () =&gt; {
+		const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+		return (
+			&lt;div
+				style={{
+					...defaultStyle,
+					alignItems: &quot;center&quot;,
+					justifyContent: &quot;center&quot;,
+				}}
+			&gt;
+				&lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+				&lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+			&lt;/div&gt;
+		);
+	},
+};
+
+export const PartOfTopLeftInput: Omit&lt;Story, &quot;args&quot;&gt; = {
+	render: () =&gt; {
+		const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+		return (
+			&lt;div style={defaultStyle}&gt;
+				&lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+				&lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+			&lt;/div&gt;
+		);
+	},
+};
+
+export const PartOfTopRightInput: Omit&lt;Story, &quot;args&quot;&gt; = {
+	render: () =&gt; {
+		const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+		return (
+			&lt;div style={{ ...defaultStyle, justifyContent: &quot;flex-end&quot; }}&gt;
+				&lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+				&lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+			&lt;/div&gt;
+		);
+	},
+};
+
+export const PartOfBottomLeftInput: Omit&lt;Story, &quot;args&quot;&gt; = {
+	render: () =&gt; {
+		const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+		return (
+			&lt;div style={{ ...defaultStyle, alignItems: &quot;flex-end&quot; }}&gt;
+				&lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+				&lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+			&lt;/div&gt;
+		);
+	},
+};
+
+export const PartOfBottomRightInput: Omit&lt;Story, &quot;args&quot;&gt; = {
+	render: () =&gt; {
+		const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+		return (
+			&lt;div
+				style={{
+					...defaultStyle,
+					alignItems: &quot;flex-end&quot;,
+					justifyContent: &quot;flex-end&quot;,
+				}}
+			&gt;
+				&lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+				&lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+			&lt;/div&gt;
+		);
+	},
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, Input, Menu } from "systemface";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Button To Open Menu</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const ButtonToOpenMenu = () =&gt; {
+    const [open, setOpen] = useState(false);
+    const parentRef = useRef&lt;HTMLButtonElement&gt;(null);
+    return (
+        &lt;div style={defaultStyle}&gt;
+            &lt;Button ref={parentRef} onClick={() =&gt; setOpen((prev) =&gt; !prev)}&gt;
+                Open Menu
+            &lt;/Button&gt;
+            {open &amp;&amp; &lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;}
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Part Of Center Input</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const PartOfCenterInput = () =&gt; {
+    const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+    return (
+        &lt;div
+            style={{
+                ...defaultStyle,
+                alignItems: &quot;center&quot;,
+                justifyContent: &quot;center&quot;,
+            }}
+        &gt;
+            &lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+            &lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Part Of Top Left Input</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const PartOfTopLeftInput = () =&gt; {
+    const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+    return (
+        &lt;div style={defaultStyle}&gt;
+            &lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+            &lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Part Of Top Right Input</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const PartOfTopRightInput = () =&gt; {
+    const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+    return (
+        &lt;div style={{ ...defaultStyle, justifyContent: &quot;flex-end&quot; }}&gt;
+            &lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+            &lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Part Of Bottom Left Input</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const PartOfBottomLeftInput = () =&gt; {
+    const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+    return (
+        &lt;div style={{ ...defaultStyle, alignItems: &quot;flex-end&quot; }}&gt;
+            &lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+            &lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Part Of Bottom Right Input</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const PartOfBottomRightInput = () =&gt; {
+    const parentRef = useRef&lt;HTMLInputElement&gt;(null);
+    return (
+        &lt;div
+            style={{
+                ...defaultStyle,
+                alignItems: &quot;flex-end&quot;,
+                justifyContent: &quot;flex-end&quot;,
+            }}
+        &gt;
+            &lt;Input ref={parentRef} type=&quot;text&quot; /&gt;
+            &lt;Menu parentRef={parentRef}&gt;{defaultOptions}&lt;/Menu&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Row">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Row</h2>
+      <div class="badges">
+        <label for="c-error-6-atoms-row-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-error-6-atoms-row-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-6-atoms-row-stories" class="badge ok as-toggle">1 story</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Row.stories.tsx">atoms-row · ./src/stories/Row.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-6-atoms-row-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-6-atoms-row-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-6-atoms-row-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;Row&quot; component.
+  3 | import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+  4 |
+&gt; 5 | const meta = {
+    | ^
+  6 | 	title: &quot;atoms/Row&quot;,
+  7 | 	component: Row,
+  8 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/Row.stories.tsx:
+import { XMarkIcon } from &quot;@heroicons/react/24/solid&quot;;
+import { Row, IconButton, Button } from &quot;@/index&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const meta = {
+	title: &quot;atoms/Row&quot;,
+	component: Row,
+	tags: [&quot;autodocs&quot;],
+} satisfies Meta&lt;typeof Row&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Basic: Story = {
+	args: {
+		children: (
+			&lt;&gt;
+				&lt;IconButton icon={&lt;XMarkIcon /&gt;} /&gt;
+				&lt;Button&gt;Button 1&lt;/Button&gt;
+			&lt;/&gt;
+		),
+	},
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, IconButton, Row } from "systemface";
+import { XMarkIcon } from "@heroicons/react/24/solid";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Basic</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Basic = () =&gt; &lt;Row&gt;(&lt;&gt;
+        &lt;IconButton icon={&lt;XMarkIcon /&gt;} /&gt;
+        &lt;Button&gt;Button 1&lt;/Button&gt;
+    &lt;/&gt;)&lt;/Row&gt;;</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Select">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Select</h2>
+      <div class="badges">
+        <label for="c-error-7-molecules-select-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-error-7-molecules-select-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-7-molecules-select-stories" class="badge ok as-toggle">3 stories</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Select.stories.tsx">molecules-select · ./src/stories/Select.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-7-molecules-select-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-7-molecules-select-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-7-molecules-select-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;Select&quot; component.
+  2 | import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+  3 |
+&gt; 4 | const meta = {
+    | ^
+  5 | 	title: &quot;molecules/Select&quot;,
+  6 | 	component: Select,
+  7 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/Select.stories.tsx:
+import { Select, Option, OptGroup } from &quot;@/index&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const meta = {
+	title: &quot;molecules/Select&quot;,
+	component: Select,
+	tags: [&quot;autodocs&quot;],
+	args: {
+		disabled: false,
+	},
+} satisfies Meta&lt;typeof Select&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Basic: Story = {
+	args: {
+		children: (
+			&lt;&gt;
+				&lt;Option value=&quot;Option1&quot;&gt;Option 1&lt;/Option&gt;
+				&lt;Option value=&quot;Option2&quot;&gt;Option 2&lt;/Option&gt;
+				&lt;Option value=&quot;Option3&quot;&gt;Option 3&lt;/Option&gt;
+			&lt;/&gt;
+		),
+	},
+};
+
+export const OptGroups: Story = {
+	args: {
+		onChange: (value) =&gt; alert(value),
+		children: (
+			&lt;&gt;
+				&lt;OptGroup label=&quot;Group 1&quot;&gt;
+					&lt;Option value=&quot;Option1&quot;&gt;Option 1&lt;/Option&gt;
+					&lt;Option value=&quot;Option2&quot;&gt;Option 2&lt;/Option&gt;
+				&lt;/OptGroup&gt;
+				&lt;OptGroup label=&quot;Group 2&quot;&gt;
+					&lt;Option value=&quot;Option3&quot;&gt;Option 3&lt;/Option&gt;
+					&lt;Option value=&quot;Option4&quot;&gt;Option 4&lt;/Option&gt;
+				&lt;/OptGroup&gt;
+			&lt;/&gt;
+		),
+	},
+};
+
+export const HTMLSelectReference: Story = {
+	render: () =&gt; (
+		&lt;select onChange={(e) =&gt; alert(e.target.value)}&gt;
+			&lt;optgroup label=&quot;Group 1&quot;&gt;
+				&lt;option value=&quot;Option1&quot;&gt;Option 1&lt;/option&gt;
+				&lt;option value=&quot;Option2&quot;&gt;Option 2&lt;/option&gt;
+			&lt;/optgroup&gt;
+			&lt;optgroup label=&quot;Group 2&quot;&gt;
+				&lt;option value=&quot;Option3&quot;&gt;Option 3&lt;/option&gt;
+				&lt;option value=&quot;Option4&quot;&gt;Option 4&lt;/option&gt;
+			&lt;/optgroup&gt;
+		&lt;/select&gt;
+	),
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { OptGroup, Option, Select } from "systemface";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Basic</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Basic = () =&gt; &lt;Select disabled={false}&gt;(&lt;&gt;
+        &lt;Option value=&quot;Option1&quot;&gt;Option 1&lt;/Option&gt;
+        &lt;Option value=&quot;Option2&quot;&gt;Option 2&lt;/Option&gt;
+        &lt;Option value=&quot;Option3&quot;&gt;Option 3&lt;/Option&gt;
+    &lt;/&gt;)&lt;/Select&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Opt Groups</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const OptGroups = () =&gt; &lt;Select disabled={false} onChange={(value) =&gt; alert(value)}&gt;(&lt;&gt;
+        &lt;OptGroup label=&quot;Group 1&quot;&gt;
+            &lt;Option value=&quot;Option1&quot;&gt;Option 1&lt;/Option&gt;
+            &lt;Option value=&quot;Option2&quot;&gt;Option 2&lt;/Option&gt;
+        &lt;/OptGroup&gt;
+        &lt;OptGroup label=&quot;Group 2&quot;&gt;
+            &lt;Option value=&quot;Option3&quot;&gt;Option 3&lt;/Option&gt;
+            &lt;Option value=&quot;Option4&quot;&gt;Option 4&lt;/Option&gt;
+        &lt;/OptGroup&gt;
+    &lt;/&gt;)&lt;/Select&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">HTML Select Reference</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const HTMLSelectReference = () =&gt; (
+    &lt;select onChange={(e) =&gt; alert(e.target.value)}&gt;
+        &lt;optgroup label=&quot;Group 1&quot;&gt;
+            &lt;option value=&quot;Option1&quot;&gt;Option 1&lt;/option&gt;
+            &lt;option value=&quot;Option2&quot;&gt;Option 2&lt;/option&gt;
+        &lt;/optgroup&gt;
+        &lt;optgroup label=&quot;Group 2&quot;&gt;
+            &lt;option value=&quot;Option3&quot;&gt;Option 3&lt;/option&gt;
+            &lt;option value=&quot;Option4&quot;&gt;Option 4&lt;/option&gt;
+        &lt;/optgroup&gt;
+    &lt;/select&gt;
+);</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="TextField">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> TextField</h2>
+      <div class="badges">
+        <label for="c-error-8-molecules-textfield-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-error-8-molecules-textfield-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-8-molecules-textfield-stories" class="badge ok as-toggle">7 stories</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/TextField.stories.tsx">molecules-textfield · ./src/stories/TextField.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-8-molecules-textfield-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-8-molecules-textfield-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-8-molecules-textfield-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>No component file found for the &quot;TextField&quot; component.
+  2 | import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+  3 |
+&gt; 4 | const meta = {
+    | ^
+  5 | 	title: &quot;molecules/TextField&quot;,
+  6 | 	component: TextField,
+  7 | 	tags: [&quot;autodocs&quot;],
+
+./src/stories/TextField.stories.tsx:
+import { TextField } from &quot;@/index&quot;;
+import type { Meta, StoryObj } from &quot;@storybook/react-vite&quot;;
+
+const meta = {
+	title: &quot;molecules/TextField&quot;,
+	component: TextField,
+	tags: [&quot;autodocs&quot;],
+} satisfies Meta&lt;typeof TextField&gt;;
+
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Basic: Story = {
+	args: {
+		id: &quot;example-text-field&quot;,
+		label: &quot;Example Text Field&quot;,
+		description: &quot;&quot;,
+		type: &quot;text&quot;,
+		required: false,
+		modified: false,
+		disabled: false,
+	},
+};
+
+export const WithLabelObject: Story = {
+	args: {
+		id: &quot;example-text-field-with-label-object&quot;,
+		label: {
+			value: &quot;Example Text Field with Label Object&quot;,
+		},
+		description: &quot;This is a description for the text field.&quot;,
+		placeholder: &quot;Enter text here...&quot;,
+	},
+};
+
+export const WithDescription: Story = {
+	args: {
+		id: &quot;example-text-field-with-description&quot;,
+		label: &quot;Example Text Field&quot;,
+		description: &quot;This is a description for the text field.&quot;,
+	},
+};
+
+export const Required: Story = {
+	args: {
+		id: &quot;example-text-field-required&quot;,
+		label: &quot;Required Field&quot;,
+		description: &quot;This field is required.&quot;,
+		required: true,
+	},
+};
+
+export const Disabled: Story = {
+	args: {
+		id: &quot;example-text-field-disabled&quot;,
+		label: &quot;Disabled Field&quot;,
+		description: &quot;This field is disabled.&quot;,
+		disabled: true,
+		value: &quot;Cannot edit this&quot;,
+	},
+};
+
+export const ErrorMessage: Story = {
+	args: {
+		id: &quot;example-text-field-error&quot;,
+		label: &quot;Example Text Field&quot;,
+		error: &quot;This is an error message.&quot;,
+	},
+};
+
+export const Password: Story = {
+	args: {
+		id: &quot;example-text-field-password&quot;,
+		label: &quot;Password&quot;,
+		description: &quot;Enter your password.&quot;,
+		type: &quot;password&quot;,
+		required: true,
+		placeholder: &quot;••••••••&quot;,
+	},
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { TextField } from "systemface";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Basic</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Basic = () =&gt; &lt;TextField
+    id=&quot;example-text-field&quot;
+    label=&quot;Example Text Field&quot;
+    description=&quot;&quot;
+    type=&quot;text&quot;
+    required={false}
+    modified={false}
+    disabled={false} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Label Object</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithLabelObject = () =&gt; &lt;TextField
+    id=&quot;example-text-field-with-label-object&quot;
+    label={{
+        value: &quot;Example Text Field with Label Object&quot;,
+    }}
+    description=&quot;This is a description for the text field.&quot;
+    placeholder=&quot;Enter text here...&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Description</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithDescription = () =&gt; &lt;TextField
+    id=&quot;example-text-field-with-description&quot;
+    label=&quot;Example Text Field&quot;
+    description=&quot;This is a description for the text field.&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Required</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Required = () =&gt; &lt;TextField
+    id=&quot;example-text-field-required&quot;
+    label=&quot;Required Field&quot;
+    description=&quot;This field is required.&quot;
+    required /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Disabled</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Disabled = () =&gt; &lt;TextField
+    id=&quot;example-text-field-disabled&quot;
+    label=&quot;Disabled Field&quot;
+    description=&quot;This field is disabled.&quot;
+    disabled
+    value=&quot;Cannot edit this&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Error Message</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const ErrorMessage = () =&gt; &lt;TextField
+    id=&quot;example-text-field-error&quot;
+    label=&quot;Example Text Field&quot;
+    error=&quot;This is an error message.&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Password</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Password = () =&gt; &lt;TextField
+    id=&quot;example-text-field-password&quot;
+    label=&quot;Password&quot;
+    description=&quot;Enter your password.&quot;
+    type=&quot;password&quot;
+    required
+    placeholder=&quot;••••••••&quot; /&gt;;</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article></div>
+        </section>
+      </div>
+    
+    
+  </div>
+</main>
+</body>
+</html>  
