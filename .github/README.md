@@ -108,7 +108,7 @@ Each component has its own documentation.
 
 ### Themes
 
-Wrap your components in `SystemfaceTheme` to have a dynamic default theme.
+Wrap your components in `SystemfaceTheme` to have a default theme which reacts to _prefers-color-scheme_.
 
 **a) Default theme**
 
@@ -126,27 +126,26 @@ Wrap your components in `SystemfaceTheme` to have a dynamic default theme.
 </SystemfaceTheme>
 ```
 
-Please refer to [src/themes/default.module.css](../src/themes/default.module.css) to understand applied style-variables.
+### Chroma and Hue
+
+The easiest way to re-color the entire color palette is to alter the primary chroma and hue.
+
+In your theme, define:
+
+```
+  --sf__primary-chroma: 0.025;
+  --sf__primary-hue: 255;
+```
+
+Please refer to [src/themes/default.module.css](../src/themes/default.module.css) to understand applied style-variables. All systemface colors are defined with oklch().
 
 ---
 
 ### Additional theme options
 
-**Important note**, the following approaches, while possible, are not recommended by default. This is due to the fact that updates to the library may change the structure of the components and thus class names, breaking your custom edits.
-
-**CSS variable overrides**
-
-You can override theme variables globally in your own CSS. All variables are defined in [src/themes/default.module.css](../src/themes/default.module.css).
-
-```css
-.myClass {
-  --sf__label-modified: orange !important;
-}
-```
-
 **Custom CSS classes for components**
 
-Provide your own class names using CSS modules. This extends the existing behavior.
+Provide your own class names using CSS modules. This extends the existing theme.
 
 ```tsx
 import styles from './myStyles.css';
@@ -169,6 +168,7 @@ Use your browser's inspector to identify the relevant class names, then referenc
 
 - All elements use class names prefixed with `sf_`, followed by the component name, e.g., `sf_IconButton`
 - Sub-elements include the parent in their class name, e.g., `sf_IconButton_icon`
+- **Warning:** Refactors to systemface's components may break your custom styles silently. Exhaust all primary styling methods before relying on class name handles.
 
 ## Versioning
 
