@@ -18,5 +18,14 @@ export default defineConfig({
 			fileName: (format) =>
 				format === "es" ? "systemface.esm.js" : `systemface.${format}.js`,
 		},
+		rollupOptions: {
+			external: ["react", "react-dom", "react/jsx-runtime"],
+			output: {
+				globals: {
+					react: "React",
+					"react-dom": "ReactDOM",
+				},
+			},
+		},
 	},
 });
